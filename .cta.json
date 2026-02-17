@@ -1,0 +1,19 @@
+{
+  "projectName": "sonado-studio",
+  "mode": "file-router",
+  "typescript": true,
+  "packageManager": "pnpm",
+  "tailwind": true,
+  "addOnOptions": {},
+  "git": true,
+  "version": 1,
+  "framework": "react-cra",
+  "chosenAddOns": [
+    "biome",
+    "netlify",
+    "start",
+    "form",
+    "shadcn",
+    "t3env"
+  ]
+}
