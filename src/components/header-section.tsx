@@ -4,7 +4,7 @@ export const HeaderSection = () => {
 			<div className="container">
 				<div className="grid grid-cols-1 items-start gap-x-12 gap-y-5 md:grid-cols-2 lg:gap-x-20 lg:gap-y-16">
 					<div>
-						<h1 className="md:text-6xl text-3xl">
+						<h1 className="md:text-6xl text-4xl">
 							Thoughtful by design, <br /> collaborative by nature.
 						</h1>
 					</div>

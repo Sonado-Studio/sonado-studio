@@ -57,7 +57,7 @@ code {
   --color-black: rgba(13, 29, 39, 1);
   --color-brand-lavender: rgba(217, 220, 249, 1);
   --color-brand-tangerine: rgba(236, 55, 0, 1);
-  --color-brand-lavender-light: rgba(217, 220, 249, 0.2);
+  --color-brand-lavender-light: rgba(217, 220, 249, 0.4);
   --color-brand-black-light: rgba(13, 29, 39, 0.2);
   --background: var(--color-white);
   --foreground: var(--color-black);

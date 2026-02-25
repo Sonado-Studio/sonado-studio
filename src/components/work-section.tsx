@@ -62,7 +62,7 @@ export const WorkSection = () => {
 							rel="noopener noreferrer"
 							className="block size-full [touch-action:pan-y] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-2xl"
 						>
-							<Card className="overflow-hidden bg-background py-0 transition-colors hover:bg-muted border">
+							<Card className="overflow-hidden bg-secondary/10 shadow-xs py-0 transition-colors hover:bg-secondary/10">
 								<div className="relative w-full overflow-hidden aspect-video shrink-0">
 									<img
 										src={work.image}
@@ -76,7 +76,7 @@ export const WorkSection = () => {
 											<Badge key={tag}>{tag}</Badge>
 										))}
 									</div>
-									<h2 className="text-xl font-normal md:text-2xl">
+									<h2 className="text-lg font-normal md:text-xl">
 										{work.title}
 									</h2>
 								</CardContent>

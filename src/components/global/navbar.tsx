@@ -15,7 +15,7 @@ export const Navbar = () => {
 			title: "Work",
 		},
 		{
-			url: "/",
+			url: "#services-section",
 			title: "Services",
 		},
 		{
@@ -108,7 +108,7 @@ export const Navbar = () => {
 						aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
 						aria-expanded={isMobileMenuOpen}
 						aria-controls="main-nav-menu"
-						className="-mr-2 flex size-12 flex-col items-center justify-center justify-self-end lg:hidden"
+						className="-mr-2 flex size-12 flex-col items-center justify-center justify-self-end lg:hidden relative"
 						onClick={() => setIsMobileMenuOpen((prev) => !prev)}
 					>
 						<motion.span
