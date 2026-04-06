@@ -1,7 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router"
+import { AboutSection } from "@/components/about-section"
+import { CtaSection } from "@/components/cta-section"
 import { HeaderSection } from "@/components/header-section"
 import { ProcessSection } from "@/components/process-section"
 import { ServicesSection } from "@/components/services-section"
+import { StudioSection } from "@/components/studio-section"
 import { TestimonialSection } from "@/components/testimonial-section"
 import { WorkSection } from "@/components/work-section"
 
@@ -15,6 +18,9 @@ function App() {
 			<TestimonialSection />
 			<ServicesSection />
 			<ProcessSection />
+			<AboutSection />
+			<StudioSection />
+			<CtaSection />
 		</main>
 	)
 }

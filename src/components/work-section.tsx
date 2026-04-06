@@ -76,9 +76,9 @@ export const WorkSection = () => {
 											<Badge key={tag}>{tag}</Badge>
 										))}
 									</div>
-									<h2 className="text-lg font-normal md:text-xl">
+									<h3 className="text-lg font-normal md:text-xl">
 										{work.title}
-									</h2>
+									</h3>
 								</CardContent>
 							</Card>
 						</a>

@@ -70,14 +70,14 @@ code {
   --secondary: var(--color-brand-lavender);
   --secondary-foreground: var(--color-brand-tangerine);
   --muted: var(--color-brand-lavender-light);
-  --muted-foreground: var(--color-black);
+  --muted-foreground: rgba(13, 29, 39, 0.6);
   --accent: var(--color-brand-tangerine);
   --accent-foreground: var(--color-white);
-  --destructive: oklch(0.58 0.22 27);
+  --destructive: oklch(0.58 0.22 27 / 0.8);
   --destructive-foreground: oklch(0.577 0.245 27.325);
   --border: var(--color-brand-black-light);
-  --input: var(--color-white);
-  --ring: var(--color-accent);
+  --input: var(--muted);
+  --ring: var(--secondary);
   --radius: 0.625rem;
   --sidebar: var(--color-brand-lavender-light);
   --sidebar-foreground: var(--color-black);
@@ -87,6 +87,7 @@ code {
   --sidebar-accent-foreground: var(--color-white);
   --sidebar-border: var(--color-brand-black-light);
   --sidebar-ring: var(--color-brand-tangerine);
+  --ease-out-quad: cubic-bezier(.25, .46, .45, .94);
 }
 
 .dark {
@@ -186,6 +187,7 @@ code {
   h2 {
     font-size: 3rem;
     letter-spacing: -0.02em;
+    @apply md:text-4xl text-3xl;
   }
   h3 {
     font-size: 2.5rem;

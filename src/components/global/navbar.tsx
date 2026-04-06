@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router"
 import { motion } from "motion/react"
 import { useEffect, useRef, useState } from "react"
 import Logo from "@/assets/logos/sonado-studio-logo.svg"
-import { Button } from "@/components/ui/button"
+import { ContactModal } from "@/components/global/form/contact-modal"
 
 export const Navbar = () => {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -19,7 +19,7 @@ export const Navbar = () => {
 			title: "Services",
 		},
 		{
-			url: "/",
+			url: "#about-section",
 			title: "About",
 		},
 	]
@@ -48,9 +48,9 @@ export const Navbar = () => {
 	return (
 		<nav
 			id="navbar"
-			className="relative z-999 mx-auto mt-5 flex w-full items-start justify-center px-[5%] md:mt-6 lg:mx-[5%] lg:w-auto lg:px-0"
+			className="relative mx-auto mt-5 flex w-full items-start justify-center px-[5%] md:mt-6 lg:mx-[5%] lg:w-auto lg:px-0"
 		>
-			<div className="flex min-h-16 w-full items-center justify-between gap-12 rounded-4xl bg-primary text-primary-foreground px-5 md:min-h-18 md:px-8 lg:w-auto">
+			<div className="flex min-h-16 w-full items-center justify-between gap-12 rounded-xl bg-primary text-primary-foreground px-5 md:min-h-18 md:px-8 lg:w-auto">
 				<Link to="/">
 					<img src={Logo} alt="Sonado Studio" width={180} height={20} />
 				</Link>
@@ -92,16 +92,24 @@ export const Navbar = () => {
 									</li>
 								))}
 							</ul>
-							<Button variant="secondary" className="block md:hidden">
-								Contact
-							</Button>
+							<ContactModal
+								triggerProps={{
+									label: "Contact",
+									variant: "secondary",
+									className: "block md:hidden w-full",
+								}}
+							/>
+							<ContactModal
+								triggerProps={{
+									label: "Contact",
+									variant: "secondary",
+									className: "hidden md:block ml-5",
+								}}
+							/>
 						</div>
 					</motion.div>
 				</motion.div>
 				<div className="flex items-center justify-center gap-4">
-					<Button variant="secondary" className="hidden md:block">
-						Contact
-					</Button>
 					<button
 						ref={buttonRef}
 						type="button"

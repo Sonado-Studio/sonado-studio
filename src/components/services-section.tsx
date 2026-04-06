@@ -86,20 +86,20 @@ export const ServicesSection = () => {
 			className="px-[5%] py-16 md:py-24 lg:py-28 relative"
 		>
 			<div className="container">
-				<h1 className="text-4xl lg:mb-28 md:mb-24">Our Expertise</h1>
+				<h2 className="lg:mb-28 md:mb-24">Our Expertise</h2>
 				<div className="relative grid auto-cols-fr grid-cols-1 items-start gap-x-8 gap-y-12 md:grid-cols-[0.75fr_1fr] md:gap-y-16 lg:grid-cols-[max-content_1fr] lg:gap-x-20">
 					<div className="top-[20%] hidden h-56 overflow-hidden md:sticky md:flex md:items-start">
-						<h2 className="text-8xl leading-none md:text-[13rem] text-accent">
+						<h3 className="text-8xl leading-none md:text-[13rem] text-accent">
 							0
-						</h2>
+						</h3>
 						<motion.div className="text-center" style={{ y }}>
 							{numbers.map((number) => (
-								<h2
+								<h3
 									key={number}
 									className="text-8xl leading-none md:text-[13rem] text-accent"
 								>
 									{number}
-								</h2>
+								</h3>
 							))}
 						</motion.div>
 					</div>
@@ -115,6 +115,7 @@ export const ServicesSection = () => {
 }
 
 const ServiceCard = ({ ...service }: Service) => {
+	const isMobile = useMediaQuery("(max-width: 767px)")
 	const ref = useRef<HTMLDivElement>(null)
 	const { scrollYProgress } = useScroll({
 		target: ref,
@@ -130,9 +131,12 @@ const ServiceCard = ({ ...service }: Service) => {
 	const rightFeatures = service.features.slice(3)
 
 	return (
-		<div className="flex flex-col items-start justify-center">
-			<div className="mt-10 flex text-3xl leading-none md:mt-0 md:hidden md:text-[13rem] text-accent">
+		<div className="relative flex flex-col items-start justify-center">
+			<div className="mt-10 flex flex-row items-center gap-4 text-3xl leading-none md:mt-0 md:hidden md:text-[13rem] text-accent">
 				{service.number}
+				{service.popularBadge && isMobile && (
+					<Badge variant="secondary">Most Popular!</Badge>
+				)}
 			</div>
 			<div
 				ref={ref}
@@ -140,12 +144,12 @@ const ServiceCard = ({ ...service }: Service) => {
 			>
 				<motion.div className="h-0.5 w-8 bg-accent/50" style={width} />
 			</div>
-			{service.popularBadge && (
-				<Badge variant="secondary" className="mb-5 md:text-sm">
+			{service.popularBadge && !isMobile && (
+				<Badge variant="secondary" className="mb-5">
 					Most Popular!
 				</Badge>
 			)}
-			<h3 className="mb-5 text-2xl md:mb-6 md:text-6xl">{service.heading}</h3>
+			<h3 className="mb-5 text-3xl md:mb-6 md:text-4xl">{service.heading}</h3>
 			<div className="flex flex-col gap-5">
 				<p>{service.description}</p>
 				<p>What’s Included?</p>

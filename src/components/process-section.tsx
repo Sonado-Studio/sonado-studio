@@ -48,7 +48,7 @@ export const ProcessSection = () => {
 			<div className="container">
 				<div className="mb-12 md:mb-18 lg:mb-20">
 					<div className="max-w-2xl flex flex-col gap-5">
-						<h1 className="text-4xl">Clear process, no guesswork</h1>
+						<h2>Clear process, no guesswork</h2>
 						<p>
 							Our process is structured and transparent, with defined milestones
 							and regular check-ins so you always know what’s happening and
@@ -60,7 +60,7 @@ export const ProcessSection = () => {
 					{sections.map((section) => (
 						<div
 							key={section.heading.toLowerCase()}
-							className="shadow-sm rounded-2xl bg-secondary/10 p-6 md:p-8 lg:p-12 gap-5 flex flex-col items-start justify-center"
+							className="shadow-sm rounded-2xl bg-muted p-6 md:p-8 lg:p-12 gap-5 flex flex-col items-start justify-center"
 						>
 							<div>
 								<img
