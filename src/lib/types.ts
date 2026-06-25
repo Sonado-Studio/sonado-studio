@@ -18,7 +18,7 @@ export const contactFormSchema = z.object({
 		.optional(),
 	budget: z.enum(["<$1000", "$1000-$3000", "$3000-$5000", "$5000+"]),
 	referralSource: z
-		.enum(["referral", "linkedin", "seenWork", "other"])
+		.enum(["referral", "socialMedia", "googleSearch", "other"])
 		.nullable(),
 	acceptTerms: z.boolean().refine((data) => data === true, {
 		message: "Please accept the terms and conditions to continue",

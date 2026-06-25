@@ -63,8 +63,8 @@ type ReferralOptionValue = Exclude<
 
 const referralOptions: { value: ReferralOptionValue; label: string }[] = [
 	{ value: "referral", label: "Referral" },
-	{ value: "linkedin", label: "LinkedIn" },
-	{ value: "seenWork", label: "Saw our work" },
+	{ value: "socialMedia", label: "Social Media" },
+	{ value: "googleSearch", label: "Google Search" },
 	{ value: "other", label: "Other" },
 ]
 
@@ -77,9 +77,7 @@ type ContactModalProps = {
 	}
 }
 
-export const ContactModal = ({
-	triggerProps,
-}: ContactModalProps) => {
+export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 	// const [acceptTerms, setAcceptTerms] = useState<boolean | "indeterminate">(
 	// 	false,
 	// )
@@ -115,7 +113,7 @@ export const ContactModal = ({
 					>
 						<SheetClose />
 						<div className="mx-auto w-full">
-							<div className="mb-8 space-y-3  md:mb-10 lg:mb-12">
+							<div className="mb-8 space-y-3 md:mb-10 lg:mb-8">
 								<h2>Get in touch</h2>
 								<p className="text-balance">
 									Thank you for your interest in working with Sonado Studio!
@@ -135,7 +133,7 @@ export const ContactModal = ({
 								<form.Field
 									name="fullName"
 									children={(field) => (
-										<div className="flex flex-col space-y-3">
+										<div className="flex flex-col space-y-2">
 											<Label htmlFor={field.name}>
 												Name
 												<span className="text-accent -ml-1">*</span>
@@ -157,7 +155,7 @@ export const ContactModal = ({
 								<form.Field
 									name="email"
 									children={(field) => (
-										<div className="flex flex-col space-y-3">
+										<div className="flex flex-col space-y-2">
 											<Label htmlFor={field.name}>
 												Email
 												<span className="text-accent -ml-1">*</span>
@@ -188,7 +186,7 @@ export const ContactModal = ({
 												<RadioGroup
 													value={field.state.value}
 													onValueChange={(value) => field.handleChange(value)}
-													className="grid gap-3 md:grid-cols-3"
+													className="grid gap-3 lg:grid-cols-3 md:grid-cols-2"
 												>
 													{serviceOptions.map((option) => {
 														const isSelected =
@@ -206,7 +204,7 @@ export const ContactModal = ({
 																<Label
 																	htmlFor={id}
 																	className={cn(
-																		"flex cursor-pointer flex-col rounded-md border p-4 text-left transition-colors",
+																		"flex cursor-pointer flex-col rounded-md border p-3 transition-colors items-center justify-center h-full text-center",
 																		isSelected
 																			? "border-secondary bg-primary text-primary-foreground"
 																			: "border-border hover:border-primary/60",
@@ -242,7 +240,7 @@ export const ContactModal = ({
 								<form.Field
 									name="message"
 									children={(field) => (
-										<div className="flex flex-col space-y-3">
+										<div className="flex flex-col space-y-2">
 											<Label htmlFor={field.name}>Message</Label>
 											<Textarea
 												id={field.name}
@@ -260,7 +258,7 @@ export const ContactModal = ({
 								<form.Field
 									name="budget"
 									children={(field) => (
-										<div className="flex flex-col space-y-3">
+										<div className="flex flex-col space-y-2">
 											<Label htmlFor={field.name}>
 												Estimated Budget
 												<span className="text-accent -ml-1">*</span>
@@ -304,7 +302,7 @@ export const ContactModal = ({
 												onValueChange={(value) =>
 													field.handleChange(value as ReferralOptionValue)
 												}
-												className="grid gap-2 md:grid-cols-3"
+												className="grid gap-2 lg:grid-cols-4 md:grid-cols-2"
 											>
 												{referralOptions.map((option) => {
 													const isSelected = field.state.value === option.value
@@ -321,7 +319,7 @@ export const ContactModal = ({
 															<Label
 																htmlFor={id}
 																className={cn(
-																	"flex cursor-pointer flex-col rounded-md border p-4 text-left transition-colors text-sm",
+																	"flex cursor-pointer flex-col rounded-md border p-3 transition-colors text-sm text-center h-full items-center justify-center",
 																	isSelected
 																		? "border-secondary bg-primary text-primary-foreground"
 																		: "border-border hover:border-primary/60",
@@ -345,7 +343,7 @@ export const ContactModal = ({
 								<form.Field
 									name="acceptTerms"
 									children={(field) => (
-										<div className="flex flex-col space-y-3">
+										<div className="flex flex-col space-y-2">
 											<div className="flex items-start gap-3">
 												<Checkbox
 													id={field.name}
@@ -357,7 +355,7 @@ export const ContactModal = ({
 												/>
 												<Label
 													htmlFor={field.name}
-													className="text-sm leading-snug"
+													className="text-sm leading-none"
 												>
 													I agree to the terms and conditions
 													<span className="text-accent -ml-1">*</span>
@@ -368,7 +366,7 @@ export const ContactModal = ({
 									)}
 								/>
 
-								<div className="flex pt-2">
+								<div className="flex">
 									<Button type="submit">Send message</Button>
 								</div>
 							</form>

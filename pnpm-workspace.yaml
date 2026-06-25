@@ -1,4 +1,10 @@
+allowBuilds:
+  "@parcel/watcher": true
+  esbuild: true
+  msw: true
+  sharp: true
 onlyBuiltDependencies:
-  - '@parcel/watcher'
+  - "@parcel/watcher"
   - esbuild
   - sharp
+minimumReleaseAge: 10080 # 7 days
