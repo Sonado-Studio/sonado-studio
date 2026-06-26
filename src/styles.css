@@ -50,6 +50,28 @@ code {
 @theme {
   --font-display: 'Sora', 'Helvetica Neue', 'system-ui', sans-serif;
   --font-sans: 'General Sans', 'Helvetica Neue', 'system-ui', sans-serif;
+  --animate-loop-vertically-top: loop-vertically-top 80s linear infinite;
+  --animate-loop-vertically-bottom: loop-vertically-bottom 80s linear infinite;
+
+  @keyframes loop-vertically-top {
+    from {
+      transform: translateY(0);
+    }
+
+    to {
+      transform: translateY(-50%);
+    }
+  }
+
+  @keyframes loop-vertically-bottom {
+    from {
+      transform: translateY(-50%);
+    }
+
+    to {
+      transform: translateY(0);
+    }
+  }
 }
 
 :root {
