@@ -29,9 +29,9 @@ import { cn } from "@/lib/utils"
 const defaultValues: z.infer<typeof contactFormSchema> = {
 	fullName: "",
 	email: "",
-	service: "Brand-to-Launch",
+	service: "Brand Strategy Intensive",
 	message: "",
-	budget: "$1000-$3000",
+	budget: "<Ksh 30k-60k",
 	referralSource: null,
 	acceptTerms: false,
 }
@@ -40,19 +40,18 @@ type ServiceOptionValue = z.infer<typeof contactFormSchema>["service"]
 
 const serviceOptions: {
 	value: ServiceOptionValue
-	description: string
 }[] = [
 	{
-		value: "Brand Identity",
-		description: "Logo, visual system, & brand foundations.",
+		value: "Brand Strategy Intensive",
 	},
 	{
-		value: "Brand-to-Launch",
-		description: "Brand identity & marketing website.",
+		value: "Brand Identity",
 	},
 	{
 		value: "Marketing Website",
-		description: "Website design & build focused on conversion.",
+	},
+	{
+		value: "Custom Digital Product / Web App",
 	},
 ]
 
@@ -62,9 +61,12 @@ type ReferralOptionValue = Exclude<
 >
 
 const referralOptions: { value: ReferralOptionValue; label: string }[] = [
-	{ value: "referral", label: "Referral" },
-	{ value: "socialMedia", label: "Social Media" },
 	{ value: "googleSearch", label: "Google Search" },
+	{ value: "instagram", label: "Instagram" },
+	{ value: "linkedin", label: "LinkedIn" },
+	{ value: "referral", label: "Referral / Word of Mouth" },
+	{ value: "previousClient", label: "Previous Client" },
+	{ value: "portfolio", label: "Portfolio / Case Study" },
 	{ value: "other", label: "Other" },
 ]
 
@@ -114,11 +116,11 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 						<SheetClose />
 						<div className="mx-auto w-full">
 							<div className="mb-8 space-y-3 md:mb-10 lg:mb-8">
-								<h2>Get in touch</h2>
+								<h2>Tell us about your project</h2>
 								<p className="text-balance">
-									Thank you for your interest in working with Sonado Studio!
+									Thank you for your interest in working with Sonado Studio.
 									Share a few details about your project and we'll get back to
-									you as soon as possible.
+									you as soon as possible to discuss next steps.
 								</p>
 							</div>
 
@@ -145,7 +147,7 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 												onBlur={field.handleBlur}
 												onChange={(e) => field.handleChange(e.target.value)}
 												aria-invalid={!field.state.meta.isValid}
-												placeholder="Enter your name"
+												placeholder="Your name"
 											/>
 											<FieldInfo field={field} />
 										</div>
@@ -167,7 +169,7 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 												onBlur={field.handleBlur}
 												onChange={(e) => field.handleChange(e.target.value)}
 												aria-invalid={!field.state.meta.isValid}
-												placeholder="you@mail.com"
+												placeholder="you@example.com"
 											/>
 											<FieldInfo field={field} />
 										</div>
@@ -180,7 +182,7 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 										return (
 											<div className="flex flex-col space-y-1">
 												<Label>
-													What can we help with?
+													What can we help you with?
 													<span className="text-accent -ml-1">*</span>
 												</Label>
 												<RadioGroup
@@ -217,15 +219,6 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 																	>
 																		{option.value}
 																	</span>
-																	<span
-																		className={cn(
-																			"mt-1 text-sm text-muted-foreground text-center text-balance",
-																			isSelected &&
-																				"text-primary-foreground/80",
-																		)}
-																	>
-																		{option.description}
-																	</span>
 																</Label>
 															</div>
 														)
@@ -248,7 +241,7 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 												onBlur={field.handleBlur}
 												onChange={(e) => field.handleChange(e.target.value)}
 												aria-invalid={!field.state.meta.isValid}
-												placeholder="Briefly tell us about your project"
+												placeholder="A short description of your business, goals, or project. No formal brief required."
 											/>
 											<FieldInfo field={field} />
 										</div>
@@ -260,7 +253,7 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 									children={(field) => (
 										<div className="flex flex-col space-y-2">
 											<Label htmlFor={field.name}>
-												Estimated Budget
+												Estimated Investment
 												<span className="text-accent -ml-1">*</span>
 											</Label>
 											<Select
@@ -357,7 +350,9 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 													htmlFor={field.name}
 													className="text-sm leading-none"
 												>
-													I agree to the terms and conditions
+													I understand this form is a project enquiry and not a
+													confirmed booking. Sonado Studio will review my
+													submission before arranging a discovery call.
 													<span className="text-accent -ml-1">*</span>
 												</Label>
 											</div>
@@ -367,7 +362,7 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 								/>
 
 								<div className="flex">
-									<Button type="submit">Send message</Button>
+									<Button type="submit">Send project enquiry</Button>
 								</div>
 							</form>
 						</div>
