@@ -1,179 +1,180 @@
+"use client"
+
 import { Link } from "@tanstack/react-router"
-import { motion } from "motion/react"
-import { useEffect, useRef, useState } from "react"
-import Logo from "@/assets/logos/sonado-studio-logo.svg"
+import { MenuIcon, XIcon } from "lucide-react"
+import { useState } from "react"
+import FacebookIcon from "@/assets/layout/icons/facebook.svg"
+import InstagramIcon from "@/assets/layout/icons/instagram.svg"
+import LinkedInIcon from "@/assets/layout/icons/linkedin.svg"
+import XSocialIcon from "@/assets/layout/icons/x.svg"
+import YouTubeIcon from "@/assets/layout/icons/youtube.svg"
+import LogoDark from "@/assets/logos/sonado-studio-logo-dark.svg"
+import LogoLight from "@/assets/logos/sonado-studio-logo.svg"
 import { ContactModal } from "@/components/global/form/contact-modal"
+import {
+	Sheet,
+	SheetContent,
+	SheetTitle,
+	SheetTrigger,
+} from "@/components/ui/sheet"
+
+const navLinks = [
+	{ url: "#work-section", title: "Work" },
+	{ url: "#services-section", title: "Services" },
+	{ url: "#about-section", title: "About" },
+]
+
+const socialIcons = [
+	{ label: "Facebook", src: FacebookIcon },
+	{ label: "Instagram", src: InstagramIcon },
+	{ label: "X", src: XSocialIcon },
+	{ label: "LinkedIn", src: LinkedInIcon },
+	{ label: "YouTube", src: YouTubeIcon },
+]
 
 export const Navbar = () => {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-	const menuRef = useRef<HTMLDivElement>(null)
-	const buttonRef = useRef<HTMLButtonElement>(null)
 
-	const navLinks = [
-		{
-			url: "#work-section",
-			title: "Work",
-		},
-		{
-			url: "#services-section",
-			title: "Services",
-		},
-		{
-			url: "#about-section",
-			title: "About",
-		},
-	]
-
-	useEffect(() => {
-		if (typeof window === "undefined") return
-
-		const handleClickOutside = (event: MouseEvent) => {
-			if (
-				menuRef.current &&
-				!menuRef.current.contains(event.target as Node) &&
-				buttonRef.current &&
-				!buttonRef.current.contains(event.target as Node)
-			) {
-				setIsMobileMenuOpen(false)
-				buttonRef.current.focus()
-			}
-		}
-
-		document.addEventListener("mousedown", handleClickOutside)
-		return () => {
-			document.removeEventListener("mousedown", handleClickOutside)
-		}
-	}, [])
+	const closeMobileMenu = () => setIsMobileMenuOpen(false)
 
 	return (
 		<nav
 			id="navbar"
-			className="relative mx-auto mt-5 flex w-full items-start justify-center px-[5%] md:mt-6 lg:mx-[5%] lg:w-auto lg:px-0"
+			aria-label="Main navigation"
+			className="relative z-40 w-screen bg-background lg:absolute lg:inset-x-0 lg:top-0 lg:bg-primary/20"
 		>
-			<div className="flex min-h-16 w-full items-center justify-between gap-12 rounded-xl bg-primary text-primary-foreground px-5 md:min-h-18 md:px-8 lg:w-auto">
-				<Link to="/">
-					<img src={Logo} alt="Sonado Studio" width={180} height={20} />
-				</Link>
-				<motion.div
-					variants={{
-						open: { height: "var(--height, 100vh)" },
-						close: { height: "auto" },
-					}}
-					initial="close"
-					exit="close"
-					animate={isMobileMenuOpen ? "open" : "close"}
-					className="absolute left-0 right-0 top-full w-full overflow-hidden lg:static lg:left-auto lg:right-auto lg:top-auto lg:w-auto lg:overflow-visible lg:[--height:auto]"
+			<div className="flex h-16 w-full items-center justify-between pl-5 pr-3 lg:h-18 lg:px-16">
+				<Link
+					to="/"
+					aria-label="Sonado Studio home"
+					className="shrink-0 focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
 				>
-					<motion.div
-						variants={{
-							open: { y: 0 },
-							close: { y: "var(--translate-y, -100%)" },
+					<picture>
+						<source media="(min-width: 1024px)" srcSet={LogoLight} />
+						<img
+							src={LogoDark}
+							alt="Sonado Studio"
+							className="h-5 w-[182px]"
+						/>
+					</picture>
+				</Link>
+
+				<div className="hidden items-center gap-4 lg:flex">
+					<ul className="flex items-center gap-8 text-base font-medium leading-6 text-primary-foreground">
+						{navLinks.map((navLink) => (
+							<li key={navLink.title}>
+								<a
+									href={navLink.url}
+									className="rounded-sm transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
+								>
+									{navLink.title}
+								</a>
+							</li>
+						))}
+					</ul>
+					<ContactModal
+						triggerProps={{
+							label: "Contact",
+							variant: "default",
+							className: "h-10 rounded-sm px-5 py-2",
 						}}
-						animate={isMobileMenuOpen ? "open" : "close"}
-						initial="close"
-						exit="close"
-						transition={{ duration: 0.3 }}
-						className="absolute left-0 right-0 top-0 mx-auto min-w-[200px] justify-self-center bg-primary px-[5%] text-center lg:static lg:inset-auto lg:mx-0 lg:px-0 lg:text-left lg:[--translate-y:0%] rounded-b-4xl"
-					>
-						<div
-							ref={menuRef}
-							id="main-nav-menu"
-							className="flex w-full flex-col border border-t-0 p-5 md:p-8 lg:w-auto lg:flex-row lg:border-none lg:bg-none lg:p-0"
-						>
-							<ul className="flex w-full list-none flex-col gap-0 p-0 m-0 lg:flex-row">
-								{navLinks.map((navLink) => (
-									<li key={navLink.title}>
-										<a
-											href={navLink.url}
-											className="relative block py-3 text-center text-md lg:px-4 lg:py-2 lg:text-left lg:text-base"
-										>
-											{navLink.title}
-										</a>
-									</li>
-								))}
-							</ul>
-							<ContactModal
-								triggerProps={{
-									label: "Contact",
-									variant: "secondary",
-									className: "block md:hidden w-full",
-								}}
-							/>
-							<ContactModal
-								triggerProps={{
-									label: "Contact",
-									variant: "secondary",
-									className: "hidden md:block ml-5",
-								}}
-							/>
-						</div>
-					</motion.div>
-				</motion.div>
-				<div className="flex items-center justify-center gap-4">
-					<button
-						ref={buttonRef}
-						type="button"
-						aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-						aria-expanded={isMobileMenuOpen}
-						aria-controls="main-nav-menu"
-						className="-mr-2 flex size-12 flex-col items-center justify-center justify-self-end lg:hidden relative"
-						onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-					>
-						<motion.span
-							className="my-[3px] h-0.5 w-6 bg-secondary"
-							animate={isMobileMenuOpen ? "open" : "close"}
-							variants={topLineVariants}
-						/>
-						<motion.span
-							className="my-[3px] h-0.5 w-6 bg-secondary"
-							animate={isMobileMenuOpen ? "open" : "close"}
-							variants={middleLineVariants}
-						/>
-						<motion.span
-							className="my-[3px] h-0.5 w-6 bg-secondary"
-							animate={isMobileMenuOpen ? "open" : "close"}
-							variants={bottomLineVariants}
-						/>
-					</button>
+					/>
 				</div>
+
+				<Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+					<SheetTrigger
+						className="flex size-12 items-center justify-center lg:hidden"
+						aria-label="Open navigation menu"
+					>
+						<MenuIcon aria-hidden="true" className="size-6" />
+					</SheetTrigger>
+					<SheetContent
+						side="right"
+						showCloseButton={false}
+						className="inset-0 size-full max-w-none border-none bg-background p-0 shadow-none sm:max-w-none"
+					>
+						<SheetTitle className="sr-only">Navigation menu</SheetTitle>
+
+						<div className="flex h-16 shrink-0 items-center justify-between pl-5 pr-3">
+							<Link
+								to="/"
+								aria-label="Sonado Studio home"
+								onClick={closeMobileMenu}
+								className="focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+							>
+								<img
+									src={LogoDark}
+									alt="Sonado Studio"
+									className="h-5 w-[182px]"
+								/>
+							</Link>
+							<button
+								type="button"
+								aria-label="Close navigation menu"
+								className="flex size-12 items-center justify-center rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+								onClick={closeMobileMenu}
+							>
+								<XIcon aria-hidden="true" className="size-6" />
+							</button>
+						</div>
+
+						<div className="flex min-h-0 flex-1 px-5 py-12">
+							<div className="flex min-h-0 w-full flex-1 flex-col items-start justify-between overflow-y-auto">
+								<ul className="flex w-full flex-col gap-8 font-display text-[2.5rem] font-semibold leading-[1.2] tracking-[-0.015em] text-foreground">
+									{navLinks.map((navLink) => (
+										<li key={navLink.title}>
+											<a
+												href={navLink.url}
+												onClick={closeMobileMenu}
+												className="block w-full rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+											>
+												{navLink.title}
+											</a>
+										</li>
+									))}
+									<li>
+										<ContactModal
+											triggerProps={{
+												label: "Contact",
+												variant: "link",
+												className:
+													"h-auto justify-start p-0 font-display text-[2.5rem] font-semibold leading-[1.2] tracking-[-0.015em] text-foreground no-underline hover:no-underline",
+											}}
+										/>
+									</li>
+								</ul>
+
+								<div className="flex w-full flex-col items-start gap-6 pt-12 text-sm leading-[1.5] text-foreground">
+									<div className="flex flex-col gap-1">
+										<a
+											href="mailto:hello@sonadostudio.com"
+											className="rounded-sm underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+										>
+											hello@sonadostudio.com
+										</a>
+										<p>Based in Nairobi, Creating Globally.</p>
+									</div>
+
+									<ul
+										aria-label="Sonado Studio social platforms"
+										className="flex items-center gap-3"
+									>
+										{socialIcons.map((socialIcon) => (
+											<li key={socialIcon.label}>
+												<img
+													src={socialIcon.src}
+													alt={socialIcon.label}
+													className="size-6"
+												/>
+											</li>
+										))}
+									</ul>
+								</div>
+							</div>
+						</div>
+					</SheetContent>
+				</Sheet>
 			</div>
 		</nav>
 	)
-}
-
-const topLineVariants = {
-	open: {
-		translateY: 8,
-		rotate: 45,
-		transition: { duration: 0.3 },
-	},
-	close: {
-		translateY: 0,
-		rotate: 0,
-		transition: { duration: 0.2 },
-	},
-}
-
-const middleLineVariants = {
-	open: {
-		opacity: 0,
-		transition: { duration: 0.2 },
-	},
-	close: {
-		opacity: 1,
-		transition: { duration: 0.2 },
-	},
-}
-
-const bottomLineVariants = {
-	open: {
-		translateY: -8,
-		rotate: -45,
-		transition: { duration: 0.3 },
-	},
-	close: {
-		translateY: 0,
-		rotate: 0,
-		transition: { duration: 0.2 },
-	},
 }

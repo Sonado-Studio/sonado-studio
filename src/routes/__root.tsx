@@ -2,7 +2,7 @@ import { TanStackDevtools } from "@tanstack/react-devtools"
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 // import { Footer } from "@/components/global/footer"
-// import { Navbar } from "@/components/global/navbar"
+import { Navbar } from "@/components/global/navbar"
 
 import appCss from "../styles.css?url"
 
@@ -54,7 +54,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<HeadContent />
 			</head>
 			<body>
-				{/* <Navbar /> */}
+				<Navbar />
 				{children}
 				{/* <Footer /> */}
 				<TanStackDevtools
