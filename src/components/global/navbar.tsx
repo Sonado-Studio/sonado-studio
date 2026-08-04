@@ -51,11 +51,7 @@ export const Navbar = () => {
 				>
 					<picture>
 						<source media="(min-width: 1024px)" srcSet={LogoLight} />
-						<img
-							src={LogoDark}
-							alt="Sonado Studio"
-							className="h-5 w-[182px]"
-						/>
+						<img src={LogoDark} alt="Sonado Studio" className="h-5 w-[182px]" />
 					</picture>
 				</Link>
 
@@ -91,7 +87,7 @@ export const Navbar = () => {
 					<SheetContent
 						side="right"
 						showCloseButton={false}
-						className="inset-0 size-full max-w-none border-none bg-background p-0 shadow-none sm:max-w-none"
+						className="inset-0 size-full w-screen border-none bg-background p-0 shadow-none sm:w-screen data-[side=right]:w-screen"
 					>
 						<SheetTitle className="sr-only">Navigation menu</SheetTitle>
 

@@ -190,8 +190,12 @@ code {
 }
 
 @layer base {
+  html {
+    overscroll-behavior-y: none;
+  }
+
   * {
-    @apply border-border outline-ring/50 overscroll-none;
+    @apply border-border outline-ring/50;
   }
   h1,
   h2,
