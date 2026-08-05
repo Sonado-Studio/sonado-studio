@@ -1,0 +1,75 @@
+import AtsTravelLogo from "@/assets/layout/intro/ats-travel.png"
+import AwaloLogo from "@/assets/layout/intro/awalo.svg"
+import AwtcLogo from "@/assets/layout/intro/awtc.png"
+import HotpointLogo from "@/assets/layout/intro/hotpoint.svg"
+import LinarcLogo from "@/assets/layout/intro/linarc.svg"
+import MheLogo from "@/assets/layout/intro/mhe.svg"
+import OpportunityMusicProjectLogo from "@/assets/layout/intro/opportunity-music-project.png"
+import ProperlyLogo from "@/assets/layout/intro/properly.svg"
+import TheGardenLogo from "@/assets/layout/intro/the-garden.svg"
+
+const clientLogos = [
+	{ name: "Linarc Design Studio", src: LinarcLogo, width: "100%" },
+	{ name: "The Garden", src: TheGardenLogo, width: "100%" },
+	{ name: "AWTC", src: AwtcLogo, width: "85%" },
+	{ name: "Happy Everything", src: MheLogo, width: "100%" },
+	{ name: "Awalo", src: AwaloLogo, width: "100%" },
+	{ name: "ATS Travel", src: AtsTravelLogo, width: "46%" },
+	{ name: "Hotpoint", src: HotpointLogo, width: "100%" },
+	{ name: "Properly", src: ProperlyLogo, width: "100%" },
+	{
+		name: "Opportunity Music Project",
+		src: OpportunityMusicProjectLogo,
+		width: "52%",
+	},
+]
+
+export const IntroSection = () => {
+	return (
+		<section
+			id="intro-section"
+			aria-labelledby="intro-heading"
+			className="w-full bg-primary px-5 py-16 text-primary-foreground md:px-8 md:py-24 lg:px-16 lg:py-28"
+		>
+			<div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-16 lg:grid-cols-[minmax(0,7fr)_minmax(0,8fr)] lg:gap-12 xl:grid-cols-[560px_minmax(0,1fr)] xl:gap-20">
+				<div className="min-w-0">
+					<p className="font-sans text-base font-medium leading-6 text-accent">
+						OUR CLIENTS
+					</p>
+
+					<ul
+						className="mt-6 grid grid-cols-2 items-center gap-x-4 gap-y-6 sm:grid-cols-3 sm:gap-x-8"
+						aria-label="Selected clients"
+					>
+						{clientLogos.map((logo) => (
+							<li
+								key={logo.name}
+								className="flex h-8 items-center justify-center sm:h-10"
+							>
+								<img
+									src={logo.src}
+									alt={logo.name}
+									className="max-h-full max-w-[clamp(5rem,22vw,8.10625rem)] object-contain"
+									style={{ width: logo.width }}
+									loading="lazy"
+									decoding="async"
+								/>
+							</li>
+						))}
+					</ul>
+				</div>
+
+				<h2
+					id="intro-heading"
+					className="font-display text-2xl font-normal leading-[1.3] tracking-[-0.03em] text-primary-foreground md:text-[1.75rem] lg:max-w-xl lg:justify-self-center xl:max-w-full xl:pl-25 lg:pl-10"
+				>
+					Sonado Studio is a founder-led creative and technology studio. We
+					create distinctive brands and carefully crafted websites for
+					businesses ready to elevate their next chapter. Every project is led
+					with strategy, design craft, and technical expertise from start to
+					launch.
+				</h2>
+			</div>
+		</section>
+	)
+}
