@@ -1,79 +1,74 @@
-import BuildIcon from "@/assets/layout/icons/build.svg"
-import DesignIcon from "@/assets/layout/icons/design.svg"
-import DiscoverIcon from "@/assets/layout/icons/discover.svg"
-import LaunchIcon from "@/assets/layout/icons/launch.svg"
-
-const sections = [
+const processSteps = [
 	{
-		icon: {
-			src: DiscoverIcon,
-			alt: "Discover icon",
-		},
-		heading: "Discover",
+		number: "01",
+		heading: "Strategy",
 		description:
-			"Aligning on goals, audience, scope and direction so the work that follows is grounded and intentional.",
+			"We align on your goals, audience, scope, and priorities so the work that follows is focused, strategic, and intentional.",
 	},
 	{
-		icon: {
-			src: DesignIcon,
-			alt: "Design icon",
-		},
+		number: "02",
 		heading: "Design",
 		description:
-			"Shaping strategy into a clear and considered visual direction and user experience.",
+			"We translate strategy into a clear visual direction and a thoughtful user experience that feels both distinctive and intuitive.",
 	},
 	{
-		icon: {
-			src: BuildIcon,
-			alt: "Build icon",
-		},
+		number: "03",
 		heading: "Build",
 		description:
-			"Bringing the work to life with care and precision with a focus on quality, accessibility, and maintainability.",
+			"We bring the work to life with care and precision, with a focus on quality, accessibility, performance, and long-term maintainability.",
 	},
 	{
-		icon: {
-			src: LaunchIcon,
-			alt: "Launch icon",
-		},
+		number: "04",
 		heading: "Launch",
 		description:
-			"Final checks, handover, and launch support so you feel confident using and evolving what we’ve built together.",
+			"We complete final checks, provide handover and launch support, and make sure you feel confident using and evolving what we’ve built together.",
 	},
 ]
 
 export const ProcessSection = () => {
 	return (
-		<section id="process-section" className="px-[5%] py-16 md:py-24 lg:py-28">
-			<div className="container">
-				<div className="mb-12 md:mb-18 lg:mb-20">
-					<div className="max-w-2xl flex flex-col gap-5">
-						<h2>Clear process, no guesswork</h2>
-						<p>
-							Our process is structured and transparent, with defined milestones
-							and regular check-ins so you always know what’s happening and
-							what’s coming next.
-						</p>
-					</div>
+		<section
+			id="process-section"
+			aria-labelledby="studio-experience-heading"
+			className="w-full bg-background px-5 py-16 md:px-8 md:py-24 lg:px-16 lg:py-28"
+		>
+			<div className="mx-auto w-full max-w-7xl">
+				<p className="font-sans text-base font-medium leading-6 text-accent">
+					YOUR STUDIO EXPERIENCE
+				</p>
+
+				<div className="mt-12 max-w-3xl md:mt-16 lg:mt-20">
+					<h2
+						id="studio-experience-heading"
+						className="text-3xl md:text-4xl lg:text-5xl"
+					>
+						Clear process, no guesswork
+					</h2>
+					<p className="mt-6 max-w-2xl text-base leading-6 md:text-lg md:leading-7">
+						Our process is structured and transparent, with defined milestones
+						and regular check-ins so you always know where the project stands
+						and what comes next.
+					</p>
 				</div>
-				<div className="grid grid-cols-1 items-start gap-6 md:grid-cols-2 md:gap-8">
-					{sections.map((section) => (
-						<div
-							key={section.heading.toLowerCase()}
-							className="shadow-sm rounded-2xl bg-muted p-6 md:p-8 lg:p-12 gap-5 flex flex-col items-start justify-center"
+
+				<ol className="mt-12 grid grid-cols-1 items-start md:mt-16 md:grid-cols-2 md:gap-x-8 md:gap-y-12 lg:mt-20 lg:grid-cols-4 lg:gap-0">
+					{processSteps.map((step) => (
+						<li
+							key={step.number}
+							className="relative py-8 first:pt-0 last:pb-0 before:absolute before:top-0 before:left-0 before:h-px before:w-full before:bg-border first:before:hidden md:py-0 md:before:hidden lg:px-10 lg:before:block lg:before:h-full lg:before:w-px first:lg:pl-0 first:lg:before:hidden last:lg:pr-0"
 						>
-							<div>
-								<img
-									src={section.icon.src}
-									className="size-8"
-									alt={section.icon.alt}
-								/>
+							<div className="flex items-center gap-4">
+								<span className="font-sans text-base font-medium leading-6 text-accent bg-muted px-2.5 py-1 rounded-sm">
+									{step.number}
+								</span>
+								<h3 className="text-2xl font-normal leading-[1.4] tracking-[-0.03em]">
+									{step.heading}
+								</h3>
 							</div>
-							<h3 className="mb-5 text-2xl">{section.heading}</h3>
-							<p>{section.description}</p>
-						</div>
+							<p className="mt-4 text-base leading-6">{step.description}</p>
+						</li>
 					))}
-				</div>
+				</ol>
 			</div>
 		</section>
 	)
