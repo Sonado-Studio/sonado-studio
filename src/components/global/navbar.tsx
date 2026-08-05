@@ -8,8 +8,8 @@ import InstagramIcon from "@/assets/layout/icons/instagram.svg"
 import LinkedInIcon from "@/assets/layout/icons/linkedin.svg"
 import XSocialIcon from "@/assets/layout/icons/x.svg"
 import YouTubeIcon from "@/assets/layout/icons/youtube.svg"
-import LogoDark from "@/assets/logos/sonado-studio-logo-dark.svg"
 import LogoLight from "@/assets/logos/sonado-studio-logo.svg"
+import LogoDark from "@/assets/logos/sonado-studio-logo-dark.svg"
 import { ContactModal } from "@/components/global/form/contact-modal"
 import {
 	Sheet,
@@ -51,7 +51,7 @@ export const Navbar = () => {
 				>
 					<picture>
 						<source media="(min-width: 1024px)" srcSet={LogoLight} />
-						<img src={LogoDark} alt="Sonado Studio" className="h-5 w-[182px]" />
+						<img src={LogoDark} alt="Sonado Studio" className="h-5 w-45.5" />
 					</picture>
 				</Link>
 
@@ -101,7 +101,7 @@ export const Navbar = () => {
 								<img
 									src={LogoDark}
 									alt="Sonado Studio"
-									className="h-5 w-[182px]"
+									className="h-5 w-45.5"
 								/>
 							</Link>
 							<button
@@ -140,7 +140,7 @@ export const Navbar = () => {
 									</li>
 								</ul>
 
-								<div className="flex w-full flex-col items-start gap-6 pt-12 text-sm leading-[1.5] text-foreground">
+								<div className="flex w-full flex-col items-start gap-6 pt-12 text-sm leading-normal text-foreground">
 									<div className="flex flex-col gap-1">
 										<a
 											href="mailto:hello@sonadostudio.com"
