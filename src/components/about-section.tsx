@@ -1,39 +1,63 @@
-export const AboutSection = () => {
-	const image = {
-		src: "https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg",
-		alt: "Rehema Wachira",
-	}
+import DesignCodeBadge from "@/assets/layout/about/design-code-badge.svg"
+import RehemaPortrait from "@/assets/layout/about/rehema-wachira.webp"
 
+export const AboutSection = () => {
 	return (
-		<section id="about-section" className="px-[5%] py-16 md:py-24 lg:py-28">
-			<div className="container">
-				<div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2 lg:gap-x-20">
-					<div className="order-2 md:order-1">
-						<img
-							src={image.src}
-							className="w-full object-cover rounded-2xl"
-							alt={image.alt}
-						/>
-					</div>
-					<div className="order-1 md:order-2 space-y-5">
-						<h2>Hello 👋🏾 I’m Rehema</h2>
-						<div className="space-y-5 max-w-prose">
+		<section
+			id="about-section"
+			aria-labelledby="about-heading"
+			className="w-full bg-primary px-5 py-16 text-primary-foreground md:px-8 md:py-24 lg:px-16 lg:py-28"
+		>
+			<div className="mx-auto w-full max-w-7xl">
+				<p className="font-sans text-base font-medium leading-6 text-accent">
+					OUR STUDIO
+				</p>
+
+				<div className="mt-12 grid grid-cols-1 items-center gap-16 md:mt-16 lg:mt-20 lg:grid-cols-2 lg:gap-20">
+					<div className="max-w-xl">
+						<h2
+							id="about-heading"
+							className="text-[2rem] leading-[1.2] tracking-[-0.015em] md:text-[2.5rem]"
+						>
+							Hello 👋🏾 I’m Rehema
+						</h2>
+
+						<div className="mt-6 flex flex-col gap-6 text-base leading-6 md:text-lg md:leading-7">
+							<p>I’m the founder and creative director at Sonado Studio.</p>
 							<p>
-								I’m a design engineer and the founder of Sonado Studio. I
-								started Sonado Studio with the belief that the best work happens
-								when creative thinking and technical execution are closely
-								connected, and when the process feels collaborative, thoughtful,
-								and human.
+								I started the studio with a simple belief: the best digital
+								experiences happen when strategy, design, and technology work
+								together and when the process feels collaborative, thoughtful, and
+								genuinely human.
 							</p>
 							<p>
-								My background spans software engineering, product design, and
-								marketing, which allows me to work comfortably across strategy,
-								design, and implementation.
-							</p>
-							<p>
-								At Sonado, I work hands-on with clients to create distinctive
-								brands, marketing websites, and digital products that are
+								With a background in software engineering, product design, and
+								marketing, I work hands-on with clients to create distinctive
+								brands, carefully crafted websites, and digital products that are
 								designed with intention and built to last.
+							</p>
+						</div>
+					</div>
+
+					<div className="relative mx-auto w-full max-w-[430px] pb-4 pr-4 sm:pb-6 sm:pr-[30px]">
+						<div className="aspect-square w-full max-w-100 overflow-hidden rounded-full">
+							<img
+								src={RehemaPortrait}
+								alt="Rehema Wachira, founder and creative director of Sonado Studio"
+								className="size-full object-cover object-center"
+								loading="lazy"
+								decoding="async"
+							/>
+						</div>
+
+						<div className="absolute right-0 bottom-0 flex size-[clamp(6.5rem,30vw,9.375rem)] items-center justify-center">
+							<img
+								src={DesignCodeBadge}
+								alt=""
+								className="absolute inset-0 size-full"
+							/>
+							<p className="relative z-10 whitespace-nowrap font-sans text-xs font-medium leading-6 text-primary-foreground sm:text-base">
+								Design &amp; Code
 							</p>
 						</div>
 					</div>
