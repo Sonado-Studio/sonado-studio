@@ -9,7 +9,7 @@ export const HeaderSection = () => {
 			aria-labelledby="hero-heading"
 			className="relative grid min-h-[calc(100svh-4rem)] w-full grid-rows-[minmax(12rem,27fr)_73fr] overflow-clip bg-primary lg:h-[min(900px,calc(100svh-4.5rem))] lg:min-h-175 lg:grid-cols-2 lg:grid-rows-1"
 		>
-			<div className="px-5 py-8 lg:px-16">
+			<div className="px-5 py-2 lg:px-16">
 				<h1
 					id="hero-heading"
 					className="font-sans text-base font-semibold leading-6 tracking-normal text-primary-foreground lg:font-display lg:text-2xl lg:leading-[1.4] lg:tracking-[-0.03em] text-pretty"

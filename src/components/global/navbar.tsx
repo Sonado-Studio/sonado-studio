@@ -3,6 +3,7 @@
 import { Link } from "@tanstack/react-router"
 import { MenuIcon, XIcon } from "lucide-react"
 import { useEffect, useState } from "react"
+import LogoIcon from "@/assets/logos/sonado-studio-icon.svg"
 import LogoLight from "@/assets/logos/sonado-studio-logo.svg"
 import { ContactModal } from "@/components/global/form/contact-modal"
 import {
@@ -74,13 +75,22 @@ export const Navbar = () => {
 				<Link
 					to="/"
 					aria-label="Sonado Studio home"
-					aria-hidden={isHeroInView}
-					tabIndex={isHeroInView ? -1 : undefined}
-					className={`hidden shrink-0 transition-opacity duration-300 motion-reduce:transition-none focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 lg:block ${
-						isHeroInView ? "pointer-events-none opacity-0" : "opacity-100"
-					}`}
+					className="relative hidden h-10 w-45.5 shrink-0 transition-opacity duration-300 motion-reduce:transition-none focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 lg:block"
 				>
-					<img src={LogoLight} alt="Sonado Studio" className="h-5 w-45.5" />
+					<img
+						src={LogoIcon}
+						alt=""
+						className={`absolute top-1/2 left-0 size-10 -translate-y-1/2 transition-opacity duration-300 motion-reduce:transition-none ${
+							isHeroInView ? "opacity-100" : "opacity-0"
+						}`}
+					/>
+					<img
+						src={LogoLight}
+						alt=""
+						className={`absolute top-1/2 left-0 h-5 w-45.5 -translate-y-1/2 transition-opacity duration-300 motion-reduce:transition-none ${
+							isHeroInView ? "opacity-0" : "opacity-100"
+						}`}
+					/>
 				</Link>
 
 				<div className="hidden items-center gap-4 lg:flex">
