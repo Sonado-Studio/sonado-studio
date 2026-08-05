@@ -1,3 +1,4 @@
+import { motion, useReducedMotion } from "motion/react"
 import AtsTravelLogo from "@/assets/layout/intro/ats-travel.png"
 import AwaloLogo from "@/assets/layout/intro/awalo.svg"
 import AwtcLogo from "@/assets/layout/intro/awtc.png"
@@ -25,6 +26,8 @@ const clientLogos = [
 ]
 
 export const IntroSection = () => {
+	const prefersReducedMotion = useReducedMotion()
+
 	return (
 		<section
 			id="intro-section"
@@ -41,10 +44,18 @@ export const IntroSection = () => {
 						className="mt-6 grid grid-cols-2 items-center gap-x-4 gap-y-6 sm:grid-cols-3 sm:gap-x-8"
 						aria-label="Selected clients"
 					>
-						{clientLogos.map((logo) => (
-							<li
+						{clientLogos.map((logo, index) => (
+							<motion.li
 								key={logo.name}
 								className="flex h-8 items-center justify-center sm:h-10"
+								initial={prefersReducedMotion ? false : { opacity: 0.25 }}
+								whileInView={{ opacity: 1 }}
+								viewport={{ once: true, amount: 0.6 }}
+								transition={{
+									duration: prefersReducedMotion ? 0 : 0.65,
+									delay: prefersReducedMotion ? 0 : index * 0.06,
+									ease: [0.25, 0.46, 0.45, 0.94],
+								}}
 							>
 								<img
 									src={logo.src}
@@ -54,21 +65,28 @@ export const IntroSection = () => {
 									loading="lazy"
 									decoding="async"
 								/>
-							</li>
+							</motion.li>
 						))}
 					</ul>
 				</div>
 
-				<h2
+				<motion.h2
 					id="intro-heading"
 					className="font-display text-2xl font-normal leading-[1.3] tracking-[-0.03em] text-primary-foreground md:text-[1.75rem] lg:max-w-xl lg:justify-self-center xl:max-w-full xl:pl-25 lg:pl-10"
+					initial={prefersReducedMotion ? false : { opacity: 0.25 }}
+					whileInView={{ opacity: 1 }}
+					viewport={{ once: true, amount: 0.6 }}
+					transition={{
+						duration: prefersReducedMotion ? 0 : 0.8,
+						ease: [0.25, 0.46, 0.45, 0.94],
+					}}
 				>
 					Sonado Studio is a founder-led creative and technology studio. We
 					create distinctive brands and carefully crafted websites for
 					businesses ready to elevate their next chapter. Every project is led
 					with strategy, design craft, and technical expertise from start to
 					launch.
-				</h2>
+				</motion.h2>
 			</div>
 		</section>
 	)
