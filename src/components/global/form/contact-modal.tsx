@@ -1,7 +1,7 @@
 /** biome-ignore-all lint/correctness/noChildrenProp: {children} is used for the field component */
 "use client"
 import { useForm } from "@tanstack/react-form"
-import type { ComponentProps } from "react"
+import type { ComponentProps, ReactNode } from "react"
 import type { z } from "zod"
 import { FieldInfo } from "@/components/global/form/field-info"
 import { Button } from "@/components/ui/button"
@@ -72,7 +72,7 @@ const referralOptions: { value: ReferralOptionValue; label: string }[] = [
 
 type ContactModalProps = {
 	triggerProps?: {
-		label?: string
+		label?: ReactNode
 		variant?: ComponentProps<typeof Button>["variant"]
 		size?: ComponentProps<typeof Button>["size"]
 		className?: string
