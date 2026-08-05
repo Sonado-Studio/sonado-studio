@@ -2,15 +2,16 @@
 
 import { Link } from "@tanstack/react-router"
 import { MenuIcon, XIcon } from "lucide-react"
-import { useState } from "react"
-import FacebookIcon from "@/assets/layout/icons/facebook.svg"
-import InstagramIcon from "@/assets/layout/icons/instagram.svg"
-import LinkedInIcon from "@/assets/layout/icons/linkedin.svg"
-import XSocialIcon from "@/assets/layout/icons/x.svg"
-import YouTubeIcon from "@/assets/layout/icons/youtube.svg"
+import { useEffect, useState } from "react"
 import LogoLight from "@/assets/logos/sonado-studio-logo.svg"
-import LogoDark from "@/assets/logos/sonado-studio-logo-dark.svg"
 import { ContactModal } from "@/components/global/form/contact-modal"
+import {
+	FacebookIcon,
+	InstagramIcon,
+	LinkedInIcon,
+	XIcon as XSocialIcon,
+	YouTubeIcon,
+} from "@/components/global/social-icons"
 import {
 	Sheet,
 	SheetContent,
@@ -25,15 +26,33 @@ const navLinks = [
 ]
 
 const socialIcons = [
-	{ label: "Facebook", src: FacebookIcon },
-	{ label: "Instagram", src: InstagramIcon },
-	{ label: "X", src: XSocialIcon },
-	{ label: "LinkedIn", src: LinkedInIcon },
-	{ label: "YouTube", src: YouTubeIcon },
+	{ label: "Facebook", icon: FacebookIcon },
+	{ label: "Instagram", icon: InstagramIcon },
+	{ label: "X", icon: XSocialIcon },
+	{ label: "LinkedIn", icon: LinkedInIcon },
+	{ label: "YouTube", icon: YouTubeIcon },
 ]
 
 export const Navbar = () => {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+	const [isHeroInView, setIsHeroInView] = useState(true)
+
+	useEffect(() => {
+		const hero = document.getElementById("header-section")
+
+		if (!hero) {
+			setIsHeroInView(false)
+			return
+		}
+
+		const observer = new IntersectionObserver(
+			([entry]) => setIsHeroInView(entry.isIntersecting),
+			{ threshold: 0 },
+		)
+
+		observer.observe(hero)
+		return () => observer.disconnect()
+	}, [])
 
 	const closeMobileMenu = () => setIsMobileMenuOpen(false)
 
@@ -41,18 +60,27 @@ export const Navbar = () => {
 		<nav
 			id="navbar"
 			aria-label="Main navigation"
-			className="relative z-40 w-screen bg-background lg:absolute lg:inset-x-0 lg:top-0 lg:bg-primary/20"
+			className="sticky inset-x-0 top-0 z-40 w-full bg-primary/95 text-primary-foreground backdrop-blur-sm"
 		>
 			<div className="flex h-16 w-full items-center justify-between pl-5 pr-3 lg:h-18 lg:px-16">
 				<Link
 					to="/"
 					aria-label="Sonado Studio home"
-					className="shrink-0 focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+					className="shrink-0 focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 lg:hidden"
 				>
-					<picture>
-						<source media="(min-width: 1024px)" srcSet={LogoLight} />
-						<img src={LogoDark} alt="Sonado Studio" className="h-5 w-45.5" />
-					</picture>
+					<img src={LogoLight} alt="Sonado Studio" className="h-5 w-45.5" />
+				</Link>
+
+				<Link
+					to="/"
+					aria-label="Sonado Studio home"
+					aria-hidden={isHeroInView}
+					tabIndex={isHeroInView ? -1 : undefined}
+					className={`hidden shrink-0 transition-opacity duration-300 motion-reduce:transition-none focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 lg:block ${
+						isHeroInView ? "pointer-events-none opacity-0" : "opacity-100"
+					}`}
+				>
+					<img src={LogoLight} alt="Sonado Studio" className="h-5 w-45.5" />
 				</Link>
 
 				<div className="hidden items-center gap-4 lg:flex">
@@ -87,7 +115,7 @@ export const Navbar = () => {
 					<SheetContent
 						side="right"
 						showCloseButton={false}
-						className="inset-0 size-full w-screen border-none bg-background p-0 shadow-none sm:w-screen data-[side=right]:w-screen"
+						className="inset-0 size-full w-screen border-none bg-primary p-0 text-primary-foreground shadow-none sm:w-screen data-[side=right]:w-screen"
 					>
 						<SheetTitle className="sr-only">Navigation menu</SheetTitle>
 
@@ -99,7 +127,7 @@ export const Navbar = () => {
 								className="focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
 							>
 								<img
-									src={LogoDark}
+									src={LogoLight}
 									alt="Sonado Studio"
 									className="h-5 w-45.5"
 								/>
@@ -116,7 +144,7 @@ export const Navbar = () => {
 
 						<div className="flex min-h-0 flex-1 px-5 py-12">
 							<div className="flex min-h-0 w-full flex-1 flex-col items-start justify-between overflow-y-auto">
-								<ul className="flex w-full flex-col gap-8 font-display text-[2.5rem] font-semibold leading-[1.2] tracking-[-0.015em] text-foreground">
+								<ul className="flex w-full flex-col gap-8 font-display text-[2.5rem] font-semibold leading-[1.2] tracking-[-0.015em] text-primary-foreground">
 									{navLinks.map((navLink) => (
 										<li key={navLink.title}>
 											<a
@@ -134,13 +162,13 @@ export const Navbar = () => {
 												label: "Contact",
 												variant: "link",
 												className:
-													"h-auto justify-start p-0 font-display text-[2.5rem] font-semibold leading-[1.2] tracking-[-0.015em] text-foreground no-underline hover:no-underline",
+													"h-auto justify-start p-0 font-display text-[2.5rem] font-semibold leading-[1.2] tracking-[-0.015em] text-primary-foreground no-underline hover:no-underline",
 											}}
 										/>
 									</li>
 								</ul>
 
-								<div className="flex w-full flex-col items-start gap-6 pt-12 text-sm leading-normal text-foreground">
+								<div className="flex w-full flex-col items-start gap-6 pt-12 text-sm leading-normal text-primary-foreground">
 									<div className="flex flex-col gap-1">
 										<a
 											href="mailto:hello@sonadostudio.com"
@@ -155,12 +183,11 @@ export const Navbar = () => {
 										aria-label="Sonado Studio social platforms"
 										className="flex items-center gap-3"
 									>
-										{socialIcons.map((socialIcon) => (
-											<li key={socialIcon.label}>
-												<img
-													src={socialIcon.src}
-													alt={socialIcon.label}
-													className="size-6"
+										{socialIcons.map(({ label, icon: Icon }) => (
+											<li key={label}>
+												<Icon
+													aria-label={label}
+													className="size-6 text-primary-foreground"
 												/>
 											</li>
 										))}

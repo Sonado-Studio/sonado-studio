@@ -1,13 +1,13 @@
 import { motion, useReducedMotion } from "motion/react"
-import AtsTravelLogo from "@/assets/layout/intro/ats-travel.png"
-import AwaloLogo from "@/assets/layout/intro/awalo.svg"
-import AwtcLogo from "@/assets/layout/intro/awtc.png"
-import HotpointLogo from "@/assets/layout/intro/hotpoint.svg"
-import LinarcLogo from "@/assets/layout/intro/linarc.svg"
-import MheLogo from "@/assets/layout/intro/mhe.svg"
-import OpportunityMusicProjectLogo from "@/assets/layout/intro/opportunity-music-project.png"
-import ProperlyLogo from "@/assets/layout/intro/properly.svg"
-import TheGardenLogo from "@/assets/layout/intro/the-garden.svg"
+import AtsTravelLogo from "@/assets/layout/client-logos/ats-travel.png"
+import AwaloLogo from "@/assets/layout/client-logos/awalo.svg"
+import AwtcLogo from "@/assets/layout/client-logos/awtc.png"
+import HotpointLogo from "@/assets/layout/client-logos/hotpoint.svg"
+import LinarcLogo from "@/assets/layout/client-logos/linarc.svg"
+import MheLogo from "@/assets/layout/client-logos/mhe.svg"
+import OpportunityMusicProjectLogo from "@/assets/layout/client-logos/opportunity-music-project.png"
+import ProperlyLogo from "@/assets/layout/client-logos/properly.svg"
+import TheGardenLogo from "@/assets/layout/client-logos/the-garden.svg"
 
 const clientLogos = [
 	{ name: "Linarc Design Studio", src: LinarcLogo, width: "100%" },

@@ -1,9 +1,11 @@
 import { Link } from "@tanstack/react-router"
 import { ArrowUp } from "lucide-react"
-import InstagramIcon from "@/assets/layout/footer/instagram.svg"
-import LinkedInIcon from "@/assets/layout/footer/linkedin.svg"
-import SonadoMark from "@/assets/layout/footer/sonado-mark.svg"
+import SonadoMark from "@/assets/logos/sonado-studio-icon.svg"
 import { ContactModal } from "@/components/global/form/contact-modal"
+import {
+	InstagramIcon,
+	LinkedInIcon,
+} from "@/components/global/social-icons"
 
 const navigationLinks = [
 	{ label: "Work", href: "#work-section" },
@@ -71,14 +73,17 @@ export const Footer = () => {
 							<p>Based in Nairobi, creating globally</p>
 						</div>
 						<ul className="flex items-center gap-3" aria-label="Social links">
-							{socialLinks.map((link) => (
-								<li key={link.label}>
+							{socialLinks.map(({ label, href, icon: Icon }) => (
+								<li key={label}>
 									<a
-										href={link.href}
-										aria-label={link.label}
+										href={href}
 										className={`flex size-8 items-center justify-center ${footerLinkClassName}`}
 									>
-										<img src={link.icon} alt="" className="size-4.5" />
+										<span className="sr-only">{label}</span>
+										<Icon
+											aria-hidden="true"
+											className="size-4.5 text-primary-foreground"
+										/>
 									</a>
 								</li>
 							))}

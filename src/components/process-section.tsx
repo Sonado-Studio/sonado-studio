@@ -37,7 +37,7 @@ export const ProcessSection = () => {
 					YOUR STUDIO EXPERIENCE
 				</p>
 
-				<div className="mt-12 max-w-3xl md:mt-16 lg:mt-20">
+				<div className="mt-12 max-w-3xl md:mt-16 lg:mt-14">
 					<h2
 						id="studio-experience-heading"
 						className="text-3xl md:text-4xl lg:text-5xl"

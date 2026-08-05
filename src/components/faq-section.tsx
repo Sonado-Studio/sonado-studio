@@ -1,5 +1,4 @@
-import CloseLightIcon from "@/assets/layout/faq/close-light.svg"
-import CloseDarkIcon from "@/assets/layout/services/accordion-close.svg"
+import { AccordionIcon } from "@/components/ui/accordion-icon"
 
 const faqs = [
 	{
@@ -42,7 +41,13 @@ export const FaqSection = () => {
 			aria-labelledby="faq-heading"
 			className="w-full bg-primary px-5 py-16 text-primary-foreground md:px-8 md:py-24 lg:px-16 lg:py-28"
 		>
-			<div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-start gap-12 md:gap-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 xl:grid-cols-[500px_minmax(0,1fr)] xl:gap-30">
+			<div className="mx-auto w-full max-w-7xl">
+				<p className="font-sans text-base font-medium leading-6 text-accent">
+					FAQs
+				</p>
+			</div>
+
+			<div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-start gap-12 md:gap-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 xl:grid-cols-[500px_minmax(0,1fr)] xl:gap-30 mt-12 md:mt-16 lg:mt-8">
 				<div className="max-w-125">
 					<h2
 						id="faq-heading"
@@ -73,16 +78,7 @@ const FaqItem = ({ question, answer }: (typeof faqs)[number]) => (
 				{question}
 			</span>
 			<span className="relative flex size-6 shrink-0 items-center justify-center">
-				<img
-					src={CloseLightIcon}
-					alt=""
-					className="size-2.5 rotate-45 transition-transform duration-200 group-hover/summary:hidden group-focus-visible/summary:hidden group-open:hidden motion-reduce:transition-none"
-				/>
-				<img
-					src={CloseDarkIcon}
-					alt=""
-					className="hidden size-2.5 rotate-45 transition-transform duration-200 group-hover/summary:block group-focus-visible/summary:block group-open:block group-open:rotate-0 motion-reduce:transition-none"
-				/>
+				<AccordionIcon className="size-2.5 rotate-45 transition-transform duration-200 group-open:rotate-0 motion-reduce:transition-none" />
 			</span>
 		</summary>
 		<div className="py-6 text-base leading-6 text-primary-foreground">

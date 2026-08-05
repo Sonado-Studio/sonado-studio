@@ -13,7 +13,7 @@ export const AboutSection = () => {
 					OUR STUDIO
 				</p>
 
-				<div className="mt-12 grid grid-cols-1 items-center gap-16 md:mt-16 lg:mt-20 lg:grid-cols-2 lg:gap-20">
+				<div className="mt-12 grid grid-cols-1 items-center gap-16 md:mt-16 lg:mt-8 lg:grid-cols-2 lg:gap-20">
 					<div className="max-w-xl">
 						<h2
 							id="about-heading"
@@ -27,19 +27,19 @@ export const AboutSection = () => {
 							<p>
 								I started the studio with a simple belief: the best digital
 								experiences happen when strategy, design, and technology work
-								together and when the process feels collaborative, thoughtful, and
-								genuinely human.
+								together and when the process feels collaborative, thoughtful,
+								and genuinely human.
 							</p>
 							<p>
 								With a background in software engineering, product design, and
 								marketing, I work hands-on with clients to create distinctive
-								brands, carefully crafted websites, and digital products that are
-								designed with intention and built to last.
+								brands, carefully crafted websites, and digital products that
+								are designed with intention and built to last.
 							</p>
 						</div>
 					</div>
 
-					<div className="relative mx-auto w-full max-w-[430px] pb-4 pr-4 sm:pb-6 sm:pr-[30px]">
+					<div className="relative mx-auto w-full max-w-107.5 pb-4 pr-4 sm:pb-6 sm:pr-7.5">
 						<div className="aspect-square w-full max-w-100 overflow-hidden rounded-full">
 							<img
 								src={RehemaPortrait}

@@ -1,4 +1,4 @@
-import theGardenLogo from "@/assets/projects/the-garden-logo.svg"
+import theGardenLogo from "@/assets/layout/client-logos/the-garden-logo-colour.svg"
 
 export const TestimonialSection = () => {
 	return (

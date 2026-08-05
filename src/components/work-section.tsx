@@ -67,10 +67,13 @@ const SelectedWorkCard = ({ project }: { project: SelectedProject }) => {
 					</p>
 				</div>
 
-				<ul className="mt-6 flex flex-wrap items-center gap-4" aria-label="Project services">
+				<ul
+					className="mt-6 flex flex-wrap items-center gap-4"
+					aria-label="Project services"
+				>
 					{project.tags.map((tag) => (
 						<li key={tag}>
-							<Badge className="h-auto border-secondary/20 bg-muted px-2 py-1 text-sm leading-[1.5] tracking-normal">
+							<Badge className="h-auto border-secondary/20 bg-muted px-2 py-1 text-sm leading-normal tracking-normal">
 								{tag}
 							</Badge>
 						</li>

@@ -7,11 +7,11 @@ import {
 	useTransform,
 } from "motion/react"
 import { useCallback, useEffect, useRef, useState } from "react"
-import AccordionCloseIcon from "@/assets/layout/services/accordion-close.svg"
 import BrandIdentityImage from "@/assets/layout/services/brand-identity.webp"
 import BrandStrategyImage from "@/assets/layout/services/brand-strategy.webp"
 import CustomDigitalProductsImage from "@/assets/layout/services/custom-digital-products.webp"
 import MarketingWebsiteImage from "@/assets/layout/services/marketing-website.webp"
+import { AccordionIcon } from "@/components/ui/accordion-icon"
 import { Badge } from "@/components/ui/badge"
 import { useMediaQuery } from "@/hooks/use-media-query"
 
@@ -168,7 +168,7 @@ export const ServicesSection = () => {
 				</h2>
 			</div>
 
-			<div className="mx-auto mt-12 grid w-full max-w-7xl grid-cols-1 items-start gap-16 md:mt-16 lg:mt-20 lg:grid-cols-[minmax(280px,450px)_minmax(0,750px)] lg:gap-20">
+			<div className="mx-auto mt-12 grid w-full max-w-7xl grid-cols-1 items-start gap-16 md:mt-16 lg:mt-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-20">
 				<ServiceVisual
 					activeIndex={activeIndex}
 					prefersReducedMotion={Boolean(prefersReducedMotion)}
@@ -231,7 +231,7 @@ const ServiceImage = ({
 	service: Service
 	prefersReducedMotion?: boolean
 }) => (
-	<div className="aspect-[450/271.09] w-full rounded-sm bg-muted p-5">
+	<div className="aspect-[450/271.09] w-full rounded-sm bg-muted p-2.5 md:p-4">
 		<div className="size-full overflow-hidden rounded-sm">
 			<motion.img
 				key={service.number}
@@ -377,11 +377,7 @@ const ServiceAccordion = ({
 		<summary className="flex cursor-pointer list-none items-center gap-6 overflow-clip border-t border-foreground py-4 font-medium transition-[padding] duration-200 hover:px-4 focus-visible:px-4 focus-visible:outline-none [&::-webkit-details-marker]:hidden">
 			<span className="min-w-0 flex-1">{label}</span>
 			<span className="flex size-6 shrink-0 items-center justify-center">
-				<img
-					src={AccordionCloseIcon}
-					alt=""
-					className="size-2.5 rotate-45 transition-transform duration-200 group-open:rotate-0 motion-reduce:transition-none"
-				/>
+				<AccordionIcon className="size-2.5 rotate-45 transition-transform duration-200 group-open:rotate-0 motion-reduce:transition-none" />
 			</span>
 		</summary>
 		<div className="py-4">{children}</div>
