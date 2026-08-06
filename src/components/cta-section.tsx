@@ -34,18 +34,23 @@ export const CtaSection = () => {
 										<span className="block w-full font-display text-[clamp(2.25rem,5.3vw,4.75rem)] font-semibold leading-[1.2] tracking-[-0.015em] md:min-w-0">
 											Tell us about your project
 										</span>
-										<span className="flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-primary-foreground sm:size-12 sm:border-3 md:size-14 lg:size-18 xl:size-20 lg:border-5 self-center">
+										<span className="relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-primary-foreground sm:size-12 sm:border-3 md:size-14 lg:size-18 xl:size-20 lg:border-5 self-center">
 											<img
 												src={ArrowForwardIcon}
 												alt=""
-												className="size-5 md:size-7 lg:size-10"
+												className="absolute size-5 transition-transform duration-300 ease-linear group-hover/button:translate-x-[200%] group-focus-visible/button:translate-x-[200%] motion-reduce:transition-none motion-reduce:group-hover/button:translate-x-0 motion-reduce:group-focus-visible/button:translate-x-0 md:size-7 lg:size-10"
+											/>
+											<img
+												src={ArrowForwardIcon}
+												alt=""
+												className="absolute size-5 -translate-x-[200%] transition-transform duration-300 ease-linear group-hover/button:translate-x-0 group-focus-visible/button:translate-x-0 motion-reduce:transition-none motion-reduce:group-hover/button:-translate-x-[200%] motion-reduce:group-focus-visible/button:-translate-x-[200%] md:size-7 lg:size-10"
 											/>
 										</span>
 									</>
 								),
 								variant: "default",
 								className:
-									"flex h-auto w-full flex-col items-stretch gap-6 rounded-none border-0 bg-transparent px-0 py-0 md:text-left text-primary-foreground whitespace-normal shadow-none transition-[padding,transform] duration-250 hover:bg-transparent hover:px-4 focus-visible:px-4 active:scale-[0.99] md:flex-row md:items-end md:justify-between",
+									"flex h-auto w-full flex-col items-stretch gap-6 rounded-none border-0 bg-transparent px-0 py-0 md:text-left text-primary-foreground whitespace-normal shadow-none transition-[padding,transform] duration-250 hover:bg-transparent hover:pl-4 focus-visible:px-4 active:scale-[0.99] md:flex-row md:items-end md:justify-between",
 							}}
 						/>
 					</div>

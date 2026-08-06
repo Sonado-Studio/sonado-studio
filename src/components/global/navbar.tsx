@@ -99,7 +99,7 @@ export const Navbar = () => {
 							<li key={navLink.title}>
 								<a
 									href={navLink.url}
-									className="rounded-sm transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
+									className="rounded-sm bg-transparent px-2.5 py-1 transition-colors duration-300 ease-out hover:bg-primary-foreground/15 focus-visible:bg-primary-foreground/15 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
 								>
 									{navLink.title}
 								</a>
@@ -109,8 +109,9 @@ export const Navbar = () => {
 					<ContactModal
 						triggerProps={{
 							label: "Contact",
-							variant: "default",
-							className: "h-10 rounded-sm px-5 py-2",
+							variant: "link",
+							className:
+								"h-auto rounded-sm bg-transparent px-2.5 py-1 text-base font-medium text-primary-foreground no-underline transition-colors duration-300 ease-out hover:bg-primary-foreground/15 hover:no-underline focus-visible:bg-primary-foreground/15 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-primary",
 						}}
 					/>
 				</div>
@@ -160,7 +161,7 @@ export const Navbar = () => {
 											<a
 												href={navLink.url}
 												onClick={closeMobileMenu}
-												className="block w-full rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+												className="block w-fit rounded-sm bg-transparent px-2.5 py-1 transition-colors duration-300 ease-out hover:bg-primary-foreground/15 focus-visible:bg-primary-foreground/15 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
 											>
 												{navLink.title}
 											</a>
@@ -172,7 +173,7 @@ export const Navbar = () => {
 												label: "Contact",
 												variant: "link",
 												className:
-													"h-auto justify-start p-0 font-display text-[2.5rem] font-semibold leading-[1.2] tracking-[-0.015em] text-primary-foreground no-underline hover:no-underline",
+													"h-auto justify-start rounded-sm bg-transparent px-2.5 py-1 font-display text-[2.5rem] font-semibold leading-[1.2] tracking-[-0.015em] text-primary-foreground no-underline transition-colors duration-300 ease-out hover:bg-primary-foreground/15 hover:no-underline focus-visible:bg-primary-foreground/15 motion-reduce:transition-none",
 											}}
 										/>
 									</li>
@@ -182,7 +183,7 @@ export const Navbar = () => {
 									<div className="flex flex-col gap-1">
 										<a
 											href="mailto:hello@sonadostudio.com"
-											className="rounded-sm underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+											className="rounded-sm underline hover:underline-offset-2 focus-visible:bg-primary-foreground/15 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
 										>
 											hello@sonadostudio.com
 										</a>

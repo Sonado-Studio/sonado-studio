@@ -2,10 +2,7 @@ import { Link } from "@tanstack/react-router"
 import { ArrowUp } from "lucide-react"
 import SonadoMark from "@/assets/logos/sonado-studio-icon.svg"
 import { ContactModal } from "@/components/global/form/contact-modal"
-import {
-	InstagramIcon,
-	LinkedInIcon,
-} from "@/components/global/social-icons"
+import { InstagramIcon, LinkedInIcon } from "@/components/global/social-icons"
 
 const navigationLinks = [
 	{ label: "Work", href: "#work-section" },
@@ -18,8 +15,10 @@ const socialLinks = [
 	{ label: "LinkedIn", href: "#footer", icon: LinkedInIcon },
 ]
 
-const footerLinkClassName =
-	"transition-opacity duration-200 hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground focus-visible:ring-offset-4 focus-visible:ring-offset-primary"
+const footerFocusClassName =
+	"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground focus-visible:ring-offset-4 focus-visible:ring-offset-primary"
+
+const footerTextLinkClassName = `${footerFocusClassName} rounded-sm bg-transparent px-2.5 py-1 transition-colors duration-300 ease-out hover:bg-primary-foreground/15 focus-visible:bg-primary-foreground/15 motion-reduce:transition-none`
 
 export const Footer = () => {
 	return (
@@ -32,7 +31,7 @@ export const Footer = () => {
 					<Link
 						to="/"
 						aria-label="Sonado Studio home"
-						className={`justify-self-start rounded-full ${footerLinkClassName}`}
+						className={`justify-self-start rounded-full ${footerFocusClassName}`}
 					>
 						<img src={SonadoMark} alt="" className="size-14 md:size-18" />
 					</Link>
@@ -43,7 +42,7 @@ export const Footer = () => {
 								<li key={link.label}>
 									<a
 										href={link.href}
-										className={`text-base font-medium ${footerLinkClassName}`}
+										className={`text-base font-medium ${footerTextLinkClassName}`}
 									>
 										{link.label}
 									</a>
@@ -55,7 +54,7 @@ export const Footer = () => {
 										label: "Contact",
 										variant: "link",
 										className:
-											"h-auto p-0 text-base font-medium text-primary-foreground no-underline transition-opacity duration-200 hover:opacity-70 hover:no-underline",
+											"h-auto rounded-sm bg-transparent px-2.5 py-1 text-base font-medium text-primary-foreground no-underline transition-colors duration-300 ease-out hover:bg-primary-foreground/15 hover:no-underline focus-visible:bg-primary-foreground/15 motion-reduce:transition-none",
 									}}
 								/>
 							</li>
@@ -66,7 +65,7 @@ export const Footer = () => {
 						<div className="space-y-1">
 							<a
 								href="mailto:hello@sonadostudio.com"
-								className={footerLinkClassName}
+								className="hover:underline hover:underline-offset-2"
 							>
 								hello@sonadostudio.com
 							</a>
@@ -77,7 +76,7 @@ export const Footer = () => {
 								<li key={label}>
 									<a
 										href={href}
-										className={`flex size-8 items-center justify-center ${footerLinkClassName}`}
+										className={`flex size-8 items-center justify-center ${footerFocusClassName}`}
 									>
 										<span className="sr-only">{label}</span>
 										<Icon
@@ -92,27 +91,23 @@ export const Footer = () => {
 				</div>
 
 				<div className="mt-12 border-t border-primary-foreground/60 pt-8 lg:mt-5">
-					<div className="flex flex-col items-center justify-center gap-4 text-center text-sm md:flex-row md:gap-6">
+					<div className="flex flex-col items-center justify-between gap-4 text-center text-sm md:flex-row md:gap-2">
 						<p>
 							© {new Date().getFullYear()} Sonado Studio. All rights reserved.
 						</p>
-						<a
-							href="#footer"
-							className={`underline underline-offset-2 ${footerLinkClassName}`}
-						>
-							Privacy Policy
-						</a>
-						<a
-							href="#footer"
-							className={`underline underline-offset-2 ${footerLinkClassName}`}
-						>
-							Cookie Settings
-						</a>
+						<div>
+							<a href="#footer" className={footerTextLinkClassName}>
+								Privacy Policy
+							</a>
+							<a href="#footer" className={footerTextLinkClassName}>
+								Cookie Settings
+							</a>
+						</div>
 					</div>
 
 					<a
 						href="#navbar"
-						className={`mx-auto mt-5 flex min-h-13 w-fit items-center justify-center gap-2 text-sm ${footerLinkClassName}`}
+						className={`mx-auto mt-5 flex min-h-13 w-fit items-center justify-center gap-2 text-sm ${footerTextLinkClassName}`}
 					>
 						<span>Back to top</span>
 						<span className="flex size-6 items-center justify-center rounded-full border border-primary-foreground">
