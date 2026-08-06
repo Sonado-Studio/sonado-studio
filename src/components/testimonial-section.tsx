@@ -120,7 +120,7 @@ export const TestimonialSection = () => {
 								ease: "easeOut",
 							}}
 						>
-							<blockquote className="font-display text-[clamp(1.4rem,2.6vw,2.3rem)] font-medium leading-[1.15] tracking-[-0.025em] text-foreground">
+							<blockquote className="font-display text-[clamp(1.4rem,2.6vw,2.3rem)] font-medium leading-[1.2] tracking-[-0.025em] text-foreground">
 								&ldquo;{activeTestimonial.quote}&rdquo;
 							</blockquote>
 							<figcaption className="mt-8 font-sans text-base leading-6 text-muted-foreground md:mt-10 md:text-lg md:leading-7">

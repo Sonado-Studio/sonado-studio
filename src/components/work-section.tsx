@@ -1,3 +1,33 @@
+import AtsBackground from "@/assets/layout/portfolio/ats/ats-bg.webp"
+import AtsScreen1 from "@/assets/layout/portfolio/ats/ats-screen-1.webp"
+import AtsScreen2 from "@/assets/layout/portfolio/ats/ats-screen-2.webp"
+import AtsScreen3 from "@/assets/layout/portfolio/ats/ats-screen-3.webp"
+import AtsScreen4 from "@/assets/layout/portfolio/ats/ats-screen-4.webp"
+import AtsScreen5 from "@/assets/layout/portfolio/ats/ats-screen-5.webp"
+import AwaloBackground from "@/assets/layout/portfolio/awalo/awalo-bg.webp"
+import AwaloScreen1 from "@/assets/layout/portfolio/awalo/awalo-screen-1.webp"
+import AwaloScreen2 from "@/assets/layout/portfolio/awalo/awalo-screen-2.webp"
+import AwaloScreen3 from "@/assets/layout/portfolio/awalo/awalo-screen-3.webp"
+import AwaloScreen4 from "@/assets/layout/portfolio/awalo/awalo-screen-4.webp"
+import AwaloScreen5 from "@/assets/layout/portfolio/awalo/awalo-screen-5.webp"
+import LinarcBackground from "@/assets/layout/portfolio/linarc/linarc-bg.webp"
+import LinarcScreen1 from "@/assets/layout/portfolio/linarc/linarc-screen-1.webp"
+import LinarcScreen2 from "@/assets/layout/portfolio/linarc/linarc-screen-2.webp"
+import LinarcScreen3 from "@/assets/layout/portfolio/linarc/linarc-screen-3.webp"
+import LinarcScreen4 from "@/assets/layout/portfolio/linarc/linarc-screen-4.webp"
+import LinarcScreen5 from "@/assets/layout/portfolio/linarc/linarc-screen-5.webp"
+import OmpBackground from "@/assets/layout/portfolio/omp/omp-bg.webp"
+import OmpScreen1 from "@/assets/layout/portfolio/omp/omp-screen-1.webp"
+import OmpScreen2 from "@/assets/layout/portfolio/omp/omp-screen-2.webp"
+import OmpScreen3 from "@/assets/layout/portfolio/omp/omp-screen-3.webp"
+import OmpScreen4 from "@/assets/layout/portfolio/omp/omp-screen-4.webp"
+import OmpScreen5 from "@/assets/layout/portfolio/omp/omp-screen-5.webp"
+import TheGardenBackground from "@/assets/layout/portfolio/the-garden/the-garden-bg.webp"
+import TheGardenScreen1 from "@/assets/layout/portfolio/the-garden/the-garden-screen-1.webp"
+import TheGardenScreen2 from "@/assets/layout/portfolio/the-garden/the-garden-screen-2.webp"
+import TheGardenScreen3 from "@/assets/layout/portfolio/the-garden/the-garden-screen-3.webp"
+import TheGardenScreen4 from "@/assets/layout/portfolio/the-garden/the-garden-screen-4.webp"
+import TheGardenScreen5 from "@/assets/layout/portfolio/the-garden/the-garden-screen-5.webp"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 
@@ -6,31 +36,136 @@ type SelectedProject = {
 	description: string
 	tags: string[]
 	imagePosition: "left" | "right"
+	media?: {
+		background: string
+		screens: string[]
+	}
 }
+
+const theGardenScreens = [
+	TheGardenScreen1,
+	TheGardenScreen2,
+	TheGardenScreen3,
+	TheGardenScreen4,
+	TheGardenScreen5,
+]
+
+const awaloScreens = [
+	AwaloScreen1,
+	AwaloScreen2,
+	AwaloScreen3,
+	AwaloScreen4,
+	AwaloScreen5,
+]
+
+const atsScreens = [AtsScreen1, AtsScreen2, AtsScreen3, AtsScreen4, AtsScreen5]
+
+const linarcScreens = [
+	LinarcScreen1,
+	LinarcScreen2,
+	LinarcScreen3,
+	LinarcScreen4,
+	LinarcScreen5,
+]
+
+const ompScreens = [OmpScreen1, OmpScreen2, OmpScreen3, OmpScreen4, OmpScreen5]
+
+const portfolioScreenDelays = ["-1s", "-17s", "-13s", "-9s", "-5s"]
 
 const selectedProjects: SelectedProject[] = [
 	{
 		title: "The Garden",
 		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla.",
-		tags: ["Brand Identity", "Website", "CMS"],
+			"The Garden is a mental health and wellness platform helping people in Kenya find trusted information, events, and care providers. We created a warm, approachable yet empowering brand identity and Webflow website designed to make sensitive information feel clear, welcoming, and easy to navigate.",
+		tags: ["Brand Identity", "Website Design", "Webflow Development"],
 		imagePosition: "left",
+		media: {
+			background: TheGardenBackground,
+			screens: theGardenScreens,
+		},
 	},
 	{
-		title: "Awalo",
+		title: "Linarc Design Studio",
 		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla.",
-		tags: ["Brand Identity", "Product Design", "Website"],
+			"Linarc is an architecture and interior design studio shaping Africa’s built environment through innovative, functional, and sustainable work. We designed and built a refined Webflow website that reflects the studio’s next chapter and gives its team an easy way to showcase a growing portfolio of impressive projects.",
+		tags: ["Website Design", "Webflow Development"],
 		imagePosition: "right",
+		media: {
+			background: LinarcBackground,
+			screens: linarcScreens,
+		},
 	},
 	{
 		title: "Opportunity Music Project",
 		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla.",
-		tags: ["Website", "CMS"],
+			"Opportunity Music Project is a New York nonprofit helping young people pursue their passion for music, regardless of economic background. We created a warm and joyful Squarespace website that makes programmes, schedules, events, and ways to support the organisation easier to discover.",
+		tags: ["Website Design", "Squarespace Development"],
 		imagePosition: "left",
+		media: {
+			background: OmpBackground,
+			screens: ompScreens,
+		},
+	},
+	{
+		title: "Awalo",
+		description:
+			"Awalo supports founders from the Global South building impactful and scalable ventures through strategic consulting, practical tools, and digital products. We created a bold, empowering brand and website, while also leading UI/UX design and frontend development for its internal platform.",
+		tags: [
+			"Brand Identity",
+			"Website Design",
+			"Product Design",
+			"Frontend Development",
+		],
+		imagePosition: "right",
+		media: {
+			background: AwaloBackground,
+			screens: awaloScreens,
+		},
+	},
+	{
+		title: "ATS Travel",
+		description:
+			"After 25 years in the travel industry, ATS Travel needed a more contemporary brand presence that could speak confidently to corporate clients. We designed and built a polished Webflow website that communicates the company’s experience, professionalism, and high-touch approach to travel.",
+		tags: ["Website Design", "Webflow Development"],
+		imagePosition: "left",
+		media: {
+			background: AtsBackground,
+			screens: atsScreens,
+		},
 	},
 ]
+
+const ProjectMedia = ({ project }: { project: SelectedProject }) => {
+	if (!project.media) {
+		return <div className="aspect-1522/1000 w-full rounded-sm bg-muted" />
+	}
+
+	return (
+		<div className="relative aspect-1522/1000 w-full overflow-hidden rounded-sm bg-muted">
+			<img
+				src={project.media.background}
+				alt=""
+				className="absolute inset-0 size-full object-cover"
+				loading="lazy"
+				decoding="async"
+			/>
+
+			<div className="absolute top-1/2 left-1/2 aspect-2100/1282 w-[93%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-sm">
+				{project.media.screens.map((screen, index) => (
+					<img
+						key={screen}
+						src={screen}
+						alt=""
+						className="portfolio-screen-crossfade absolute inset-0 size-full object-cover"
+						style={{ animationDelay: portfolioScreenDelays[index] }}
+						loading="lazy"
+						decoding="async"
+					/>
+				))}
+			</div>
+		</div>
+	)
+}
 
 const SelectedWorkCard = ({ project }: { project: SelectedProject }) => {
 	const isImageRight = project.imagePosition === "right"
@@ -46,11 +181,10 @@ const SelectedWorkCard = ({ project }: { project: SelectedProject }) => {
 		>
 			<div
 				aria-hidden="true"
-				className={cn(
-					"aspect-[763.885/587.287] w-full rounded-sm bg-muted",
-					isImageRight && "lg:order-2",
-				)}
-			/>
+				className={cn("w-full", isImageRight && "lg:order-2")}
+			>
+				<ProjectMedia project={project} />
+			</div>
 
 			<div
 				className={cn(
@@ -59,7 +193,7 @@ const SelectedWorkCard = ({ project }: { project: SelectedProject }) => {
 				)}
 			>
 				<div className="flex w-full flex-col gap-6">
-					<h3 className="text-[2rem] leading-[1.2] tracking-[-0.015em] lg:text-5xl">
+					<h3 className="text-[2rem] leading-[1.2] tracking-[-0.015em] lg:text-5xl text-pretty">
 						{project.title}
 					</h3>
 					<p className="text-base leading-6 text-foreground">
@@ -73,16 +207,12 @@ const SelectedWorkCard = ({ project }: { project: SelectedProject }) => {
 				>
 					{project.tags.map((tag) => (
 						<li key={tag}>
-							<Badge className="h-auto border-secondary/20 bg-muted px-2 py-1 text-sm leading-normal tracking-normal">
+							<Badge className="h-auto border-secondary/20 bg-muted px-2 py-1 text-sm leading-normal tracking-normal text-accent">
 								{tag}
 							</Badge>
 						</li>
 					))}
 				</ul>
-
-				<p className="mt-8 text-base leading-6 text-foreground">
-					Case Study Coming Soon
-				</p>
 			</div>
 		</article>
 	)
