@@ -82,7 +82,7 @@ const services: Service[] = [
 		summary:
 			"Focused marketing websites that help businesses show up confidently, communicate their value clearly, and guide visitors toward taking action.",
 		image: MarketingWebsiteImage,
-		imageAlt: "Opportunity Music Project marketing website",
+		imageAlt: "My Happy Everything marketing website",
 		listHeading: "What’s included",
 		features: [
 			"Website strategy & page structure",
