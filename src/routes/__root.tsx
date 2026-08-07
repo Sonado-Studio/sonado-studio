@@ -22,12 +22,54 @@ export const Route = createRootRoute({
 					"Sonado Studio is a digital design and development studio helping ambitious businesses build distinctive brands, websites, and digital products.",
 			},
 			{
+				property: "og:type",
+				content: "website",
+			},
+			{
+				property: "og:title",
+				content: "Sonado Studio",
+			},
+			{
+				property: "og:description",
+				content:
+					"A founder-led creative and technology studio creating distinctive brands and carefully crafted websites.",
+			},
+			{
 				title: "Sonado Studio",
 			},
-			// {
-			//   property: 'og:image',
-			//   content: "/open-graph.png",
-			// },
+			{
+				property: "og:image",
+				content: "/open-graph.png",
+			},
+			{
+				property: "og:image:width",
+				content: "1200",
+			},
+			{
+				property: "og:image:height",
+				content: "668",
+			},
+			{
+				property: "og:image:alt",
+				content: "Sonado Studio — thoughtfully designed, beautifully built.",
+			},
+			{
+				name: "twitter:card",
+				content: "summary_large_image",
+			},
+			{
+				name: "twitter:title",
+				content: "Sonado Studio",
+			},
+			{
+				name: "twitter:description",
+				content:
+					"A founder-led creative and technology studio creating distinctive brands and carefully crafted websites.",
+			},
+			{
+				name: "twitter:image",
+				content: "/open-graph.png",
+			},
 			{
 				name: "apple-mobile-web-app-title",
 				content: "Sonado Studio",
