@@ -70,7 +70,13 @@ const linarcScreens = [
 
 const ompScreens = [OmpScreen1, OmpScreen2, OmpScreen3, OmpScreen4, OmpScreen5]
 
-const portfolioScreenDelays = ["-1s", "-17s", "-13s", "-9s", "-5s"]
+const portfolioScreenDelays = [
+	"-0.5s",
+	"-8.5s",
+	"-6.5s",
+	"-4.5s",
+	"-2.5s",
+]
 
 const selectedProjects: SelectedProject[] = [
 	{
@@ -150,7 +156,7 @@ const ProjectMedia = ({ project }: { project: SelectedProject }) => {
 				decoding="async"
 			/>
 
-			<div className="absolute top-1/2 left-1/2 aspect-2100/1282 w-[93%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-sm">
+			<div className="absolute top-1/2 left-1/2 aspect-2100/1282 w-[90%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-sm">
 				{project.media.screens.map((screen, index) => (
 					<img
 						key={screen}
@@ -223,7 +229,7 @@ export const WorkSection = () => {
 		<section
 			id="work-section"
 			aria-labelledby="selected-work-heading"
-			className="w-full bg-background px-5 py-16 md:px-8 md:py-24 lg:px-16 lg:py-28"
+			className="relative z-10 w-full scroll-mt-16 rounded-t-2xl bg-background px-5 py-16 md:rounded-t-3xl md:px-8 md:py-24 lg:scroll-mt-18 lg:px-16 lg:py-28"
 		>
 			<div className="mx-auto w-full max-w-7xl">
 				<h2

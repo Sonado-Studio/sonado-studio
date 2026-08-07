@@ -16,8 +16,10 @@ function App() {
 	return (
 		<main className="flex flex-1 flex-col items-center justify-center text-lg bg-background">
 			<HeaderSection />
-			<IntroSection />
-			<WorkSection />
+			<div className="relative isolate w-full">
+				<IntroSection />
+				<WorkSection />
+			</div>
 			<TestimonialSection />
 			<ServicesSection />
 			<ProcessSection />

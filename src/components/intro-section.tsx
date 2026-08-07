@@ -32,7 +32,7 @@ export const IntroSection = () => {
 		<section
 			id="intro-section"
 			aria-labelledby="intro-heading"
-			className="w-full bg-primary px-5 py-16 text-primary-foreground md:px-8 md:py-24 lg:px-16 lg:py-28"
+			className="sticky top-16 z-0 w-full bg-primary px-5 py-16 text-primary-foreground md:px-8 md:py-24 lg:top-18 lg:px-16 lg:py-28"
 		>
 			<div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-16 lg:grid-cols-[minmax(0,7fr)_minmax(0,8fr)] lg:gap-12 xl:grid-cols-[560px_minmax(0,1fr)] xl:gap-20">
 				<div className="min-w-0">

@@ -31,12 +31,16 @@ const defaultValues: z.infer<typeof contactFormSchema> = {
 	email: "",
 	service: "Brand Strategy Intensive",
 	message: "",
-	budget: "<Ksh 30k-60k",
+	budget: null,
 	referralSource: null,
 	acceptTerms: false,
 }
 
 type ServiceOptionValue = z.infer<typeof contactFormSchema>["service"]
+type BudgetOptionValue = Exclude<
+	z.infer<typeof contactFormSchema>["budget"],
+	null
+>
 
 const serviceOptions: {
 	value: ServiceOptionValue
@@ -53,6 +57,15 @@ const serviceOptions: {
 	{
 		value: "Custom Digital Product / Web App",
 	},
+]
+
+const budgetOptions: { value: BudgetOptionValue; label: string }[] = [
+	{ value: "<Ksh 30k-60k", label: "<Ksh 30k–60k" },
+	{ value: "Ksh 60k-120k", label: "Ksh 60k–120k" },
+	{ value: "Ksh 120k-250k", label: "Ksh 120k–250k" },
+	{ value: "Ksh 250k-500k", label: "Ksh 250k–500k" },
+	{ value: "Ksh 500k+", label: "Ksh 500k+" },
+	{ value: "Not sure yet", label: "Not sure yet" },
 ]
 
 type ReferralOptionValue = Exclude<
@@ -80,10 +93,6 @@ type ContactModalProps = {
 }
 
 export const ContactModal = ({ triggerProps }: ContactModalProps) => {
-	// const [acceptTerms, setAcceptTerms] = useState<boolean | "indeterminate">(
-	// 	false,
-	// )
-
 	const form = useForm({
 		defaultValues,
 		validators: {
@@ -188,7 +197,7 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 												<RadioGroup
 													value={field.state.value}
 													onValueChange={(value) => field.handleChange(value)}
-													className="grid gap-3 lg:grid-cols-3 md:grid-cols-2"
+													className="grid gap-2 md:grid-cols-2 lg:grid-cols-4"
 												>
 													{serviceOptions.map((option) => {
 														const isSelected =
@@ -206,7 +215,7 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 																<Label
 																	htmlFor={id}
 																	className={cn(
-																		"flex cursor-pointer flex-col rounded-md border p-3 transition-colors items-center justify-center h-full text-center",
+																		"flex min-h-14 h-full cursor-pointer items-center justify-center rounded-md border px-2 py-2 text-center text-sm leading-tight transition-colors",
 																		isSelected
 																			? "border-secondary bg-primary text-primary-foreground"
 																			: "border-border hover:border-primary/60",
@@ -267,17 +276,20 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 													id={field.name}
 													aria-invalid={!field.state.meta.isValid}
 												>
-													<SelectValue placeholder="Select your budget range" />
+													<SelectValue placeholder="Select your budget range">
+														{(value: BudgetOptionValue | null) =>
+															budgetOptions.find(
+																(option) => option.value === value,
+															)?.label ?? "Select your budget range"
+														}
+													</SelectValue>
 												</SelectTrigger>
 												<SelectContent>
-													<SelectItem value="<$1000">&lt;$1,000</SelectItem>
-													<SelectItem value="$1000-$3000">
-														$1,000–$3,000
-													</SelectItem>
-													<SelectItem value="$3000-$5000">
-														$3,000–$5,000
-													</SelectItem>
-													<SelectItem value="$5000+">$5,000+</SelectItem>
+													{budgetOptions.map((option) => (
+														<SelectItem key={option.value} value={option.value}>
+															{option.label}
+														</SelectItem>
+													))}
 												</SelectContent>
 											</Select>
 											<FieldInfo field={field} />
@@ -288,46 +300,39 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 								<form.Field
 									name="referralSource"
 									children={(field) => (
-										<div className="flex flex-col space-y-1">
-											<Label>How did you hear about us?</Label>
-											<RadioGroup
-												value={field.state.value ?? ""}
+										<div className="flex flex-col space-y-2">
+											<Label htmlFor={field.name}>
+												How did you hear about us?
+											</Label>
+											<Select
+												value={field.state.value}
 												onValueChange={(value) =>
-													field.handleChange(value as ReferralOptionValue)
-												}
-												className="grid gap-2 lg:grid-cols-4 md:grid-cols-2"
-											>
-												{referralOptions.map((option) => {
-													const isSelected = field.state.value === option.value
-													const id = `referral-${option.value}`
-
-													return (
-														<div key={option.value}>
-															<RadioGroupItem
-																value={option.value}
-																id={id}
-																className="sr-only"
-																aria-hidden="true"
-															/>
-															<Label
-																htmlFor={id}
-																className={cn(
-																	"flex cursor-pointer flex-col rounded-md border p-3 transition-colors text-sm text-center h-full items-center justify-center",
-																	isSelected
-																		? "border-secondary bg-primary text-primary-foreground"
-																		: "border-border hover:border-primary/60",
-																)}
-															>
-																<span
-																	className={cn(isSelected && "font-semibold")}
-																>
-																	{option.label}
-																</span>
-															</Label>
-														</div>
+													field.handleChange(
+														value as ReferralOptionValue | null,
 													)
-												})}
-											</RadioGroup>
+												}
+											>
+												<SelectTrigger
+													id={field.name}
+													className="w-full"
+													aria-invalid={!field.state.meta.isValid}
+												>
+													<SelectValue placeholder="Select a referral source">
+														{(value: ReferralOptionValue | null) =>
+															referralOptions.find(
+																(option) => option.value === value,
+															)?.label ?? "Select a referral source"
+														}
+													</SelectValue>
+												</SelectTrigger>
+												<SelectContent>
+													{referralOptions.map((option) => (
+														<SelectItem key={option.value} value={option.value}>
+															{option.label}
+														</SelectItem>
+													))}
+												</SelectContent>
+											</Select>
 											<FieldInfo field={field} />
 										</div>
 									)}
@@ -341,6 +346,7 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 												<Checkbox
 													id={field.name}
 													checked={field.state.value}
+													required
 													onCheckedChange={(checked) =>
 														field.handleChange(Boolean(checked))
 													}
@@ -353,7 +359,6 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 													I understand this form is a project enquiry and not a
 													confirmed booking. Sonado Studio will review my
 													submission before arranging a discovery call.
-													<span className="text-accent -ml-1">*</span>
 												</Label>
 											</div>
 											<FieldInfo field={field} />
@@ -361,9 +366,22 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 									)}
 								/>
 
-								<div className="flex">
-									<Button type="submit">Send project enquiry</Button>
-								</div>
+								<form.Subscribe
+									selector={(state) =>
+										[state.values.acceptTerms, state.isSubmitting] as const
+									}
+								>
+									{([acceptTerms, isSubmitting]) => (
+										<div className="flex">
+											<Button
+												type="submit"
+												disabled={!acceptTerms || isSubmitting}
+											>
+												{isSubmitting ? "Sending…" : "Send project enquiry"}
+											</Button>
+										</div>
+									)}
+								</form.Subscribe>
 							</form>
 						</div>
 					</SheetContent>

@@ -1,6 +1,25 @@
 import MobileWordmark from "@/assets/layout/hero/sonado-studio-wordmark-mobile.svg"
 import SonadoWordmark from "@/assets/layout/hero/sonado-wordmark.svg"
 import StudioWordmark from "@/assets/layout/hero/studio-wordmark.svg"
+import HeroScreen1 from "@/assets/layout/hero/screens/hero-screen-1.webp"
+import HeroScreen2 from "@/assets/layout/hero/screens/hero-screen-2.webp"
+import HeroScreen3 from "@/assets/layout/hero/screens/hero-screen-3.webp"
+import HeroScreen4 from "@/assets/layout/hero/screens/hero-screen-4.webp"
+import HeroScreen5 from "@/assets/layout/hero/screens/hero-screen-5.webp"
+import HeroScreen6 from "@/assets/layout/hero/screens/hero-screen-6.webp"
+import HeroScreen7 from "@/assets/layout/hero/screens/hero-screen-7.webp"
+import HeroScreen8 from "@/assets/layout/hero/screens/hero-screen-8.webp"
+
+const heroScreens = [
+	HeroScreen1,
+	HeroScreen2,
+	HeroScreen3,
+	HeroScreen4,
+	HeroScreen5,
+	HeroScreen6,
+	HeroScreen7,
+	HeroScreen8,
+]
 
 export const HeaderSection = () => {
 	return (
@@ -19,10 +38,30 @@ export const HeaderSection = () => {
 			</div>
 
 			<div
-				aria-label="Video coming soon"
-				className="min-h-0 bg-[#858585]"
+				aria-label="A rotating selection of Sonado Studio work"
+				className="relative min-h-0 overflow-hidden bg-[#858585]"
 				role="img"
-			/>
+			>
+				<img
+					src={HeroScreen1}
+					alt=""
+					className="absolute inset-0 size-full object-cover object-center"
+					fetchPriority="high"
+					decoding="async"
+				/>
+
+				{heroScreens.map((screen, index) => (
+					<img
+						key={screen}
+						src={screen}
+						alt=""
+						className="hero-screen-crossfade absolute inset-0 size-full object-cover object-center"
+						style={{ animationDelay: `${index * 2.5}s` }}
+						loading={index === 0 ? "eager" : "lazy"}
+						decoding="async"
+					/>
+				))}
+			</div>
 
 			<div
 				aria-hidden="true"

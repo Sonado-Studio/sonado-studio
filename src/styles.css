@@ -252,7 +252,26 @@ code {
 
 .portfolio-screen-crossfade {
 	opacity: 0;
-	animation: portfolio-screen-crossfade 20s linear infinite;
+	animation: portfolio-screen-crossfade 10s linear infinite;
+}
+
+@keyframes hero-screen-crossfade {
+  0% {
+    opacity: 0;
+  }
+  2.5%,
+  12.5% {
+    opacity: 1;
+  }
+  15%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.hero-screen-crossfade {
+  opacity: 0;
+  animation: hero-screen-crossfade 20s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -263,5 +282,10 @@ code {
 
 	.portfolio-screen-crossfade:first-child {
     opacity: 1;
+  }
+
+  .hero-screen-crossfade {
+    opacity: 0;
+    animation: none;
   }
 }
