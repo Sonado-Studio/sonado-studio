@@ -2,6 +2,7 @@
 "use client"
 import { useForm } from "@tanstack/react-form"
 import type { ComponentProps, ReactNode } from "react"
+import { useRef, useState } from "react"
 import type { z } from "zod"
 import { FieldInfo } from "@/components/global/form/field-info"
 import { Button } from "@/components/ui/button"
@@ -55,7 +56,7 @@ const serviceOptions: {
 		value: "Marketing Website",
 	},
 	{
-		value: "Custom Digital Product / Web App",
+		value: "Custom Digital Product",
 	},
 ]
 
@@ -83,6 +84,10 @@ const referralOptions: { value: ReferralOptionValue; label: string }[] = [
 	{ value: "other", label: "Other" },
 ]
 
+const netlifyFormName = "sonado-project-enquiry"
+
+type SubmissionStatus = "idle" | "success" | "error"
+
 type ContactModalProps = {
 	triggerProps?: {
 		label?: ReactNode
@@ -93,13 +98,54 @@ type ContactModalProps = {
 }
 
 export const ContactModal = ({ triggerProps }: ContactModalProps) => {
+	const honeypotRef = useRef<HTMLInputElement>(null)
+	const [submissionStatus, setSubmissionStatus] =
+		useState<SubmissionStatus>("idle")
+
 	const form = useForm({
 		defaultValues,
 		validators: {
 			onSubmit: contactFormSchema,
 		},
-		onSubmit: (values) => {
-			console.log(values)
+		onSubmit: async ({ value }) => {
+			setSubmissionStatus("idle")
+
+			const selectedBudget = budgetOptions.find(
+				(option) => option.value === value.budget,
+			)
+			const selectedReferral = referralOptions.find(
+				(option) => option.value === value.referralSource,
+			)
+			const body = new URLSearchParams({
+				"form-name": netlifyFormName,
+				"bot-field": honeypotRef.current?.value ?? "",
+				fullName: value.fullName,
+				email: value.email,
+				service: value.service ?? "",
+				message: value.message ?? "",
+				budget: selectedBudget?.label ?? "",
+				referralSource: selectedReferral?.label ?? "",
+				acceptTerms: value.acceptTerms ? "Yes" : "No",
+			})
+
+			try {
+				const response = await fetch("/", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded",
+					},
+					body: body.toString(),
+				})
+
+				if (!response.ok) {
+					throw new Error(`Oops! Something went wrong: ${response.status}`)
+				}
+
+				form.reset()
+				setSubmissionStatus("success")
+			} catch {
+				setSubmissionStatus("error")
+			}
 		},
 	})
 
@@ -134,6 +180,10 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 							</div>
 
 							<form
+								name={netlifyFormName}
+								method="POST"
+								data-netlify="true"
+								data-netlify-honeypot="bot-field"
 								className="grid grid-cols-1 grid-rows-[auto_auto] gap-8"
 								onSubmit={(e) => {
 									e.preventDefault()
@@ -141,6 +191,21 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 									form.handleSubmit()
 								}}
 							>
+								<input type="hidden" name="form-name" value={netlifyFormName} />
+								<p className="sr-only" aria-hidden="true">
+									<label htmlFor="bot-field">
+										Do not fill out this field if you are human
+									</label>
+									<input
+										ref={honeypotRef}
+										id="bot-field"
+										name="bot-field"
+										type="text"
+										tabIndex={-1}
+										autoComplete="off"
+									/>
+								</p>
+
 								<form.Field
 									name="fullName"
 									children={(field) => (
@@ -151,6 +216,7 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 											</Label>
 											<Input
 												id={field.name}
+												name={field.name}
 												type="text"
 												value={field.state.value}
 												onBlur={field.handleBlur}
@@ -173,6 +239,7 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 											</Label>
 											<Input
 												id={field.name}
+												name={field.name}
 												type="email"
 												value={field.state.value}
 												onBlur={field.handleBlur}
@@ -195,6 +262,7 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 													<span className="text-accent -ml-1">*</span>
 												</Label>
 												<RadioGroup
+													name={field.name}
 													value={field.state.value}
 													onValueChange={(value) => field.handleChange(value)}
 													className="grid gap-2 md:grid-cols-2 lg:grid-cols-4"
@@ -246,6 +314,7 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 											<Label htmlFor={field.name}>Message</Label>
 											<Textarea
 												id={field.name}
+												name={field.name}
 												value={field.state.value}
 												onBlur={field.handleBlur}
 												onChange={(e) => field.handleChange(e.target.value)}
@@ -266,6 +335,7 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 												<span className="text-accent -ml-1">*</span>
 											</Label>
 											<Select
+												name={field.name}
 												value={field.state.value}
 												onValueChange={(value) =>
 													field.handleChange(value as typeof field.state.value)
@@ -305,6 +375,7 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 												How did you hear about us?
 											</Label>
 											<Select
+												name={field.name}
 												value={field.state.value}
 												onValueChange={(value) =>
 													field.handleChange(
@@ -345,6 +416,7 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 											<div className="flex items-start gap-3">
 												<Checkbox
 													id={field.name}
+													name={field.name}
 													checked={field.state.value}
 													required
 													onCheckedChange={(checked) =>
@@ -372,13 +444,26 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 									}
 								>
 									{([acceptTerms, isSubmitting]) => (
-										<div className="flex">
-											<Button
-												type="submit"
-												disabled={!acceptTerms || isSubmitting}
-											>
-												{isSubmitting ? "Sending…" : "Send project enquiry"}
-											</Button>
+										<div className="flex flex-col items-start gap-3">
+											{submissionStatus === "success" && (
+												<output className="text-sm">
+													Thank you for your enquiry! You can expect a response
+													within 1-2 business days.
+												</output>
+											)}
+											{submissionStatus === "error" && (
+												<p className="text-sm text-accent" role="alert">
+													We couldn&apos;t send your enquiry. Please try again.
+												</p>
+											)}
+											<div className="flex">
+												<Button
+													type="submit"
+													disabled={!acceptTerms || isSubmitting}
+												>
+													{isSubmitting ? "Sending…" : "Send project enquiry"}
+												</Button>
+											</div>
 										</div>
 									)}
 								</form.Subscribe>

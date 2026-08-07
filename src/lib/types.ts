@@ -12,7 +12,7 @@ export const contactFormSchema = z.object({
 			"Brand Strategy Intensive",
 			"Brand Identity",
 			"Marketing Website",
-			"Custom Digital Product / Web App",
+			"Custom Digital Product",
 		])
 		.refine((value) => value !== undefined, {
 			message: "Please select a service",
