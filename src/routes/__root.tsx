@@ -48,7 +48,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
 		<html
 			lang="en"
-			className="bg-primary text-foreground m-0 font-sans text-base antialiased"
+			className="relative bg-primary text-foreground m-0 font-sans text-base antialiased"
 		>
 			<head>
 				<HeadContent />
