@@ -6,7 +6,7 @@ export const StudioSection = () => {
 		<section
 			id="studio-section"
 			aria-labelledby="studio-heading"
-			className="relative w-full overflow-hidden px-5 py-16 md:px-8 md:py-24 lg:px-16 lg:py-28"
+			className="relative w-full overflow-hidden bg-primary px-5 py-16 md:px-8 md:py-24 lg:px-16 lg:py-28"
 		>
 			<picture className="absolute inset-0 block">
 				<source media="(min-width: 768px)" srcSet={StudioBackgroundDesktop} />
@@ -32,13 +32,14 @@ export const StudioSection = () => {
 						<div className="flex flex-col gap-6 text-base leading-6 md:text-lg md:leading-7">
 							<p>
 								Sonado Studio is intentionally boutique so every client receives
-								direct collaboration and focused attention throughout the project.
+								direct collaboration and focused attention throughout the
+								project.
 							</p>
 							<p>
-								When a project calls for additional expertise, I bring in a trusted
-								network of copywriters, developers, and other creative specialists
-								to build the right team around your project while remaining your
-								primary point of contact from start to launch.
+								When a project calls for additional expertise, I bring in a
+								trusted network of copywriters, developers, and other creative
+								specialists to build the right team around your project while
+								remaining your primary point of contact from start to launch.
 							</p>
 							<p>
 								The goal is simple: exceptional work, clear communication, and a

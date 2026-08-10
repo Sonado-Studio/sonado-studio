@@ -1,5 +1,3 @@
-"use client"
-
 import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import { useState } from "react"
 import LinarcLogo from "@/assets/layout/client-logos/testimonials/linarc-logo-colour.svg"

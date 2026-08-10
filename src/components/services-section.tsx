@@ -1,6 +1,5 @@
 import {
 	motion,
-	useMotionValueEvent,
 	useReducedMotion,
 	useScroll,
 	useSpring,
@@ -123,7 +122,6 @@ export const ServicesSection = () => {
 	const cardRefs = useRef<(HTMLElement | null)[]>([])
 	const [activeIndex, setActiveIndex] = useState(0)
 	const prefersReducedMotion = useReducedMotion()
-	const { scrollY } = useScroll()
 
 	const setCardRef = useCallback(
 		(element: HTMLElement | null, index: number) => {
@@ -132,26 +130,37 @@ export const ServicesSection = () => {
 		[],
 	)
 
-	const updateActiveIndex = useCallback(() => {
-		const triggerPoint = window.innerHeight * 0.3
-		let nextIndex = 0
-
-		for (const [index, element] of cardRefs.current.entries()) {
-			if (!element) continue
-			if (element.getBoundingClientRect().top <= triggerPoint) nextIndex = index
-			else break
-		}
-
-		setActiveIndex(nextIndex)
-	}, [])
-
-	useMotionValueEvent(scrollY, "change", updateActiveIndex)
-
 	useEffect(() => {
-		updateActiveIndex()
-		window.addEventListener("resize", updateActiveIndex)
-		return () => window.removeEventListener("resize", updateActiveIndex)
-	}, [updateActiveIndex])
+		const crossedCardIndexes = new Set<number>()
+		const cardIndexes = new Map(
+			cardRefs.current.flatMap((element, index) =>
+				element ? [[element, index] as const] : [],
+			),
+		)
+		const observer = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					const index = cardIndexes.get(entry.target as HTMLElement)
+					if (index === undefined || !entry.rootBounds) continue
+
+					if (entry.boundingClientRect.top <= entry.rootBounds.bottom) {
+						crossedCardIndexes.add(index)
+					} else {
+						crossedCardIndexes.delete(index)
+					}
+				}
+
+				setActiveIndex(
+					crossedCardIndexes.size > 0 ? Math.max(...crossedCardIndexes) : 0,
+				)
+			},
+			{ rootMargin: "0px 0px -70% 0px" },
+		)
+
+		for (const element of cardIndexes.keys()) observer.observe(element)
+
+		return () => observer.disconnect()
+	}, [])
 
 	return (
 		<section
@@ -317,7 +326,7 @@ const ServiceCard = ({
 						>
 							{service.heading}
 						</h3>
-						<Badge className="h-auto border-secondary/20 bg-muted px-2.5 py-1 font-sans text-small font-medium leading-6 tracking-normal text-accent">
+						<Badge className="h-auto border-secondary/20 bg-muted px-2.5 py-1 font-sans text-sm font-medium leading-6 tracking-normal text-accent">
 							{service.price}
 						</Badge>
 					</div>

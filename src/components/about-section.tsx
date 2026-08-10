@@ -19,7 +19,7 @@ export const AboutSection = () => {
 							id="about-heading"
 							className="text-[2rem] leading-[1.2] tracking-[-0.015em] md:text-[2.5rem]"
 						>
-							Hello 👋🏾 I’m Rehema
+							Hello <span aria-hidden="true">👋🏾</span> I’m Rehema
 						</h2>
 
 						<div className="mt-6 flex flex-col gap-6 text-base leading-6 md:text-lg md:leading-7">

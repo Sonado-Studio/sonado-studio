@@ -301,12 +301,12 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 									name="service"
 									children={(field) => {
 										return (
-											<fieldset className="flex flex-col space-y-1">
-												<legend className="mb-1 text-base font-medium leading-none">
+											<fieldset className="flex flex-col space-y-2">
+												<legend className="mb-0.5 text-base font-medium leading-none flex gap-2 items-center">
 													What can we help you with?
 													<span className="text-accent -ml-1">*</span>
 												</legend>
-												<div className="grid gap-2 md:grid-cols-2 lg:grid-cols-4">
+												<div className="grid gap-2 md:grid-cols-2 lg:grid-cols-4 pb-3">
 													{serviceOptions.map((option) => {
 														const isSelected = field.state.value.includes(
 															option.value,
@@ -335,7 +335,7 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 																<Label
 																	htmlFor={id}
 																	className={cn(
-																		"flex min-h-14 h-full cursor-pointer items-center justify-center rounded-md border px-2 py-2 text-center text-sm leading-tight transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-ring peer-focus-visible:ring-offset-2",
+																		"flex min-h-14 h-full cursor-pointer items-center justify-center rounded-sm border px-2 py-2 text-center text-sm leading-tight transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-ring peer-focus-visible:ring-offset-2",
 																		isSelected
 																			? "border-secondary bg-primary text-primary-foreground"
 																			: "border-border hover:border-primary/60",

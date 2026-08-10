@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/a11y/noRedundantRoles lint/a11y/useSemanticElements: Explicit list roles preserve semantics when CSS changes presentation. */
 import AtsBackground from "@/assets/layout/portfolio/ats/ats-bg.webp"
 import AtsScreen1 from "@/assets/layout/portfolio/ats/ats-screen-1.webp"
 import AtsScreen2 from "@/assets/layout/portfolio/ats/ats-screen-2.webp"
@@ -71,7 +72,12 @@ const linarcScreens = [
 
 const ompScreens = [OmpScreen1, OmpScreen2, OmpScreen3, OmpScreen4, OmpScreen5]
 
-const portfolioScreenDelays = ["-0.5s", "-8.5s", "-6.5s", "-4.5s", "-2.5s"]
+const getPortfolioScreenDelay = (index: number, screenCount: number) => {
+	const delayStep = 10 / screenCount
+	const phaseIndex = index === 0 ? 0 : index - screenCount
+
+	return `${phaseIndex * delayStep - 0.5}s`
+}
 
 const selectedProjects: SelectedProject[] = [
 	{
@@ -157,13 +163,15 @@ const ProjectMedia = ({ project }: { project: SelectedProject }) => {
 			/>
 
 			<div className="absolute top-1/2 left-1/2 aspect-2100/1282 w-[90%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-sm">
-				{project.media.screens.map((screen, index) => (
+				{project.media.screens.map((screen, index, screens) => (
 					<img
 						key={screen}
 						src={screen}
 						alt=""
 						className="portfolio-screen-crossfade absolute inset-0 size-full object-cover"
-						style={{ animationDelay: portfolioScreenDelays[index] }}
+						style={{
+							animationDelay: getPortfolioScreenDelay(index, screens.length),
+						}}
 						loading="lazy"
 						decoding="async"
 					/>
@@ -212,6 +220,7 @@ const SelectedWorkCard = ({ project }: { project: SelectedProject }) => {
 					</div>
 
 					<ul
+						role="list"
 						className="mt-6 flex flex-wrap items-center gap-4"
 						aria-label="Project services"
 					>

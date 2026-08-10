@@ -2,25 +2,12 @@ import { Link } from "@tanstack/react-router"
 import { ArrowUp } from "lucide-react"
 import SonadoMark from "@/assets/logos/sonado-studio-icon.svg"
 import { ContactModal } from "@/components/global/form/contact-modal"
-import { InstagramIcon, LinkedInIcon } from "@/components/global/social-icons"
+import { socialLinks } from "@/data/social-profiles"
 
 const navigationLinks = [
 	{ label: "Work", href: "#work-section" },
 	{ label: "Services", href: "#services-section" },
 	{ label: "About", href: "#about-section" },
-]
-
-const socialLinks = [
-	{
-		label: "Instagram",
-		href: "https://www.instagram.com/sonadostudio/",
-		icon: InstagramIcon,
-	},
-	{
-		label: "LinkedIn",
-		href: "https://www.linkedin.com/company/sonadostudio",
-		icon: LinkedInIcon,
-	},
 ]
 
 const footerFocusClassName =

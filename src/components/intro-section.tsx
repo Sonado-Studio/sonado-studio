@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/a11y/noRedundantRoles lint/a11y/useSemanticElements: Explicit list roles preserve semantics when CSS changes presentation. */
 import { motion, useReducedMotion } from "motion/react"
 import AtsTravelLogo from "@/assets/layout/client-logos/ats-travel.png"
 import AwaloLogo from "@/assets/layout/client-logos/awalo.svg"
@@ -34,6 +35,9 @@ export const IntroSection = () => {
 			aria-labelledby="intro-heading"
 			className="sticky top-16 z-0 w-full bg-primary px-5 py-16 text-primary-foreground md:px-8 md:py-24 lg:top-18 lg:px-16 lg:py-28"
 		>
+			<h2 id="intro-heading" className="sr-only">
+				About Sonado Studio and our clients
+			</h2>
 			<div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-16 lg:grid-cols-[minmax(0,7fr)_minmax(0,8fr)] lg:gap-12 xl:grid-cols-[560px_minmax(0,1fr)] xl:gap-20">
 				<div className="min-w-0">
 					<p className="font-sans text-base font-medium leading-6 text-accent">
@@ -41,6 +45,7 @@ export const IntroSection = () => {
 					</p>
 
 					<ul
+						role="list"
 						className="mt-6 grid grid-cols-2 items-center gap-x-4 gap-y-6 sm:grid-cols-3 sm:gap-x-8"
 						aria-label="Selected clients"
 					>
@@ -70,8 +75,7 @@ export const IntroSection = () => {
 					</ul>
 				</div>
 
-				<motion.h2
-					id="intro-heading"
+				<motion.p
 					className="font-display text-2xl font-normal leading-[1.3] tracking-[-0.03em] text-primary-foreground md:text-[1.75rem] lg:max-w-xl lg:justify-self-center xl:max-w-full xl:pl-25 lg:pl-10"
 					initial={prefersReducedMotion ? false : { opacity: 0.25 }}
 					whileInView={{ opacity: 1 }}
@@ -86,7 +90,7 @@ export const IntroSection = () => {
 					businesses ready to elevate their next chapter. Every project is led
 					with strategy, design craft, and technical expertise from start to
 					launch.
-				</motion.h2>
+				</motion.p>
 			</div>
 		</section>
 	)

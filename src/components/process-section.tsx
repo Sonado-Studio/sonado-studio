@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/a11y/noRedundantRoles lint/a11y/useSemanticElements: Explicit list roles preserve semantics when CSS changes presentation. */
 const processSteps = [
 	{
 		number: "01",
@@ -51,7 +52,10 @@ export const ProcessSection = () => {
 					</p>
 				</div>
 
-				<ol className="mt-12 grid grid-cols-1 items-start md:mt-16 md:grid-cols-2 md:gap-x-8 md:gap-y-12 lg:mt-20 lg:grid-cols-4 lg:gap-0">
+				<ol
+					role="list"
+					className="mt-12 grid grid-cols-1 items-start md:mt-16 md:grid-cols-2 md:gap-x-8 md:gap-y-12 lg:mt-20 lg:grid-cols-4 lg:gap-0"
+				>
 					{processSteps.map((step) => (
 						<li
 							key={step.number}

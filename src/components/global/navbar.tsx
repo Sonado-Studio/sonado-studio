@@ -6,31 +6,18 @@ import { useEffect, useState } from "react"
 import LogoIcon from "@/assets/logos/sonado-studio-icon.svg"
 import LogoLight from "@/assets/logos/sonado-studio-logo.svg"
 import { ContactModal } from "@/components/global/form/contact-modal"
-import { InstagramIcon, LinkedInIcon } from "@/components/global/social-icons"
 import {
 	Sheet,
 	SheetContent,
 	SheetTitle,
 	SheetTrigger,
 } from "@/components/ui/sheet"
+import { socialLinks } from "@/data/social-profiles"
 
 const navLinks = [
 	{ url: "#work-section", title: "Work" },
 	{ url: "#services-section", title: "Services" },
 	{ url: "#about-section", title: "About" },
-]
-
-const socialLinks = [
-	{
-		label: "Instagram",
-		href: "https://www.instagram.com/sonadostudio/",
-		icon: InstagramIcon,
-	},
-	{
-		label: "LinkedIn",
-		href: "https://www.linkedin.com/company/sonadostudio",
-		icon: LinkedInIcon,
-	},
 ]
 
 export const Navbar = () => {
