@@ -183,7 +183,7 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 	})
 
 	return (
-		<aside id="contact">
+		<aside>
 			<div className="container">
 				<Sheet>
 					<SheetTrigger
