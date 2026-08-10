@@ -1,6 +1,8 @@
 /** biome-ignore-all lint/correctness/noChildrenProp: {children} is used for the field component */
 "use client"
 import { useForm } from "@tanstack/react-form"
+import { Link } from "@tanstack/react-router"
+import { XIcon } from "lucide-react"
 import type { ComponentProps, ReactNode } from "react"
 import { useRef, useState } from "react"
 import type { z } from "zod"
@@ -166,10 +168,22 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 					</SheetTrigger>
 					<SheetContent
 						side="right"
-						className="h-svh py-8 w-full border-none px-[5%] overflow-auto min-w-1/2"
+						showCloseButton={false}
+						className="h-svh w-full min-w-full lg:min-w-1/2 overflow-auto px-[5%] py-8"
 					>
-						<SheetClose />
-						<div className="mx-auto w-full">
+						<SheetClose
+							render={
+								<Button
+									variant="ghost"
+									size="icon"
+									className="absolute top-3 right-3 z-10 size-12 md:top-4 md:right-4 md:size-10"
+								/>
+							}
+						>
+							<XIcon aria-hidden="true" className="size-6 md:size-5" />
+							<span className="sr-only">Close contact form</span>
+						</SheetClose>
+						<div className="mx-auto w-full pt-4">
 							<div className="mb-8 space-y-3 md:mb-10 lg:mb-8">
 								<h2>Tell us about your project</h2>
 								<p className="text-balance">
@@ -426,11 +440,17 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 												/>
 												<Label
 													htmlFor={field.name}
-													className="text-sm leading-none"
+													className="block text-sm leading-5"
 												>
-													I understand this form is a project enquiry and not a
-													confirmed booking. Sonado Studio will review my
-													submission before arranging a discovery call.
+													I have read and understand the{" "}
+													<Link
+														to="/privacy-policy"
+														className="inline underline transition-[text-underline-offset] duration-200 hover:underline-offset-2 focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+													>
+														Privacy Policy
+													</Link>{" "}
+													and agree to Sonado Studio using my information to
+													respond to this enquiry.
 												</Label>
 											</div>
 											<FieldInfo field={field} />

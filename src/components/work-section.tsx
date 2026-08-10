@@ -33,6 +33,7 @@ import { cn } from "@/lib/utils"
 
 type SelectedProject = {
 	title: string
+	url: string
 	description: string
 	tags: string[]
 	imagePosition: "left" | "right"
@@ -70,17 +71,12 @@ const linarcScreens = [
 
 const ompScreens = [OmpScreen1, OmpScreen2, OmpScreen3, OmpScreen4, OmpScreen5]
 
-const portfolioScreenDelays = [
-	"-0.5s",
-	"-8.5s",
-	"-6.5s",
-	"-4.5s",
-	"-2.5s",
-]
+const portfolioScreenDelays = ["-0.5s", "-8.5s", "-6.5s", "-4.5s", "-2.5s"]
 
 const selectedProjects: SelectedProject[] = [
 	{
 		title: "The Garden",
+		url: "https://www.thegardenke.com/",
 		description:
 			"The Garden is a mental health and wellness platform helping people in Kenya find trusted information, events, and care providers. We created a warm, approachable yet empowering brand identity and Webflow website designed to make sensitive information feel clear, welcoming, and easy to navigate.",
 		tags: ["Brand Identity", "Website Design", "Webflow Development"],
@@ -92,6 +88,7 @@ const selectedProjects: SelectedProject[] = [
 	},
 	{
 		title: "Linarc Design Studio",
+		url: "https://www.linarcdesignstudio.com/",
 		description:
 			"Linarc is an architecture and interior design studio shaping Africa’s built environment through innovative, functional, and sustainable work. We designed and built a refined Webflow website that reflects the studio’s next chapter and gives its team an easy way to showcase a growing portfolio of impressive projects.",
 		tags: ["Website Design", "Webflow Development"],
@@ -103,6 +100,7 @@ const selectedProjects: SelectedProject[] = [
 	},
 	{
 		title: "Opportunity Music Project",
+		url: "https://www.opportunitymusicproject.org/",
 		description:
 			"Opportunity Music Project is a New York nonprofit helping young people pursue their passion for music, regardless of economic background. We created a warm and joyful Squarespace website that makes programmes, schedules, events, and ways to support the organisation easier to discover.",
 		tags: ["Website Design", "Squarespace Development"],
@@ -114,6 +112,7 @@ const selectedProjects: SelectedProject[] = [
 	},
 	{
 		title: "Awalo",
+		url: "https://awalo.co/",
 		description:
 			"Awalo supports founders from the Global South building impactful and scalable ventures through strategic consulting, practical tools, and digital products. We created a bold, empowering brand and website, while also leading UI/UX design and frontend development for its internal platform.",
 		tags: [
@@ -130,6 +129,7 @@ const selectedProjects: SelectedProject[] = [
 	},
 	{
 		title: "ATS Travel",
+		url: "https://www.atstravel.co.ke/",
 		description:
 			"After 25 years in the travel industry, ATS Travel needed a more contemporary brand presence that could speak confidently to corporate clients. We designed and built a polished Webflow website that communicates the company’s experience, professionalism, and high-touch approach to travel.",
 		tags: ["Website Design", "Webflow Development"],
@@ -177,49 +177,54 @@ const SelectedWorkCard = ({ project }: { project: SelectedProject }) => {
 	const isImageRight = project.imagePosition === "right"
 
 	return (
-		<article
-			className={cn(
-				"grid grid-cols-1 items-center gap-10 lg:gap-20",
-				isImageRight
-					? "lg:grid-cols-[minmax(0,436fr)_minmax(0,764fr)]"
-					: "lg:grid-cols-[minmax(0,764fr)_minmax(0,436fr)]",
-			)}
-		>
-			<div
-				aria-hidden="true"
-				className={cn("w-full", isImageRight && "lg:order-2")}
-			>
-				<ProjectMedia project={project} />
-			</div>
-
-			<div
+		<article>
+			<a
+				href={project.url}
+				target="_blank"
+				rel="noopener"
 				className={cn(
-					"flex flex-col items-start",
-					isImageRight && "lg:order-1",
+					"grid cursor-pointer grid-cols-1 items-center gap-10 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 lg:gap-20",
+					isImageRight
+						? "lg:grid-cols-[minmax(0,436fr)_minmax(0,764fr)]"
+						: "lg:grid-cols-[minmax(0,764fr)_minmax(0,436fr)]",
 				)}
 			>
-				<div className="flex w-full flex-col gap-6">
-					<h3 className="text-[2rem] leading-[1.2] tracking-[-0.015em] lg:text-5xl text-pretty">
-						{project.title}
-					</h3>
-					<p className="text-base leading-6 text-foreground">
-						{project.description}
-					</p>
+				<div
+					aria-hidden="true"
+					className={cn("w-full", isImageRight && "lg:order-2")}
+				>
+					<ProjectMedia project={project} />
 				</div>
 
-				<ul
-					className="mt-6 flex flex-wrap items-center gap-4"
-					aria-label="Project services"
+				<div
+					className={cn(
+						"flex flex-col items-start",
+						isImageRight && "lg:order-1",
+					)}
 				>
-					{project.tags.map((tag) => (
-						<li key={tag}>
-							<Badge className="h-auto border-secondary/20 bg-muted px-2 py-1 text-sm leading-normal tracking-normal text-accent">
-								{tag}
-							</Badge>
-						</li>
-					))}
-				</ul>
-			</div>
+					<div className="flex w-full flex-col gap-6">
+						<h3 className="text-[2rem] leading-[1.2] tracking-[-0.015em] lg:text-5xl text-pretty">
+							{project.title}
+						</h3>
+						<p className="text-base leading-6 text-foreground">
+							{project.description}
+						</p>
+					</div>
+
+					<ul
+						className="mt-6 flex flex-wrap items-center gap-4"
+						aria-label="Project services"
+					>
+						{project.tags.map((tag) => (
+							<li key={tag}>
+								<Badge className="h-auto border-secondary/20 bg-muted px-2 py-1 text-sm leading-normal tracking-normal text-accent">
+									{tag}
+								</Badge>
+							</li>
+						))}
+					</ul>
+				</div>
+			</a>
 		</article>
 	)
 }

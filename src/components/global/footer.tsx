@@ -11,8 +11,16 @@ const navigationLinks = [
 ]
 
 const socialLinks = [
-	{ label: "Instagram", href: "#footer", icon: InstagramIcon },
-	{ label: "LinkedIn", href: "#footer", icon: LinkedInIcon },
+	{
+		label: "Instagram",
+		href: "https://www.instagram.com/sonadostudio/",
+		icon: InstagramIcon,
+	},
+	{
+		label: "LinkedIn",
+		href: "https://www.linkedin.com/company/sonadostudio",
+		icon: LinkedInIcon,
+	},
 ]
 
 const footerFocusClassName =
@@ -69,13 +77,15 @@ export const Footer = () => {
 							>
 								hello@sonadostudio.com
 							</a>
-							<p>Based in Nairobi, creating globally</p>
+							<p>Based in Nairobi → Creating globally</p>
 						</div>
 						<ul className="flex items-center gap-3" aria-label="Social links">
 							{socialLinks.map(({ label, href, icon: Icon }) => (
 								<li key={label}>
 									<a
 										href={href}
+										target="_blank"
+										rel="noopener"
 										className={`flex size-8 items-center justify-center ${footerFocusClassName}`}
 									>
 										<span className="sr-only">{label}</span>
@@ -96,9 +106,9 @@ export const Footer = () => {
 							© {new Date().getFullYear()} Sonado Studio. All rights reserved.
 						</p>
 						<div>
-							<a href="#footer" className={footerTextLinkClassName}>
+							<Link to="/privacy-policy" className={footerTextLinkClassName}>
 								Privacy Policy
-							</a>
+							</Link>
 							<a href="#footer" className={footerTextLinkClassName}>
 								Cookie Settings
 							</a>

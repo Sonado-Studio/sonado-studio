@@ -6,13 +6,7 @@ import { useEffect, useState } from "react"
 import LogoIcon from "@/assets/logos/sonado-studio-icon.svg"
 import LogoLight from "@/assets/logos/sonado-studio-logo.svg"
 import { ContactModal } from "@/components/global/form/contact-modal"
-import {
-	FacebookIcon,
-	InstagramIcon,
-	LinkedInIcon,
-	XIcon as XSocialIcon,
-	YouTubeIcon,
-} from "@/components/global/social-icons"
+import { InstagramIcon, LinkedInIcon } from "@/components/global/social-icons"
 import {
 	Sheet,
 	SheetContent,
@@ -26,12 +20,17 @@ const navLinks = [
 	{ url: "#about-section", title: "About" },
 ]
 
-const socialIcons = [
-	{ label: "Facebook", icon: FacebookIcon },
-	{ label: "Instagram", icon: InstagramIcon },
-	{ label: "X", icon: XSocialIcon },
-	{ label: "LinkedIn", icon: LinkedInIcon },
-	{ label: "YouTube", icon: YouTubeIcon },
+const socialLinks = [
+	{
+		label: "Instagram",
+		href: "https://www.instagram.com/sonadostudio/",
+		icon: InstagramIcon,
+	},
+	{
+		label: "LinkedIn",
+		href: "https://www.linkedin.com/company/sonadostudio",
+		icon: LinkedInIcon,
+	},
 ]
 
 export const Navbar = () => {
@@ -187,19 +186,22 @@ export const Navbar = () => {
 										>
 											hello@sonadostudio.com
 										</a>
-										<p>Based in Nairobi, Creating Globally.</p>
+										<p>Based in Nairobi → Creating Globally.</p>
 									</div>
 
 									<ul
 										aria-label="Sonado Studio social platforms"
 										className="flex items-center gap-3"
 									>
-										{socialIcons.map(({ label, icon: Icon }) => (
+										{socialLinks.map(({ label, href, icon: Icon }) => (
 											<li key={label}>
-												<Icon
-													aria-label={label}
-													className="size-6 text-primary-foreground"
-												/>
+												<a href={href} target="_blank" rel="noopener">
+													<span className="sr-only">{label}</span>
+													<Icon
+														aria-hidden="true"
+														className="size-6 text-primary-foreground"
+													/>
+												</a>
 											</li>
 										))}
 									</ul>
