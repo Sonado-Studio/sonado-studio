@@ -8,15 +8,15 @@ export const contactFormSchema = z.object({
 		.max(50, { message: "Please enter a valid name less than 50 characters" }),
 	email: z.email({ message: "Please enter a valid email address" }),
 	service: z
-		.enum([
-			"Brand Strategy Intensive",
-			"Brand Identity",
-			"Marketing Website",
-			"Custom Digital Product",
-		])
-		.refine((value) => value !== undefined, {
-			message: "Please select a service",
-		}),
+		.array(
+			z.enum([
+				"Brand Strategy Intensive",
+				"Brand Identity",
+				"Marketing Website",
+				"Custom Digital Product",
+			]),
+		)
+		.min(1, "Please select at least one service"),
 	message: z
 		.string()
 		.max(500, { message: "Please enter a message less than 500 characters" })

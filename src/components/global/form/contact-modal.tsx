@@ -5,13 +5,13 @@ import { Link } from "@tanstack/react-router"
 import { XIcon } from "lucide-react"
 import type { ComponentProps, ReactNode } from "react"
 import { useRef, useState } from "react"
+import { useGoogleAnalytics } from "tanstack-router-ga4"
 import type { z } from "zod"
 import { FieldInfo } from "@/components/global/form/field-info"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import {
 	Select,
 	SelectContent,
@@ -32,14 +32,14 @@ import { cn } from "@/lib/utils"
 const defaultValues: z.infer<typeof contactFormSchema> = {
 	fullName: "",
 	email: "",
-	service: "Brand Strategy Intensive",
+	service: [],
 	message: "",
 	budget: null,
 	referralSource: null,
 	acceptTerms: false,
 }
 
-type ServiceOptionValue = z.infer<typeof contactFormSchema>["service"]
+type ServiceOptionValue = z.infer<typeof contactFormSchema>["service"][number]
 type BudgetOptionValue = Exclude<
 	z.infer<typeof contactFormSchema>["budget"],
 	null
@@ -62,13 +62,33 @@ const serviceOptions: {
 	},
 ]
 
-const budgetOptions: { value: BudgetOptionValue; label: string }[] = [
-	{ value: "<Ksh 30k-60k", label: "<Ksh 30k–60k" },
-	{ value: "Ksh 60k-120k", label: "Ksh 60k–120k" },
-	{ value: "Ksh 120k-250k", label: "Ksh 120k–250k" },
-	{ value: "Ksh 250k-500k", label: "Ksh 250k–500k" },
-	{ value: "Ksh 500k+", label: "Ksh 500k+" },
-	{ value: "Not sure yet", label: "Not sure yet" },
+const budgetOptions: {
+	value: BudgetOptionValue
+	label: string
+	analyticsValue: number
+}[] = [
+	{
+		value: "<Ksh 30k-60k",
+		label: "<Ksh 30k–60k",
+		analyticsValue: 45_000,
+	},
+	{
+		value: "Ksh 60k-120k",
+		label: "Ksh 60k–120k",
+		analyticsValue: 90_000,
+	},
+	{
+		value: "Ksh 120k-250k",
+		label: "Ksh 120k–250k",
+		analyticsValue: 185_000,
+	},
+	{
+		value: "Ksh 250k-500k",
+		label: "Ksh 250k–500k",
+		analyticsValue: 375_000,
+	},
+	{ value: "Ksh 500k+", label: "Ksh 500k+", analyticsValue: 500_000 },
+	{ value: "Not sure yet", label: "Not sure yet", analyticsValue: 0 },
 ]
 
 type ReferralOptionValue = Exclude<
@@ -100,6 +120,7 @@ type ContactModalProps = {
 }
 
 export const ContactModal = ({ triggerProps }: ContactModalProps) => {
+	const ga = useGoogleAnalytics()
 	const honeypotRef = useRef<HTMLInputElement>(null)
 	const [submissionStatus, setSubmissionStatus] =
 		useState<SubmissionStatus>("idle")
@@ -123,7 +144,7 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 				"bot-field": honeypotRef.current?.value ?? "",
 				fullName: value.fullName,
 				email: value.email,
-				service: value.service ?? "",
+				service: value.service.join(", "),
 				message: value.message ?? "",
 				budget: selectedBudget?.label ?? "",
 				referralSource: selectedReferral?.label ?? "",
@@ -142,6 +163,16 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 				if (!response.ok) {
 					throw new Error(`Oops! Something went wrong: ${response.status}`)
 				}
+
+				const leadValue = selectedBudget?.analyticsValue
+
+				ga.event("generate_lead", {
+					currency: "KES",
+					value: leadValue,
+					lead_source: "Contact Form",
+					budget_range: selectedBudget?.value,
+					items: value.service,
+				})
 
 				form.reset()
 				setSubmissionStatus("success")
@@ -270,34 +301,41 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 									name="service"
 									children={(field) => {
 										return (
-											<div className="flex flex-col space-y-1">
-												<Label>
+											<fieldset className="flex flex-col space-y-1">
+												<legend className="mb-1 text-base font-medium leading-none">
 													What can we help you with?
 													<span className="text-accent -ml-1">*</span>
-												</Label>
-												<RadioGroup
-													name={field.name}
-													value={field.state.value}
-													onValueChange={(value) => field.handleChange(value)}
-													className="grid gap-2 md:grid-cols-2 lg:grid-cols-4"
-												>
+												</legend>
+												<div className="grid gap-2 md:grid-cols-2 lg:grid-cols-4">
 													{serviceOptions.map((option) => {
-														const isSelected =
-															field.state.value === option.value
+														const isSelected = field.state.value.includes(
+															option.value,
+														)
 														const id = `service-${option.value}`
 
 														return (
-															<div key={option.value}>
-																<RadioGroupItem
-																	value={option.value}
+															<div key={option.value} className="relative">
+																<Checkbox
 																	id={id}
-																	className="sr-only"
-																	aria-hidden="true"
+																	name={field.name}
+																	checked={isSelected}
+																	onCheckedChange={(checked) => {
+																		field.handleChange(
+																			checked
+																				? [...field.state.value, option.value]
+																				: field.state.value.filter(
+																						(value) => value !== option.value,
+																					),
+																		)
+																	}}
+																	onBlur={field.handleBlur}
+																	className="peer sr-only"
+																	aria-invalid={!field.state.meta.isValid}
 																/>
 																<Label
 																	htmlFor={id}
 																	className={cn(
-																		"flex min-h-14 h-full cursor-pointer items-center justify-center rounded-md border px-2 py-2 text-center text-sm leading-tight transition-colors",
+																		"flex min-h-14 h-full cursor-pointer items-center justify-center rounded-md border px-2 py-2 text-center text-sm leading-tight transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-ring peer-focus-visible:ring-offset-2",
 																		isSelected
 																			? "border-secondary bg-primary text-primary-foreground"
 																			: "border-border hover:border-primary/60",
@@ -314,9 +352,9 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 															</div>
 														)
 													})}
-												</RadioGroup>
+												</div>
 												<FieldInfo field={field} />
-											</div>
+											</fieldset>
 										)
 									}}
 								/>

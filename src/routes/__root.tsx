@@ -1,6 +1,7 @@
 import { TanStackDevtools } from "@tanstack/react-devtools"
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
+import { GoogleAnalytics } from "tanstack-router-ga4"
 import { Footer } from "@/components/global/footer"
 import { Navbar } from "@/components/global/navbar"
 
@@ -81,6 +82,11 @@ export const Route = createRootRoute({
 				href: appCss,
 			},
 		],
+		scripts: [
+			{
+				src: "https://cdn-cookieyes.com/client_data/655147302848bc3446a599f58aa3c37c/script.js",
+			},
+		],
 	}),
 
 	shellComponent: RootDocument,
@@ -96,6 +102,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<HeadContent />
 			</head>
 			<body>
+				<GoogleAnalytics measurementId="G-QNDXP5PPHK" />
 				<Navbar />
 				{children}
 				<Footer />
