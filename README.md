@@ -1,328 +1,135 @@
-Welcome to your new TanStack app! 
+# Sonado Studio Website
 
-# Getting Started
+The website for Sonado Studio, a founder-led creative and technology studio creating distinctive brands, marketing websites, and selected digital products.
 
-To run this application:
+The project is built to be responsive, accessible, performance-conscious, and maintainable as its content and portfolio grow.
+
+## Tech stack
+
+- [React 19](https://react.dev/) and TypeScript
+- [TanStack Start](https://tanstack.com/start) and [TanStack Router](https://tanstack.com/router) for server rendering and file-based routing
+- [Vite](https://vite.dev/) for local development and production builds
+- [Tailwind CSS v4](https://tailwindcss.com/) for design tokens and styling
+- [shadcn/ui](https://ui.shadcn.com/) patterns with [Base UI](https://base-ui.com/) primitives
+- [Motion](https://motion.dev/) for animations and scroll interactions
+- [TanStack Form](https://tanstack.com/form) and [Zod](https://zod.dev/) for contact-form state and validation
+- [Netlify](https://www.netlify.com/) for hosting, SSR functions, and form submissions
+- [tanstack-router-ga4](https://github.com/bhouston/tanstack-router-ga4) for Google Analytics configuration, events, and SPA page tracking
+- [CookieYes](https://www.cookieyes.com/) for the consent banner and Google Consent Mode updates
+- [Biome](https://biomejs.dev/) for linting and formatting
+- [Vitest](https://vitest.dev/) for tests
+
+## Getting started
+
+Install the project dependencies:
 
 ```bash
 pnpm install
+```
+
+Start the development server:
+
+```bash
 pnpm dev
 ```
 
-# Building For Production
+The site will be available at [http://localhost:3000](http://localhost:3000).
 
-To build this application for production:
+## Development commands
 
 ```bash
+# Start the local development server
+pnpm dev
+
+# Create a production build
 pnpm build
-```
 
-## Testing
+# Preview the production build locally
+pnpm preview
 
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
+# Run the linter
+pnpm lint
 
-```bash
+# Check linting and formatting
+pnpm check
+
+# Apply safe lint and formatting fixes
+pnpm fix
+
+# Format the codebase
+pnpm format
+
+# Run the test suite
 pnpm test
 ```
 
-## Styling
+Run `pnpm lint`, `pnpm exec tsc --noEmit`, and `pnpm build` after meaningful changes. Run the relevant tests when modifying tested behavior.
 
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
+## Project structure
 
-
-## Linting & Formatting
-
-This project uses [Biome](https://biomejs.dev/) for linting and formatting. The following scripts are available:
-
-
-```bash
-pnpm lint
-pnpm format
-pnpm check
+```text
+public/                       Static public assets and Netlify form detection markup
+src/assets/                   Fonts, logos, and page imagery
+src/components/               Page sections and reusable components
+src/components/global/        Site-wide navigation, footer, and contact form
+src/components/ui/            Shared UI primitives
+src/data/                     Shared configuration and content data
+src/hooks/                    Reusable React hooks
+src/lib/                      Schemas, types, and utilities
+src/routes/                   TanStack Router route files and root document
+src/styles.css                Global tokens, typography, and shared styles
+docs/                         Design mapping, content, and implementation references
 ```
 
+The Figma design is the visual source of truth. Existing tokens, aliases, global styles, and primitives should be preserved unless a migration has been discussed first.
 
-## Shadcn
+## Contact form
 
-Add components using the latest version of [Shadcn](https://ui.shadcn.com/).
+The contact form uses TanStack Form with Zod validation and submits URL-encoded form data to Netlify Forms. Netlify detects the form from the static markup in `public/netlify-form.html`.
 
-```bash
-pnpm dlx shadcn@latest add button
-```
+When changing form fields, update all three layers together:
 
+1. The Zod schema and form component.
+2. The URL-encoded Netlify submission payload.
+3. The static Netlify form-detection markup.
 
-## T3Env
+Do not commit secrets or add private credentials to client-side form code.
 
-- You can use T3Env to add type safety to your environment variables.
-- Add Environment variables to the `src/env.mjs` file.
-- Use the environment variables in your code.
+## Analytics and consent
 
-### Usage
+The site uses Google Analytics 4 through `tanstack-router-ga4` and CookieYes with Advanced Google Consent Mode.
 
-```ts
-import { env } from "@/env";
+The integration is intentionally split by responsibility:
 
-console.log(env.VITE_APP_TITLE);
-```
+- The root document establishes denied consent defaults before any Google or CookieYes scripts execute.
+- The Google Analytics loader is placed after the default consent command and before CookieYes.
+- CookieYes owns the consent banner, stored preferences, and all subsequent Consent Mode updates.
+- `tanstack-router-ga4` owns GA configuration, custom events, and automatic page-view tracking during SPA navigation.
 
+With Advanced Consent Mode, Google tags may load before a visitor makes a choice, but optional storage remains denied by default. Google may receive cookieless pings while consent is denied. Analytics cookies and consent-dependent storage should only be enabled after CookieYes sends a granted consent update.
 
+In the CookieYes dashboard, both **Support GCM** and **Allow Google tags to fire before consent** must remain enabled. CookieYes should remain the single source of truth for consent changes; do not add a second React consent listener unless the integration is deliberately redesigned.
 
+When changing analytics or consent behavior, preserve this script order:
 
+1. Default Consent Mode command.
+2. Google Analytics loader.
+3. CookieYes script.
 
+Validate changes with a fresh browser session by testing accept, reject, granular preferences, and consent withdrawal. Confirm the resulting consent state and cookies using Google Tag Assistant, CookieYes’s Consent Mode checker, and browser developer tools.
 
-## Routing
-This project uses [TanStack Router](https://tanstack.com/router). The initial setup is a file based router. Which means that the routes are managed as files in `src/routes`.
+## Deployment
 
-### Adding A Route
+The production site is deployed to Netlify from the GitHub main branch. The Vite build generates the TanStack Start SSR function used by Netlify.
 
-To add a new route to your application just add another a new file in the `./src/routes` directory.
+Do not modify Netlify or deployment configuration without documenting why the change is required. Never commit secrets, private API keys, or environment-specific credentials.
 
-TanStack will automatically generate the content of the route file for you.
+## Working conventions
 
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
-
-```tsx
-import { Link } from "@tanstack/react-router";
-```
-
-Then anywhere in your JSX you can use it like so:
-
-```tsx
-<Link to="/about">About</Link>
-```
-
-This will create a link that will navigate to the `/about` route.
-
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
-
-### Using A Layout
-
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you use the `<Outlet />` component.
-
-Here is an example layout that includes a header:
-
-```tsx
-import { Outlet, createRootRoute } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-
-import { Link } from "@tanstack/react-router";
-
-export const Route = createRootRoute({
-  component: () => (
-    <>
-      <header>
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-        </nav>
-      </header>
-      <Outlet />
-      <TanStackRouterDevtools />
-    </>
-  ),
-})
-```
-
-The `<TanStackRouterDevtools />` component is not required so you can remove it if you don't want it in your layout.
-
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-
-## Data Fetching
-
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
-
-For example:
-
-```tsx
-const peopleRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/people",
-  loader: async () => {
-    const response = await fetch("https://swapi.dev/api/people");
-    return response.json() as Promise<{
-      results: {
-        name: string;
-      }[];
-    }>;
-  },
-  component: () => {
-    const data = peopleRoute.useLoaderData();
-    return (
-      <ul>
-        {data.results.map((person) => (
-          <li key={person.name}>{person.name}</li>
-        ))}
-      </ul>
-    );
-  },
-});
-```
-
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
-
-### React-Query
-
-React-Query is an excellent addition or alternative to route loading and integrating it into you application is a breeze.
-
-First add your dependencies:
-
-```bash
-pnpm add @tanstack/react-query @tanstack/react-query-devtools
-```
-
-Next we'll need to create a query client and provider. We recommend putting those in `main.tsx`.
-
-```tsx
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-// ...
-
-const queryClient = new QueryClient();
-
-// ...
-
-if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement);
-
-  root.render(
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  );
-}
-```
-
-You can also add TanStack Query Devtools to the root route (optional).
-
-```tsx
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
-const rootRoute = createRootRoute({
-  component: () => (
-    <>
-      <Outlet />
-      <ReactQueryDevtools buttonPosition="top-right" />
-      <TanStackRouterDevtools />
-    </>
-  ),
-});
-```
-
-Now you can use `useQuery` to fetch your data.
-
-```tsx
-import { useQuery } from "@tanstack/react-query";
-
-import "./App.css";
-
-function App() {
-  const { data } = useQuery({
-    queryKey: ["people"],
-    queryFn: () =>
-      fetch("https://swapi.dev/api/people")
-        .then((res) => res.json())
-        .then((data) => data.results as { name: string }[]),
-    initialData: [],
-  });
-
-  return (
-    <div>
-      <ul>
-        {data.map((person) => (
-          <li key={person.name}>{person.name}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export default App;
-```
-
-You can find out everything you need to know on how to use React-Query in the [React-Query documentation](https://tanstack.com/query/latest/docs/framework/react/overview).
-
-## State Management
-
-Another common requirement for React applications is state management. There are many options for state management in React. TanStack Store provides a great starting point for your project.
-
-First you need to add TanStack Store as a dependency:
-
-```bash
-pnpm add @tanstack/store
-```
-
-Now let's create a simple counter in the `src/App.tsx` file as a demonstration.
-
-```tsx
-import { useStore } from "@tanstack/react-store";
-import { Store } from "@tanstack/store";
-import "./App.css";
-
-const countStore = new Store(0);
-
-function App() {
-  const count = useStore(countStore);
-  return (
-    <div>
-      <button onClick={() => countStore.setState((n) => n + 1)}>
-        Increment - {count}
-      </button>
-    </div>
-  );
-}
-
-export default App;
-```
-
-One of the many nice features of TanStack Store is the ability to derive state from other state. That derived state will update when the base state updates.
-
-Let's check this out by doubling the count using derived state.
-
-```tsx
-import { useStore } from "@tanstack/react-store";
-import { Store, Derived } from "@tanstack/store";
-import "./App.css";
-
-const countStore = new Store(0);
-
-const doubledStore = new Derived({
-  fn: () => countStore.state * 2,
-  deps: [countStore],
-});
-doubledStore.mount();
-
-function App() {
-  const count = useStore(countStore);
-  const doubledCount = useStore(doubledStore);
-
-  return (
-    <div>
-      <button onClick={() => countStore.setState((n) => n + 1)}>
-        Increment - {count}
-      </button>
-      <div>Doubled - {doubledCount}</div>
-    </div>
-  );
-}
-
-export default App;
-```
-
-We use the `Derived` class to create a new store that is derived from another store. The `Derived` class has a `mount` method that will start the derived store updating.
-
-Once we've created the derived store we can use it in the `App` component just like we would any other store using the `useStore` hook.
-
-You can find out everything you need to know on how to use TanStack Store in the [TanStack Store documentation](https://tanstack.com/store/latest).
-
-# Demo files
-
-Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
-
-# Learn More
-
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
+- Plan and inspect existing patterns before editing.
+- Work in focused, reviewable increments.
+- Preserve semantic HTML, keyboard behavior, and reduced-motion support.
+- Check both mobile and desktop layouts after visual changes.
+- Prefer reusable components and existing design tokens.
+- Avoid unnecessary dependencies.
+- Preserve existing functionality unless a change is explicitly requested.
