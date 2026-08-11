@@ -241,7 +241,7 @@ const ServiceImage = ({
 	service: Service
 	prefersReducedMotion?: boolean
 }) => (
-	<div className="aspect-820/463 w-full rounded-sm bg-muted p-2.5 md:p-4 lg:aspect-[450/271.09]">
+	<div className="aspect-820/463 w-full rounded-sm bg-muted px-2.5 py-1.5 md:p-4 lg:aspect-[450/271.09]">
 		<div className="size-full overflow-hidden rounded-sm">
 			<motion.img
 				key={service.number}
@@ -409,8 +409,6 @@ const ServiceAccordion = ({
 				{isOpen ? (
 					<motion.div
 						id={contentId}
-						role="region"
-						aria-labelledby={triggerId}
 						initial={{ height: 0, opacity: 0 }}
 						animate={{ height: "auto", opacity: 1 }}
 						exit={{ height: 0, opacity: 0 }}

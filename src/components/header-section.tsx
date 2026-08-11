@@ -65,6 +65,7 @@ export const HeaderSection = () => {
 						fetchPriority="high"
 						decoding="async"
 						onLoad={() => setIsCarouselReady(true)}
+						onError={() => setIsCarouselReady(true)}
 					/>
 
 					{heroScreens.map((screen, index) => (

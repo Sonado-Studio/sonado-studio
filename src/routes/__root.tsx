@@ -140,7 +140,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			<head>
 				<HeadContent />
 			</head>
-			<body id="page-top">
+			<body id="page-top" tabIndex={-1}>
 				<GoogleAnalytics measurementId={GA_MEASUREMENT_ID} deferred={false} />
 
 				<Navbar />
