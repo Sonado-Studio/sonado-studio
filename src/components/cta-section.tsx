@@ -10,15 +10,15 @@ export const CtaSection = () => {
 		>
 			<div className="mx-auto w-full max-w-7xl">
 				<div className="rounded-sm border border-primary bg-primary p-6 text-primary-foreground md:p-8 lg:p-12">
-					<div className="flex flex-col gap-12 md:gap-16">
+					<div className="flex flex-col gap-12 md:gap-16 text-pretty">
 						<div>
 							<h2
 								id="cta-heading"
-								className="text-2xl font-normal leading-[1.3] tracking-[-0.03em] md:text-[1.75rem] lg:text-[2rem]"
+								className="text-2xl font-normal leading-[1.3] tracking-[-0.03em] md:text-[1.75rem] lg:text-[2rem] text-center md:text-left"
 							>
 								Start with a discovery call
 							</h2>
-							<div className="mt-4.5 text-base font-medium leading-6 md:text-lg md:leading-7 lg:max-w-2xl text-pretty">
+							<div className="mt-4.5 text-base font-medium leading-6 md:text-lg md:leading-7 lg:max-w-2xl text-center md:text-left">
 								<p>
 									Every project begins with a conversation to understand your
 									goals, answer questions, and decide whether Sonado Studio is

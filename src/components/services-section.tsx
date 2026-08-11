@@ -1,11 +1,12 @@
 import {
+	AnimatePresence,
 	motion,
 	useReducedMotion,
 	useScroll,
 	useSpring,
 	useTransform,
 } from "motion/react"
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useId, useRef, useState } from "react"
 import BrandIdentityImage from "@/assets/layout/services/brand-identity.webp"
 import BrandStrategyImage from "@/assets/layout/services/brand-strategy.webp"
 import CustomDigitalProductsImage from "@/assets/layout/services/custom-digital-products.webp"
@@ -240,7 +241,7 @@ const ServiceImage = ({
 	service: Service
 	prefersReducedMotion?: boolean
 }) => (
-	<div className="aspect-[450/271.09] w-full rounded-sm bg-muted p-2.5 md:p-4">
+	<div className="aspect-820/463 w-full rounded-sm bg-muted px-2.5 py-1.5 md:p-4 lg:aspect-[450/271.09]">
 		<div className="size-full overflow-hidden rounded-sm">
 			<motion.img
 				key={service.number}
@@ -251,7 +252,7 @@ const ServiceImage = ({
 				initial={prefersReducedMotion ? false : { opacity: 0 }}
 				animate={{ opacity: 1 }}
 				transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
-				className={`size-full object-cover ${
+				className={`size-full object-contain lg:object-cover ${
 					service.imagePosition === "top" ? "object-top" : "object-center"
 				}`}
 			/>
@@ -381,14 +382,46 @@ const ServiceAccordion = ({
 }: {
 	label: string
 	children: React.ReactNode
-}) => (
-	<details className="group w-full rounded-sm">
-		<summary className="flex cursor-pointer list-none items-center gap-6 overflow-clip border-t border-foreground py-4 font-medium transition-[padding] duration-200 hover:px-4 focus-visible:px-4 focus-visible:outline-none [&::-webkit-details-marker]:hidden">
-			<span className="min-w-0 flex-1">{label}</span>
-			<span className="flex size-6 shrink-0 items-center justify-center">
-				<AccordionIcon className="size-2.5 rotate-45 transition-transform duration-200 group-open:rotate-0 motion-reduce:transition-none" />
-			</span>
-		</summary>
-		<div className="py-4">{children}</div>
-	</details>
-)
+}) => {
+	const [isOpen, setIsOpen] = useState(false)
+	const prefersReducedMotion = useReducedMotion()
+	const id = useId()
+	const triggerId = `service-accordion-trigger-${id}`
+	const contentId = `service-accordion-content-${id}`
+
+	return (
+		<div className="w-full rounded-sm">
+			<button
+				id={triggerId}
+				type="button"
+				aria-expanded={isOpen}
+				aria-controls={contentId}
+				onClick={() => setIsOpen((open) => !open)}
+				className="group/summary flex w-full cursor-pointer items-center gap-6 overflow-clip border-t border-foreground py-4 text-left font-medium transition-[padding] duration-200 ease-out-quad hover:px-4 focus-visible:px-4 focus-visible:outline-none"
+			>
+				<span className="min-w-0 flex-1">{label}</span>
+				<span className="flex size-6 shrink-0 items-center justify-center">
+					<AccordionIcon className="size-2.5 rotate-45 transition-transform duration-200 ease-out-quad group-aria-expanded/summary:rotate-0 motion-reduce:transition-none" />
+				</span>
+			</button>
+
+			<AnimatePresence initial={false}>
+				{isOpen ? (
+					<motion.div
+						id={contentId}
+						initial={{ height: 0, opacity: 0 }}
+						animate={{ height: "auto", opacity: 1 }}
+						exit={{ height: 0, opacity: 0 }}
+						transition={{
+							duration: prefersReducedMotion ? 0 : 0.2,
+							ease: [0.25, 0.46, 0.45, 0.94],
+						}}
+						className="overflow-hidden"
+					>
+						<div className="py-4">{children}</div>
+					</motion.div>
+				) : null}
+			</AnimatePresence>
+		</div>
+	)
+}

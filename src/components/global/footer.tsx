@@ -32,7 +32,7 @@ export const Footer = () => {
 					</Link>
 
 					<nav aria-label="Footer navigation">
-						<ul className="flex flex-wrap items-center gap-x-8 gap-y-4 lg:justify-center">
+						<ul className="flex flex-wrap items-center gap-x-2 md:gap-x-8 gap-y-4 lg:justify-center">
 							{navigationLinks.map((link) => (
 								<li key={link.label}>
 									<a
@@ -56,8 +56,8 @@ export const Footer = () => {
 						</ul>
 					</nav>
 
-					<div className="flex flex-col gap-4 text-sm lg:items-end lg:text-right">
-						<div className="space-y-1">
+					<div className="flex flex-col gap-2 md:gap-4 text-sm lg:items-end lg:text-right">
+						<div className="flex flex-col gap-y-0.5">
 							<a
 								href="mailto:hello@sonadostudio.com"
 								className="hover:underline hover:underline-offset-2"
@@ -96,14 +96,25 @@ export const Footer = () => {
 							<Link to="/privacy-policy" className={footerTextLinkClassName}>
 								Privacy Policy
 							</Link>
-							<a href="#footer" className={footerTextLinkClassName}>
+							<button
+								type="button"
+								className={`cky-banner-element ${footerTextLinkClassName}`}
+							>
 								Cookie Settings
-							</a>
+							</button>
 						</div>
 					</div>
 
+					{/* biome-ignore lint/a11y/useValidAnchor: Native fragment navigation is preserved while focus is moved to the target. */}
 					<a
-						href="#navbar"
+						href="#page-top"
+						onClick={() => {
+							requestAnimationFrame(() => {
+								document.getElementById("page-top")?.focus({
+									preventScroll: true,
+								})
+							})
+						}}
 						className={`mx-auto mt-5 flex min-h-13 w-fit items-center justify-center gap-2 text-sm ${footerTextLinkClassName}`}
 					>
 						<span>Back to top</span>

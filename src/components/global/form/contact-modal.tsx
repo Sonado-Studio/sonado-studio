@@ -200,7 +200,8 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 					<SheetContent
 						side="right"
 						showCloseButton={false}
-						className="h-svh w-full min-w-full lg:min-w-1/2 overflow-auto px-[5%] py-8"
+						overlayClassName="duration-300 ease-out-quad"
+						className="h-svh w-full min-w-full lg:min-w-1/2 overflow-auto px-[5%] py-8 duration-300 ease-out-quad"
 					>
 						<SheetClose
 							render={

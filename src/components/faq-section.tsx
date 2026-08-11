@@ -1,3 +1,5 @@
+import { AnimatePresence, motion, useReducedMotion } from "motion/react"
+import { useId, useState } from "react"
 import { AccordionIcon } from "@/components/ui/accordion-icon"
 
 const faqs = [
@@ -71,18 +73,52 @@ export const FaqSection = () => {
 	)
 }
 
-const FaqItem = ({ question, answer }: (typeof faqs)[number]) => (
-	<details className="group w-full rounded-sm">
-		<summary className="group/summary flex min-h-16 cursor-pointer list-none items-center gap-6 overflow-clip border-t border-primary-foreground py-6 font-semibold transition-[padding,color,background-color] duration-200 hover:bg-secondary hover:px-4 hover:text-primary focus-visible:bg-secondary focus-visible:px-4 focus-visible:text-primary focus-visible:outline-none group-open:bg-secondary group-open:px-4 group-open:text-primary [&::-webkit-details-marker]:hidden">
-			<span className="min-w-0 flex-1 text-base leading-6 md:text-lg md:leading-7">
-				{question}
-			</span>
-			<span className="relative flex size-6 shrink-0 items-center justify-center">
-				<AccordionIcon className="size-2.5 rotate-45 transition-transform duration-200 group-open:rotate-0 motion-reduce:transition-none" />
-			</span>
-		</summary>
-		<div className="py-6 text-base leading-6 text-primary-foreground">
-			<p>{answer}</p>
+const FaqItem = ({ question, answer }: (typeof faqs)[number]) => {
+	const [isOpen, setIsOpen] = useState(false)
+	const prefersReducedMotion = useReducedMotion()
+	const id = useId()
+	const triggerId = `faq-trigger-${id}`
+	const contentId = `faq-content-${id}`
+
+	return (
+		<div className="w-full rounded-sm">
+			<button
+				id={triggerId}
+				type="button"
+				aria-expanded={isOpen}
+				aria-controls={contentId}
+				onClick={() => setIsOpen((open) => !open)}
+				className="group/summary flex min-h-16 w-full cursor-pointer items-center gap-6 overflow-clip border-t border-primary-foreground py-6 text-left font-semibold transition-[padding,color,background-color] duration-200 ease-out-quad hover:bg-secondary hover:px-4 hover:text-primary focus-visible:bg-secondary focus-visible:px-4 focus-visible:text-primary focus-visible:outline-none aria-expanded:bg-secondary aria-expanded:px-4 aria-expanded:text-primary"
+			>
+				<span className="min-w-0 flex-1 text-base leading-6 md:text-lg md:leading-7">
+					{question}
+				</span>
+				<span className="relative flex size-6 shrink-0 items-center justify-center">
+					<AccordionIcon className="size-2.5 rotate-45 transition-transform duration-200 ease-out-quad group-aria-expanded/summary:rotate-0 motion-reduce:transition-none" />
+				</span>
+			</button>
+
+			<AnimatePresence initial={false}>
+				{isOpen ? (
+					<motion.div
+						id={contentId}
+						role="region"
+						aria-labelledby={triggerId}
+						initial={{ height: 0, opacity: 0 }}
+						animate={{ height: "auto", opacity: 1 }}
+						exit={{ height: 0, opacity: 0 }}
+						transition={{
+							duration: prefersReducedMotion ? 0 : 0.2,
+							ease: [0.25, 0.46, 0.45, 0.94],
+						}}
+						className="overflow-hidden"
+					>
+						<div className="py-6 text-base leading-6 text-primary-foreground">
+							<p>{answer}</p>
+						</div>
+					</motion.div>
+				) : null}
+			</AnimatePresence>
 		</div>
-	</details>
-)
+	)
+}
