@@ -32,7 +32,7 @@ export const Footer = () => {
 					</Link>
 
 					<nav aria-label="Footer navigation">
-						<ul className="flex flex-wrap items-center gap-x-8 gap-y-4 lg:justify-center">
+						<ul className="flex flex-wrap items-center gap-x-2 md:gap-x-8 gap-y-4 lg:justify-center">
 							{navigationLinks.map((link) => (
 								<li key={link.label}>
 									<a
@@ -96,14 +96,17 @@ export const Footer = () => {
 							<Link to="/privacy-policy" className={footerTextLinkClassName}>
 								Privacy Policy
 							</Link>
-							<a href="#footer" className={footerTextLinkClassName}>
+							<a
+								href="#footer"
+								className={`cky-banner-element ${footerTextLinkClassName}`}
+							>
 								Cookie Settings
 							</a>
 						</div>
 					</div>
 
 					<a
-						href="#navbar"
+						href="#page-top"
 						className={`mx-auto mt-5 flex min-h-13 w-fit items-center justify-center gap-2 text-sm ${footerTextLinkClassName}`}
 					>
 						<span>Back to top</span>

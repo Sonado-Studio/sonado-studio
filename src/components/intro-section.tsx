@@ -33,7 +33,7 @@ export const IntroSection = () => {
 		<section
 			id="intro-section"
 			aria-labelledby="intro-heading"
-			className="sticky top-16 z-0 w-full bg-primary px-5 py-16 text-primary-foreground md:px-8 md:py-24 lg:top-18 lg:px-16 lg:py-28"
+			className="relative z-0 w-full bg-primary px-5 py-16 text-primary-foreground md:px-8 md:py-24 lg:sticky lg:top-18 lg:px-16 lg:py-28"
 		>
 			<h2 id="intro-heading" className="sr-only">
 				About Sonado Studio and our clients

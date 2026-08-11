@@ -2,6 +2,7 @@ import { TanStackDevtools } from "@tanstack/react-devtools"
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import { GoogleAnalytics } from "tanstack-router-ga4"
+import HeroScreen1 from "@/assets/layout/hero/screens/hero-screen-1.webp"
 import { Footer } from "@/components/global/footer"
 import { Navbar } from "@/components/global/navbar"
 
@@ -83,6 +84,12 @@ export const Route = createRootRoute({
 				rel: "stylesheet",
 				href: appCss,
 			},
+			{
+				rel: "preload",
+				as: "image",
+				href: HeroScreen1,
+				fetchPriority: "high",
+			},
 		],
 		scripts: [
 			{
@@ -133,7 +140,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			<head>
 				<HeadContent />
 			</head>
-			<body>
+			<body id="page-top">
 				<GoogleAnalytics measurementId={GA_MEASUREMENT_ID} deferred={false} />
 
 				<Navbar />
