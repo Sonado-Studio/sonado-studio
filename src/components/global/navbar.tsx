@@ -165,11 +165,11 @@ export const Navbar = () => {
 									</li>
 								</ul>
 
-								<div className="flex w-full flex-col items-start gap-6 pt-12 text-sm leading-normal text-primary-foreground">
-									<div className="flex flex-col gap-1">
+								<div className="flex w-full flex-col items-start gap-4 pt-12 text-sm leading-normal text-primary-foreground">
+									<div className="flex flex-col gap-2">
 										<a
 											href="mailto:hello@sonadostudio.com"
-											className="rounded-sm underline hover:underline-offset-2 focus-visible:bg-primary-foreground/15 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+											className="rounded-sm underline hover:underline-offset-3 focus-visible:bg-primary-foreground/15 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
 										>
 											hello@sonadostudio.com
 										</a>
@@ -178,7 +178,7 @@ export const Navbar = () => {
 
 									<ul
 										aria-label="Sonado Studio social platforms"
-										className="flex items-center gap-3"
+										className="flex items-center gap-5"
 									>
 										{socialLinks.map(({ label, href, icon: Icon }) => (
 											<li key={label}>

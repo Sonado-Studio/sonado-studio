@@ -56,17 +56,17 @@ export const Footer = () => {
 						</ul>
 					</nav>
 
-					<div className="flex flex-col gap-2 md:gap-4 text-sm lg:items-end lg:text-right">
+					<div className="flex flex-col gap-2 md:gap-3 text-sm lg:items-end lg:text-right">
 						<div className="flex flex-col gap-y-0.5">
 							<a
 								href="mailto:hello@sonadostudio.com"
-								className="hover:underline hover:underline-offset-2"
+								className="underline hover:underline-offset-3"
 							>
 								hello@sonadostudio.com
 							</a>
 							<p>Based in Nairobi → Creating globally</p>
 						</div>
-						<ul className="flex items-center gap-3" aria-label="Social links">
+						<ul className="flex items-center gap-2" aria-label="Social links">
 							{socialLinks.map(({ label, href, icon: Icon }) => (
 								<li key={label}>
 									<a
