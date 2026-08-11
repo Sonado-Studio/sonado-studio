@@ -1,14 +1,17 @@
 /** biome-ignore-all lint/correctness/noChildrenProp: {children} is used for the field component */
 "use client"
 import { useForm } from "@tanstack/react-form"
-import type { ComponentProps } from "react"
+import { Link } from "@tanstack/react-router"
+import { XIcon } from "lucide-react"
+import type { ComponentProps, ReactNode } from "react"
+import { useRef, useState } from "react"
+import { useGoogleAnalytics } from "tanstack-router-ga4"
 import type { z } from "zod"
 import { FieldInfo } from "@/components/global/form/field-info"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import {
 	Select,
 	SelectContent,
@@ -29,31 +32,63 @@ import { cn } from "@/lib/utils"
 const defaultValues: z.infer<typeof contactFormSchema> = {
 	fullName: "",
 	email: "",
-	service: "Brand-to-Launch",
+	service: [],
 	message: "",
-	budget: "$1000-$3000",
+	budget: null,
 	referralSource: null,
 	acceptTerms: false,
 }
 
-type ServiceOptionValue = z.infer<typeof contactFormSchema>["service"]
+type ServiceOptionValue = z.infer<typeof contactFormSchema>["service"][number]
+type BudgetOptionValue = Exclude<
+	z.infer<typeof contactFormSchema>["budget"],
+	null
+>
 
 const serviceOptions: {
 	value: ServiceOptionValue
-	description: string
 }[] = [
 	{
-		value: "Brand Identity",
-		description: "Logo, visual system, & brand foundations.",
+		value: "Brand Strategy Intensive",
 	},
 	{
-		value: "Brand-to-Launch",
-		description: "Brand identity & marketing website.",
+		value: "Brand Identity",
 	},
 	{
 		value: "Marketing Website",
-		description: "Website design & build focused on conversion.",
 	},
+	{
+		value: "Custom Digital Product",
+	},
+]
+
+const budgetOptions: {
+	value: BudgetOptionValue
+	label: string
+	analyticsValue: number
+}[] = [
+	{
+		value: "<Ksh 30k-60k",
+		label: "<Ksh 30k–60k",
+		analyticsValue: 45_000,
+	},
+	{
+		value: "Ksh 60k-120k",
+		label: "Ksh 60k–120k",
+		analyticsValue: 90_000,
+	},
+	{
+		value: "Ksh 120k-250k",
+		label: "Ksh 120k–250k",
+		analyticsValue: 185_000,
+	},
+	{
+		value: "Ksh 250k-500k",
+		label: "Ksh 250k–500k",
+		analyticsValue: 375_000,
+	},
+	{ value: "Ksh 500k+", label: "Ksh 500k+", analyticsValue: 500_000 },
+	{ value: "Not sure yet", label: "Not sure yet", analyticsValue: 0 },
 ]
 
 type ReferralOptionValue = Exclude<
@@ -62,15 +97,22 @@ type ReferralOptionValue = Exclude<
 >
 
 const referralOptions: { value: ReferralOptionValue; label: string }[] = [
-	{ value: "referral", label: "Referral" },
-	{ value: "socialMedia", label: "Social Media" },
 	{ value: "googleSearch", label: "Google Search" },
+	{ value: "instagram", label: "Instagram" },
+	{ value: "linkedin", label: "LinkedIn" },
+	{ value: "referral", label: "Referral / Word of Mouth" },
+	{ value: "previousClient", label: "Previous Client" },
+	{ value: "portfolio", label: "Portfolio / Case Study" },
 	{ value: "other", label: "Other" },
 ]
 
+const netlifyFormName = "sonado-project-enquiry"
+
+type SubmissionStatus = "idle" | "success" | "error"
+
 type ContactModalProps = {
 	triggerProps?: {
-		label?: string
+		label?: ReactNode
 		variant?: ComponentProps<typeof Button>["variant"]
 		size?: ComponentProps<typeof Button>["size"]
 		className?: string
@@ -78,17 +120,65 @@ type ContactModalProps = {
 }
 
 export const ContactModal = ({ triggerProps }: ContactModalProps) => {
-	// const [acceptTerms, setAcceptTerms] = useState<boolean | "indeterminate">(
-	// 	false,
-	// )
+	const ga = useGoogleAnalytics()
+	const honeypotRef = useRef<HTMLInputElement>(null)
+	const [submissionStatus, setSubmissionStatus] =
+		useState<SubmissionStatus>("idle")
 
 	const form = useForm({
 		defaultValues,
 		validators: {
 			onSubmit: contactFormSchema,
 		},
-		onSubmit: (values) => {
-			console.log(values)
+		onSubmit: async ({ value }) => {
+			setSubmissionStatus("idle")
+
+			const selectedBudget = budgetOptions.find(
+				(option) => option.value === value.budget,
+			)
+			const selectedReferral = referralOptions.find(
+				(option) => option.value === value.referralSource,
+			)
+			const body = new URLSearchParams({
+				"form-name": netlifyFormName,
+				"bot-field": honeypotRef.current?.value ?? "",
+				fullName: value.fullName,
+				email: value.email,
+				service: value.service.join(", "),
+				message: value.message ?? "",
+				budget: selectedBudget?.label ?? "",
+				referralSource: selectedReferral?.label ?? "",
+				acceptTerms: value.acceptTerms ? "Yes" : "No",
+			})
+
+			try {
+				const response = await fetch("/", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded",
+					},
+					body: body.toString(),
+				})
+
+				if (!response.ok) {
+					throw new Error(`Oops! Something went wrong: ${response.status}`)
+				}
+
+				const leadValue = selectedBudget?.analyticsValue
+
+				ga.event("generate_lead", {
+					currency: "KES",
+					value: leadValue,
+					lead_source: "Contact Form",
+					budget_range: selectedBudget?.value,
+					items: value.service,
+				})
+
+				form.reset()
+				setSubmissionStatus("success")
+			} catch {
+				setSubmissionStatus("error")
+			}
 		},
 	})
 
@@ -109,20 +199,36 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 					</SheetTrigger>
 					<SheetContent
 						side="right"
-						className="h-svh py-8 w-full border-none px-[5%] overflow-auto min-w-1/2"
+						showCloseButton={false}
+						className="h-svh w-full min-w-full lg:min-w-1/2 overflow-auto px-[5%] py-8"
 					>
-						<SheetClose />
-						<div className="mx-auto w-full">
+						<SheetClose
+							render={
+								<Button
+									variant="ghost"
+									size="icon"
+									className="absolute top-3 right-3 z-10 size-12 md:top-4 md:right-4 md:size-10"
+								/>
+							}
+						>
+							<XIcon aria-hidden="true" className="size-6 md:size-5" />
+							<span className="sr-only">Close contact form</span>
+						</SheetClose>
+						<div className="mx-auto w-full pt-4">
 							<div className="mb-8 space-y-3 md:mb-10 lg:mb-8">
-								<h2>Get in touch</h2>
+								<h2>Tell us about your project</h2>
 								<p className="text-balance">
-									Thank you for your interest in working with Sonado Studio!
+									Thank you for your interest in working with Sonado Studio.
 									Share a few details about your project and we'll get back to
-									you as soon as possible.
+									you as soon as possible to discuss next steps.
 								</p>
 							</div>
 
 							<form
+								name={netlifyFormName}
+								method="POST"
+								data-netlify="true"
+								data-netlify-honeypot="bot-field"
 								className="grid grid-cols-1 grid-rows-[auto_auto] gap-8"
 								onSubmit={(e) => {
 									e.preventDefault()
@@ -130,6 +236,21 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 									form.handleSubmit()
 								}}
 							>
+								<input type="hidden" name="form-name" value={netlifyFormName} />
+								<p className="sr-only" aria-hidden="true">
+									<label htmlFor="bot-field">
+										Do not fill out this field if you are human
+									</label>
+									<input
+										ref={honeypotRef}
+										id="bot-field"
+										name="bot-field"
+										type="text"
+										tabIndex={-1}
+										autoComplete="off"
+									/>
+								</p>
+
 								<form.Field
 									name="fullName"
 									children={(field) => (
@@ -140,12 +261,13 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 											</Label>
 											<Input
 												id={field.name}
+												name={field.name}
 												type="text"
 												value={field.state.value}
 												onBlur={field.handleBlur}
 												onChange={(e) => field.handleChange(e.target.value)}
 												aria-invalid={!field.state.meta.isValid}
-												placeholder="Enter your name"
+												placeholder="Your name"
 											/>
 											<FieldInfo field={field} />
 										</div>
@@ -162,12 +284,13 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 											</Label>
 											<Input
 												id={field.name}
+												name={field.name}
 												type="email"
 												value={field.state.value}
 												onBlur={field.handleBlur}
 												onChange={(e) => field.handleChange(e.target.value)}
 												aria-invalid={!field.state.meta.isValid}
-												placeholder="you@mail.com"
+												placeholder="you@example.com"
 											/>
 											<FieldInfo field={field} />
 										</div>
@@ -178,33 +301,41 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 									name="service"
 									children={(field) => {
 										return (
-											<div className="flex flex-col space-y-1">
-												<Label>
-													What can we help with?
+											<fieldset className="flex flex-col space-y-2">
+												<legend className="mb-0.5 text-base font-medium leading-none flex gap-2 items-center">
+													What can we help you with?
 													<span className="text-accent -ml-1">*</span>
-												</Label>
-												<RadioGroup
-													value={field.state.value}
-													onValueChange={(value) => field.handleChange(value)}
-													className="grid gap-3 lg:grid-cols-3 md:grid-cols-2"
-												>
+												</legend>
+												<div className="grid gap-2 md:grid-cols-2 lg:grid-cols-4 pb-3">
 													{serviceOptions.map((option) => {
-														const isSelected =
-															field.state.value === option.value
+														const isSelected = field.state.value.includes(
+															option.value,
+														)
 														const id = `service-${option.value}`
 
 														return (
-															<div key={option.value}>
-																<RadioGroupItem
-																	value={option.value}
+															<div key={option.value} className="relative">
+																<Checkbox
 																	id={id}
-																	className="sr-only"
-																	aria-hidden="true"
+																	name={field.name}
+																	checked={isSelected}
+																	onCheckedChange={(checked) => {
+																		field.handleChange(
+																			checked
+																				? [...field.state.value, option.value]
+																				: field.state.value.filter(
+																						(value) => value !== option.value,
+																					),
+																		)
+																	}}
+																	onBlur={field.handleBlur}
+																	className="peer sr-only"
+																	aria-invalid={!field.state.meta.isValid}
 																/>
 																<Label
 																	htmlFor={id}
 																	className={cn(
-																		"flex cursor-pointer flex-col rounded-md border p-3 transition-colors items-center justify-center h-full text-center",
+																		"flex min-h-14 h-full cursor-pointer items-center justify-center rounded-sm border px-2 py-2 text-center text-sm leading-tight transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-ring peer-focus-visible:ring-offset-2",
 																		isSelected
 																			? "border-secondary bg-primary text-primary-foreground"
 																			: "border-border hover:border-primary/60",
@@ -217,22 +348,13 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 																	>
 																		{option.value}
 																	</span>
-																	<span
-																		className={cn(
-																			"mt-1 text-sm text-muted-foreground text-center text-balance",
-																			isSelected &&
-																				"text-primary-foreground/80",
-																		)}
-																	>
-																		{option.description}
-																	</span>
 																</Label>
 															</div>
 														)
 													})}
-												</RadioGroup>
+												</div>
 												<FieldInfo field={field} />
-											</div>
+											</fieldset>
 										)
 									}}
 								/>
@@ -244,11 +366,12 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 											<Label htmlFor={field.name}>Message</Label>
 											<Textarea
 												id={field.name}
+												name={field.name}
 												value={field.state.value}
 												onBlur={field.handleBlur}
 												onChange={(e) => field.handleChange(e.target.value)}
 												aria-invalid={!field.state.meta.isValid}
-												placeholder="Briefly tell us about your project"
+												placeholder="A short description of your business, goals, or project. No formal brief required."
 											/>
 											<FieldInfo field={field} />
 										</div>
@@ -260,10 +383,11 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 									children={(field) => (
 										<div className="flex flex-col space-y-2">
 											<Label htmlFor={field.name}>
-												Estimated Budget
+												Estimated Investment
 												<span className="text-accent -ml-1">*</span>
 											</Label>
 											<Select
+												name={field.name}
 												value={field.state.value}
 												onValueChange={(value) =>
 													field.handleChange(value as typeof field.state.value)
@@ -274,17 +398,20 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 													id={field.name}
 													aria-invalid={!field.state.meta.isValid}
 												>
-													<SelectValue placeholder="Select your budget range" />
+													<SelectValue placeholder="Select your budget range">
+														{(value: BudgetOptionValue | null) =>
+															budgetOptions.find(
+																(option) => option.value === value,
+															)?.label ?? "Select your budget range"
+														}
+													</SelectValue>
 												</SelectTrigger>
 												<SelectContent>
-													<SelectItem value="<$1000">&lt;$1,000</SelectItem>
-													<SelectItem value="$1000-$3000">
-														$1,000–$3,000
-													</SelectItem>
-													<SelectItem value="$3000-$5000">
-														$3,000–$5,000
-													</SelectItem>
-													<SelectItem value="$5000+">$5,000+</SelectItem>
+													{budgetOptions.map((option) => (
+														<SelectItem key={option.value} value={option.value}>
+															{option.label}
+														</SelectItem>
+													))}
 												</SelectContent>
 											</Select>
 											<FieldInfo field={field} />
@@ -295,46 +422,40 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 								<form.Field
 									name="referralSource"
 									children={(field) => (
-										<div className="flex flex-col space-y-1">
-											<Label>How did you hear about us?</Label>
-											<RadioGroup
-												value={field.state.value ?? ""}
+										<div className="flex flex-col space-y-2">
+											<Label htmlFor={field.name}>
+												How did you hear about us?
+											</Label>
+											<Select
+												name={field.name}
+												value={field.state.value}
 												onValueChange={(value) =>
-													field.handleChange(value as ReferralOptionValue)
-												}
-												className="grid gap-2 lg:grid-cols-4 md:grid-cols-2"
-											>
-												{referralOptions.map((option) => {
-													const isSelected = field.state.value === option.value
-													const id = `referral-${option.value}`
-
-													return (
-														<div key={option.value}>
-															<RadioGroupItem
-																value={option.value}
-																id={id}
-																className="sr-only"
-																aria-hidden="true"
-															/>
-															<Label
-																htmlFor={id}
-																className={cn(
-																	"flex cursor-pointer flex-col rounded-md border p-3 transition-colors text-sm text-center h-full items-center justify-center",
-																	isSelected
-																		? "border-secondary bg-primary text-primary-foreground"
-																		: "border-border hover:border-primary/60",
-																)}
-															>
-																<span
-																	className={cn(isSelected && "font-semibold")}
-																>
-																	{option.label}
-																</span>
-															</Label>
-														</div>
+													field.handleChange(
+														value as ReferralOptionValue | null,
 													)
-												})}
-											</RadioGroup>
+												}
+											>
+												<SelectTrigger
+													id={field.name}
+													className="w-full"
+													aria-invalid={!field.state.meta.isValid}
+												>
+													<SelectValue placeholder="Select a referral source">
+														{(value: ReferralOptionValue | null) =>
+															referralOptions.find(
+																(option) => option.value === value,
+															)?.label ?? "Select a referral source"
+														}
+													</SelectValue>
+												</SelectTrigger>
+												<SelectContent>
+													{referralOptions.map((option) => (
+														<SelectItem key={option.value} value={option.value}>
+															{option.label}
+														</SelectItem>
+													))}
+												</SelectContent>
+											</Select>
 											<FieldInfo field={field} />
 										</div>
 									)}
@@ -347,7 +468,9 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 											<div className="flex items-start gap-3">
 												<Checkbox
 													id={field.name}
+													name={field.name}
 													checked={field.state.value}
+													required
 													onCheckedChange={(checked) =>
 														field.handleChange(Boolean(checked))
 													}
@@ -355,10 +478,17 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 												/>
 												<Label
 													htmlFor={field.name}
-													className="text-sm leading-none"
+													className="block text-sm leading-5"
 												>
-													I agree to the terms and conditions
-													<span className="text-accent -ml-1">*</span>
+													I have read and understand the{" "}
+													<Link
+														to="/privacy-policy"
+														className="inline underline transition-[text-underline-offset] duration-200 hover:underline-offset-2 focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+													>
+														Privacy Policy
+													</Link>{" "}
+													and agree to Sonado Studio using my information to
+													respond to this enquiry.
 												</Label>
 											</div>
 											<FieldInfo field={field} />
@@ -366,9 +496,35 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 									)}
 								/>
 
-								<div className="flex">
-									<Button type="submit">Send message</Button>
-								</div>
+								<form.Subscribe
+									selector={(state) =>
+										[state.values.acceptTerms, state.isSubmitting] as const
+									}
+								>
+									{([acceptTerms, isSubmitting]) => (
+										<div className="flex flex-col items-start gap-3">
+											{submissionStatus === "success" && (
+												<output className="text-sm">
+													Thank you for your enquiry! You can expect a response
+													within 1-2 business days.
+												</output>
+											)}
+											{submissionStatus === "error" && (
+												<p className="text-sm text-accent" role="alert">
+													We couldn&apos;t send your enquiry. Please try again.
+												</p>
+											)}
+											<div className="flex">
+												<Button
+													type="submit"
+													disabled={!acceptTerms || isSubmitting}
+												>
+													{isSubmitting ? "Sending…" : "Send project enquiry"}
+												</Button>
+											</div>
+										</div>
+									)}
+								</form.Subscribe>
 							</form>
 						</div>
 					</SheetContent>

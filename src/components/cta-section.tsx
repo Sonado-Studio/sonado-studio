@@ -1,24 +1,59 @@
+import ArrowForwardIcon from "@/assets/layout/cta/arrow-forward.svg"
 import { ContactModal } from "@/components/global/form/contact-modal"
 
 export const CtaSection = () => {
 	return (
 		<section
 			id="cta-section"
-			className="px-[5%] py-16 md:py-24 lg:py-28 bg-muted w-full"
+			aria-labelledby="cta-heading"
+			className="w-full bg-muted px-5 py-16 md:px-8 md:py-24 lg:px-16 lg:py-28"
 		>
-			<div className="container max-w-lg text-center flex gap-5 flex-col">
-				<h2>Got a project in mind?</h2>
-				<p>
-					We partner closely with each client to deliver thoughtful,
-					high-quality work. Let's collaborate.
-				</p>
-				<div className="mt-2">
-					<ContactModal
-						triggerProps={{
-							label: "Contact Us",
-							variant: "default",
-						}}
-					/>
+			<div className="mx-auto w-full max-w-7xl">
+				<div className="rounded-sm border border-primary bg-primary p-6 text-primary-foreground md:p-8 lg:p-12">
+					<div className="flex flex-col gap-12 md:gap-16">
+						<div>
+							<h2
+								id="cta-heading"
+								className="text-2xl font-normal leading-[1.3] tracking-[-0.03em] md:text-[1.75rem] lg:text-[2rem]"
+							>
+								Start with a discovery call
+							</h2>
+							<div className="mt-4.5 text-base font-medium leading-6 md:text-lg md:leading-7 lg:max-w-2xl text-pretty">
+								<p>
+									Every project begins with a conversation to understand your
+									goals, answer questions, and decide whether Sonado Studio is
+									the right fit for your business.
+								</p>
+							</div>
+						</div>
+
+						<ContactModal
+							triggerProps={{
+								label: (
+									<>
+										<span className="block w-full font-display text-[clamp(2.25rem,5.3vw,4.75rem)] font-semibold leading-[1.2] tracking-[-0.015em] md:min-w-0">
+											Tell us about your project
+										</span>
+										<span className="relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-primary-foreground sm:size-12 sm:border-3 md:size-14 lg:size-18 xl:size-20 lg:border-5 self-center">
+											<img
+												src={ArrowForwardIcon}
+												alt=""
+												className="absolute size-5 transition-transform duration-300 ease-linear group-hover/button:translate-x-[200%] group-focus-visible/button:translate-x-[200%] motion-reduce:transition-none motion-reduce:group-hover/button:translate-x-0 motion-reduce:group-focus-visible/button:translate-x-0 md:size-7 lg:size-10"
+											/>
+											<img
+												src={ArrowForwardIcon}
+												alt=""
+												className="absolute size-5 -translate-x-[200%] transition-transform duration-300 ease-linear group-hover/button:translate-x-0 group-focus-visible/button:translate-x-0 motion-reduce:transition-none motion-reduce:group-hover/button:-translate-x-[200%] motion-reduce:group-focus-visible/button:-translate-x-[200%] md:size-7 lg:size-10"
+											/>
+										</span>
+									</>
+								),
+								variant: "default",
+								className:
+									"flex h-auto w-full flex-col items-stretch gap-6 rounded-none border-0 bg-transparent px-0 py-0 md:text-left text-primary-foreground whitespace-normal shadow-none transition-[padding,transform] duration-250 hover:bg-transparent hover:pl-4 focus-visible:px-4 active:scale-[0.99] md:flex-row md:items-end md:justify-between",
+							}}
+						/>
+					</div>
 				</div>
 			</div>
 		</section>

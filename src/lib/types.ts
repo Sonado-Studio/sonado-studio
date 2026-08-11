@@ -8,17 +8,42 @@ export const contactFormSchema = z.object({
 		.max(50, { message: "Please enter a valid name less than 50 characters" }),
 	email: z.email({ message: "Please enter a valid email address" }),
 	service: z
-		.enum(["Brand Identity", "Brand-to-Launch", "Marketing Website"])
-		.refine((value) => value !== undefined, {
-			message: "Please select a service",
-		}),
+		.array(
+			z.enum([
+				"Brand Strategy Intensive",
+				"Brand Identity",
+				"Marketing Website",
+				"Custom Digital Product",
+			]),
+		)
+		.min(1, "Please select at least one service"),
 	message: z
 		.string()
 		.max(500, { message: "Please enter a message less than 500 characters" })
 		.optional(),
-	budget: z.enum(["<$1000", "$1000-$3000", "$3000-$5000", "$5000+"]),
+	budget: z
+		.enum([
+			"<Ksh 30k-60k",
+			"Ksh 60k-120k",
+			"Ksh 120k-250k",
+			"Ksh 250k-500k",
+			"Ksh 500k+",
+			"Not sure yet",
+		])
+		.nullable()
+		.refine((value): boolean => value !== null, {
+			message: "Please select an estimated investment",
+		}),
 	referralSource: z
-		.enum(["referral", "socialMedia", "googleSearch", "other"])
+		.enum([
+			"googleSearch",
+			"instagram",
+			"linkedin",
+			"referral",
+			"previousClient",
+			"portfolio",
+			"other",
+		])
 		.nullable(),
 	acceptTerms: z.boolean().refine((data) => data === true, {
 		message: "Please accept the terms and conditions to continue",

@@ -1,173 +1,394 @@
-import { motion, useScroll, useSpring, useTransform } from "motion/react"
-import { useRef } from "react"
+import {
+	motion,
+	useReducedMotion,
+	useScroll,
+	useSpring,
+	useTransform,
+} from "motion/react"
+import { useCallback, useEffect, useRef, useState } from "react"
+import BrandIdentityImage from "@/assets/layout/services/brand-identity.webp"
+import BrandStrategyImage from "@/assets/layout/services/brand-strategy.webp"
+import CustomDigitalProductsImage from "@/assets/layout/services/custom-digital-products.webp"
+import MarketingWebsiteImage from "@/assets/layout/services/marketing-website.webp"
+import { AccordionIcon } from "@/components/ui/accordion-icon"
 import { Badge } from "@/components/ui/badge"
 import { useMediaQuery } from "@/hooks/use-media-query"
 
 type Service = {
 	number: string
+	eyebrow: string
 	heading: string
-	description: string
+	price: string
+	summary: string
+	image: string
+	imageAlt: string
+	imagePosition?: "center" | "top"
+	listHeading: string
 	features: string[]
-	popularBadge: boolean
+	fit: string
+	timeline: string
 }
 
 const services: Service[] = [
 	{
 		number: "01",
-		heading: "Brand Identity",
-		description:
-			"We focus on how your brand shows up online across your website, product, and digital touch-points. We help you define a strategic and visual foundation that feels considered, credible, and adaptable.",
+		eyebrow: "START WITH STRATEGY",
+		heading: "Brand Strategy Intensive",
+		price: "Starting from Ksh 30k",
+		summary:
+			"This is a focused strategy engagement designed for founders and teams who need clarity on what makes your business different, who you’re trying to reach, and how to communicate your value with confidence before investing in branding or a website.",
+		image: BrandStrategyImage,
+		imageAlt: "Brand Foundations strategy presentation",
+		listHeading: "What’s included",
 		features: [
-			"Logo (primary + variations)",
-			"Typography system",
-			"Color palette",
-			"Brand strategy",
-			"Brand usage guidelines",
-			"Social media templates (x5)",
+			"Brand strategy questionnaire",
+			"90-minute strategy workshop",
+			"Brand Strategy Playbook",
 		],
-		popularBadge: false,
+		fit: "New businesses, founders preparing for a rebrand, organisations launching a new initiative, or teams that feel their messaging is unclear or inconsistent.",
+		timeline:
+			"Questionnaire completed in advance, 90-minute workshop, and playbook delivered within 7–10 business days.",
 	},
 	{
 		number: "02",
-		heading: "Brand-to-Launch",
-		description:
-			"Our Brand-to-Launch service is designed for businesses that need clarity, consistency, and a strong online presence all working together from day one. We develop your brand identity and translate it directly into a focused, conversion-driven marketing website that scales with you as you grow.",
+		eyebrow: "BUILD THE FOUNDATION",
+		heading: "Brand Identity",
+		price: "Starting from Ksh 90k",
+		summary:
+			"Rather than designing a logo in isolation, we develop cohesive visual identities that feel considered, professional, and easy to use as your business grows.",
+		image: BrandIdentityImage,
+		imageAlt:
+			"Brand identity system showing pattern, typography, and colour palette",
+		imagePosition: "top",
+		listHeading: "What’s included",
 		features: [
-			"Complete brand identity",
-			"Marketing website design & build",
-			"Conversion-focused copywriting",
-			"Webflow or custom code build",
-			"Basic SEO & performance setup",
-			"Launch support",
+			"Logo suite (primary + variations)",
+			"Typography system",
+			"Colour palette",
+			"Visual direction & brand assets",
+			"Brand usage guidelines",
+			"Social media templates",
 		],
-		popularBadge: true,
+		fit: "Businesses launching for the first time, companies that have outgrown their current branding, or founders who want a more polished and professional market presence.",
+		timeline:
+			"Most brand identity projects are completed in 4–6 weeks, depending on feedback rounds and scope.",
 	},
 	{
 		number: "03",
+		eyebrow: "LAUNCH ONLINE",
 		heading: "Marketing Website",
-		description:
-			"We design and build streamlined websites that communicate your value, guide users, and support real business goals. Ideal for launches, campaigns, and growing businesses that need a cohesive online presence without the complexity of a full web app or backend system.",
+		price: "Starting from Ksh 150k",
+		summary:
+			"Focused marketing websites that help businesses show up confidently, communicate their value clearly, and guide visitors toward taking action.",
+		image: MarketingWebsiteImage,
+		imageAlt: "My Happy Everything marketing website",
+		listHeading: "What’s included",
 		features: [
 			"Website strategy & page structure",
 			"Responsive website design",
 			"Conversion-focused copywriting",
-			"Website build using Webflow or custom code",
-			"Basic on-page SEO & performance setup",
-			"Launch support",
+			"CMS setup when needed",
+			"Webflow or custom website build",
+			"Basic SEO & launch support",
 		],
-		popularBadge: false,
+		fit: "Service businesses, consultants, studios, NGOs, and growing companies that need a professional online presence without the complexity of a full custom web application.",
+		timeline:
+			"Most marketing websites are completed in 8–10 weeks, depending on content readiness and scope.",
+	},
+	{
+		number: "04",
+		eyebrow: "FOR MORE COMPLEX DIGITAL PRODUCTS",
+		heading: "Custom Digital Products",
+		price: "Custom quoted",
+		summary: "Digital products designed around your business goals.",
+		image: CustomDigitalProductsImage,
+		imageAlt: "Built-in kitchen appliances visualiser interface",
+		listHeading: "Typical projects",
+		features: [
+			"Shopify-powered websites",
+			"Customer portals & member areas",
+			"Internal tools & dashboards",
+			"Web apps",
+			"Proof-of-concept builds",
+			"Custom integrations",
+		],
+		fit: "Businesses that need functionality beyond a standard marketing website, including e-commerce, subscriptions, user sign-ups, operational tools, or early-stage digital products.",
+		timeline:
+			"Timelines vary by scope, but most MVP and custom product projects are delivered in 8–16+ weeks following a dedicated scoping phase.",
 	},
 ]
 
 export const ServicesSection = () => {
-	const ref = useRef<HTMLDivElement>(null)
-	const isTablet = useMediaQuery("(min-width: 768px) and (max-width: 991px)")
+	const cardRefs = useRef<(HTMLElement | null)[]>([])
+	const [activeIndex, setActiveIndex] = useState(0)
+	const prefersReducedMotion = useReducedMotion()
 
-	const { scrollYProgress } = useScroll({
-		target: ref,
-		offset: ["start end", "end start"],
-	})
-
-	const serviceCount = services.length
-	const numbers = Array.from({ length: serviceCount }, (_, index) => index + 1)
-
-	const y = useTransform(
-		scrollYProgress,
-		[0.3, 0.4, 0.5, 0.6, 0.7, 0.8],
-		isTablet
-			? ["0%", "-25%", "-25%", "-50%", "-50%", "-75%"]
-			: ["0%", "0%", "-25%", "-35%", "-50%", "-75%"],
+	const setCardRef = useCallback(
+		(element: HTMLElement | null, index: number) => {
+			cardRefs.current[index] = element
+		},
+		[],
 	)
+
+	useEffect(() => {
+		const crossedCardIndexes = new Set<number>()
+		const cardIndexes = new Map(
+			cardRefs.current.flatMap((element, index) =>
+				element ? [[element, index] as const] : [],
+			),
+		)
+		const observer = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					const index = cardIndexes.get(entry.target as HTMLElement)
+					if (index === undefined || !entry.rootBounds) continue
+
+					if (entry.boundingClientRect.top <= entry.rootBounds.bottom) {
+						crossedCardIndexes.add(index)
+					} else {
+						crossedCardIndexes.delete(index)
+					}
+				}
+
+				setActiveIndex(
+					crossedCardIndexes.size > 0 ? Math.max(...crossedCardIndexes) : 0,
+				)
+			},
+			{ rootMargin: "0px 0px -70% 0px" },
+		)
+
+		for (const element of cardIndexes.keys()) observer.observe(element)
+
+		return () => observer.disconnect()
+	}, [])
 
 	return (
 		<section
 			id="services-section"
-			ref={ref}
-			className="px-[5%] py-16 md:py-24 lg:py-28 relative"
+			aria-labelledby="services-heading"
+			className="w-full bg-background px-5 py-16 md:px-8 md:py-24 lg:px-16 lg:py-28"
 		>
-			<div className="container">
-				<h2 className="lg:mb-28 md:mb-24">Our Expertise</h2>
-				<div className="relative grid auto-cols-fr grid-cols-1 items-start gap-x-8 gap-y-12 md:grid-cols-[0.75fr_1fr] md:gap-y-16 lg:grid-cols-[max-content_1fr] lg:gap-x-20">
-					<div className="top-[20%] hidden h-56 overflow-hidden md:sticky md:flex md:items-start">
-						<h3 className="text-8xl leading-none md:text-[13rem] text-accent">
-							0
-						</h3>
-						<motion.div className="text-center" style={{ y }}>
-							{numbers.map((number) => (
-								<h3
-									key={number}
-									className="text-8xl leading-none md:text-[13rem] text-accent"
-								>
-									{number}
-								</h3>
-							))}
-						</motion.div>
-					</div>
-					<div className="grid auto-cols-fr grid-cols-1 gap-x-12 gap-y-12 md:gap-x-28 md:gap-y-28">
-						{services.map((service) => (
-							<ServiceCard key={service.number} {...service} />
-						))}
-					</div>
+			<div className="mx-auto w-full max-w-7xl">
+				<h2
+					id="services-heading"
+					className="font-sans text-base font-medium leading-6 tracking-normal text-accent"
+				>
+					OUR SERVICES
+				</h2>
+			</div>
+
+			<div className="mx-auto mt-12 grid w-full max-w-7xl grid-cols-1 items-start gap-16 md:mt-16 lg:mt-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-20">
+				<ServiceVisual
+					activeIndex={activeIndex}
+					prefersReducedMotion={Boolean(prefersReducedMotion)}
+				/>
+
+				<div className="flex min-w-0 flex-col gap-24 md:gap-28">
+					{services.map((service, index) => (
+						<ServiceCard
+							key={service.number}
+							service={service}
+							cardRef={(element) => setCardRef(element, index)}
+							prefersReducedMotion={Boolean(prefersReducedMotion)}
+						/>
+					))}
 				</div>
 			</div>
 		</section>
 	)
 }
 
-const ServiceCard = ({ ...service }: Service) => {
+const ServiceVisual = ({
+	activeIndex,
+	prefersReducedMotion,
+}: {
+	activeIndex: number
+	prefersReducedMotion: boolean
+}) => (
+	<div className="sticky top-[max(5rem,calc(50svh-269.5px))] hidden min-h-127.5 w-full flex-col items-center gap-20 lg:flex">
+		<div className="h-39.75 overflow-hidden" aria-hidden="true">
+			<motion.div
+				animate={{ y: -(activeIndex * 159) }}
+				transition={
+					prefersReducedMotion
+						? { duration: 0 }
+						: { type: "spring", stiffness: 300, damping: 30 }
+				}
+			>
+				{services.map((service) => (
+					<p
+						key={service.number}
+						className="h-39.75 overflow-hidden font-sans text-[13rem] font-semibold leading-35 tracking-[-0.04em] text-accent"
+					>
+						{service.number}
+					</p>
+				))}
+			</motion.div>
+		</div>
+
+		<ServiceImage
+			service={services[activeIndex]}
+			prefersReducedMotion={prefersReducedMotion}
+		/>
+	</div>
+)
+
+const ServiceImage = ({
+	service,
+	prefersReducedMotion = false,
+}: {
+	service: Service
+	prefersReducedMotion?: boolean
+}) => (
+	<div className="aspect-[450/271.09] w-full rounded-sm bg-muted p-2.5 md:p-4">
+		<div className="size-full overflow-hidden rounded-sm">
+			<motion.img
+				key={service.number}
+				src={service.image}
+				alt={service.imageAlt}
+				loading="lazy"
+				decoding="async"
+				initial={prefersReducedMotion ? false : { opacity: 0 }}
+				animate={{ opacity: 1 }}
+				transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
+				className={`size-full object-cover ${
+					service.imagePosition === "top" ? "object-top" : "object-center"
+				}`}
+			/>
+		</div>
+	</div>
+)
+
+const ServiceCard = ({
+	service,
+	cardRef,
+	prefersReducedMotion,
+}: {
+	service: Service
+	cardRef: (element: HTMLElement | null) => void
+	prefersReducedMotion: boolean
+}) => {
 	const isMobile = useMediaQuery("(max-width: 767px)")
-	const ref = useRef<HTMLDivElement>(null)
+	const progressRef = useRef<HTMLDivElement>(null)
 	const { scrollYProgress } = useScroll({
-		target: ref,
-		offset: ["start center", "end center"],
+		target: progressRef,
+		offset: isMobile
+			? ["start center", "end center"]
+			: ["start 30%", "end 30%"],
 	})
-	const animatedWidth = useSpring(scrollYProgress, {
+	const springProgress = useSpring(scrollYProgress, {
 		stiffness: 100,
 		damping: 20,
 	})
-	const width = { width: useTransform(animatedWidth, [0, 1], ["0%", "100%"]) }
+	const animatedProgress = prefersReducedMotion
+		? scrollYProgress
+		: springProgress
+	const width = useTransform(animatedProgress, [0, 1], ["0%", "100%"])
 
-	const leftFeatures = service.features.slice(0, 3)
-	const rightFeatures = service.features.slice(3)
+	const splitIndex = Math.ceil(service.features.length / 2)
+	const featureColumns =
+		service.features.length > 3
+			? [
+					service.features.slice(0, splitIndex),
+					service.features.slice(splitIndex),
+				]
+			: [service.features]
 
 	return (
-		<div className="relative flex flex-col items-start justify-center">
-			<div className="mt-10 flex flex-row items-center gap-4 text-3xl leading-none md:mt-0 md:hidden md:text-[13rem] text-accent">
-				{service.number}
-				{service.popularBadge && isMobile && (
-					<Badge variant="secondary">Most Popular!</Badge>
-				)}
+		<article
+			ref={cardRef}
+			aria-labelledby={`service-${service.number}-heading`}
+			className="flex min-w-0 flex-col items-start"
+		>
+			<div className="mb-12 flex w-full flex-col lg:hidden">
+				<p className="font-sans text-8xl font-semibold leading-none tracking-[-0.04em] text-accent">
+					{service.number}
+				</p>
 			</div>
+
 			<div
-				ref={ref}
-				className="mb-8 mt-8 h-0.5 w-full bg-primary/10 md:mt-0 relative"
+				ref={progressRef}
+				className="h-0.5 w-full overflow-clip bg-primary/10"
 			>
-				<motion.div className="h-0.5 w-8 bg-accent/50" style={width} />
+				<motion.div className="h-full min-w-8 bg-accent" style={{ width }} />
 			</div>
-			{service.popularBadge && !isMobile && (
-				<Badge variant="secondary" className="mb-5">
-					Most Popular!
-				</Badge>
-			)}
-			<h3 className="mb-5 text-3xl md:mb-6 md:text-4xl">{service.heading}</h3>
-			<div className="flex flex-col gap-5">
-				<p>{service.description}</p>
-				<p>What’s Included?</p>
-				<div className="-mt-5 grid grid-cols-1 lg:grid-cols-2">
-					<ul className="list-disc list-outside pl-5 space-y-1">
-						{leftFeatures.map((feature) => (
-							<li key={feature}>{feature}</li>
-						))}
-					</ul>
-					{rightFeatures.length > 0 && (
-						<ul className="list-disc list-outside pl-5 space-y-1">
-							{rightFeatures.map((feature) => (
-								<li key={feature}>{feature}</li>
-							))}
-						</ul>
-					)}
+
+			<div className="mt-8 flex w-full flex-col items-start gap-4 text-base leading-6 text-foreground md:text-lg md:leading-normal">
+				<p className="font-sans text-xs font-medium leading-normal tracking-[0.02em] text-foreground">
+					{service.eyebrow}
+				</p>
+
+				<div className="flex w-full flex-col gap-6">
+					<div className="flex flex-col items-start gap-3">
+						<h3
+							id={`service-${service.number}-heading`}
+							className="text-[2rem] leading-[1.2] tracking-[-0.015em] md:text-5xl"
+						>
+							{service.heading}
+						</h3>
+						<Badge className="h-auto border-secondary/20 bg-muted px-2.5 py-1 font-sans text-sm font-medium leading-6 tracking-normal text-accent">
+							{service.price}
+						</Badge>
+					</div>
+
+					<p>{service.summary}</p>
+				</div>
+
+				<div className="flex w-full flex-col gap-2 pt-4">
+					<ServiceAccordion label={service.listHeading}>
+						<div
+							className={
+								featureColumns.length > 1
+									? "grid grid-cols-1 sm:grid-cols-2"
+									: "grid grid-cols-1"
+							}
+						>
+							{featureColumns.map((features, index) =>
+								features.length > 0 ? (
+									<ul
+										key={index === 0 ? "first-column" : "second-column"}
+										className="list-outside list-disc pl-6.75"
+									>
+										{features.map((feature) => (
+											<li key={feature}>{feature}</li>
+										))}
+									</ul>
+								) : null,
+							)}
+						</div>
+					</ServiceAccordion>
+
+					<ServiceAccordion label="Perfect for">
+						<p>{service.fit}</p>
+					</ServiceAccordion>
+
+					<ServiceAccordion label="Typical timeline">
+						<p>{service.timeline}</p>
+					</ServiceAccordion>
+				</div>
+
+				<div className="mt-6 w-full lg:hidden">
+					<ServiceImage service={service} prefersReducedMotion />
 				</div>
 			</div>
-		</div>
+		</article>
 	)
 }
+
+const ServiceAccordion = ({
+	label,
+	children,
+}: {
+	label: string
+	children: React.ReactNode
+}) => (
+	<details className="group w-full rounded-sm">
+		<summary className="flex cursor-pointer list-none items-center gap-6 overflow-clip border-t border-foreground py-4 font-medium transition-[padding] duration-200 hover:px-4 focus-visible:px-4 focus-visible:outline-none [&::-webkit-details-marker]:hidden">
+			<span className="min-w-0 flex-1">{label}</span>
+			<span className="flex size-6 shrink-0 items-center justify-center">
+				<AccordionIcon className="size-2.5 rotate-45 transition-transform duration-200 group-open:rotate-0 motion-reduce:transition-none" />
+			</span>
+		</summary>
+		<div className="py-4">{children}</div>
+	</details>
+)
