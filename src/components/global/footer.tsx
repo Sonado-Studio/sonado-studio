@@ -96,12 +96,12 @@ export const Footer = () => {
 							<Link to="/privacy-policy" className={footerTextLinkClassName}>
 								Privacy Policy
 							</Link>
-							<a
-								href="#footer"
+							<button
+								type="button"
 								className={`cky-banner-element ${footerTextLinkClassName}`}
 							>
 								Cookie Settings
-							</a>
+							</button>
 						</div>
 					</div>
 
