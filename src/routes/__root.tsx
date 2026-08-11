@@ -7,6 +7,8 @@ import { Navbar } from "@/components/global/navbar"
 
 import appCss from "../styles.css?url"
 
+const GA_MEASUREMENT_ID = "G-QNDXP5PPHK"
+
 export const Route = createRootRoute({
 	head: () => ({
 		meta: [
@@ -48,7 +50,7 @@ export const Route = createRootRoute({
 			},
 			{
 				property: "og:image:height",
-				content: "668",
+				content: "584",
 			},
 			{
 				property: "og:image:alt",
@@ -84,6 +86,36 @@ export const Route = createRootRoute({
 		],
 		scripts: [
 			{
+				id: "google-consent-defaults",
+				children: `
+          window.dataLayer = window.dataLayer || [];
+
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+
+          gtag("consent", "default", {
+            ad_storage: "denied",
+            ad_user_data: "denied",
+            ad_personalization: "denied",
+            analytics_storage: "denied",
+            functionality_storage: "denied",
+            personalization_storage: "denied",
+            security_storage: "granted",
+            wait_for_update: 2000
+          });
+
+          gtag("set", "ads_data_redaction", true);
+          gtag("set", "url_passthrough", true);
+        `,
+			},
+			{
+				id: "google-analytics",
+				async: true,
+				src: `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`,
+			},
+			{
+				id: "cookieyes",
 				src: "https://cdn-cookieyes.com/client_data/655147302848bc3446a599f58aa3c37c/script.js",
 			},
 		],
@@ -102,10 +134,12 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<HeadContent />
 			</head>
 			<body>
-				<GoogleAnalytics measurementId="G-QNDXP5PPHK" />
+				<GoogleAnalytics measurementId={GA_MEASUREMENT_ID} deferred={false} />
+
 				<Navbar />
 				{children}
 				<Footer />
+
 				<TanStackDevtools
 					config={{
 						position: "bottom-right",
