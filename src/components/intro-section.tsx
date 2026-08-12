@@ -46,7 +46,7 @@ export const IntroSection = () => {
 
 					<ul
 						role="list"
-						className="mt-6 grid grid-cols-2 items-center gap-x-4 gap-y-6 sm:grid-cols-3 sm:gap-x-8"
+						className="mt-6 grid grid-cols-3 items-center gap-x-4 gap-y-6 sm:grid-cols-3 sm:gap-x-8"
 						aria-label="Selected clients"
 					>
 						{clientLogos.map((logo, index) => (

@@ -4,7 +4,7 @@ import { useForm } from "@tanstack/react-form"
 import { Link } from "@tanstack/react-router"
 import { XIcon } from "lucide-react"
 import type { ComponentProps, ReactNode } from "react"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useGoogleAnalytics } from "tanstack-router-ga4"
 import type { z } from "zod"
 import { FieldInfo } from "@/components/global/form/field-info"
@@ -70,22 +70,22 @@ const budgetOptions: {
 	{
 		value: "<Ksh 30k-60k",
 		label: "<Ksh 30k–60k",
-		analyticsValue: 45_000,
+		analyticsValue: 30_000,
 	},
 	{
 		value: "Ksh 60k-120k",
 		label: "Ksh 60k–120k",
-		analyticsValue: 90_000,
+		analyticsValue: 60_000,
 	},
 	{
 		value: "Ksh 120k-250k",
 		label: "Ksh 120k–250k",
-		analyticsValue: 185_000,
+		analyticsValue: 120_000,
 	},
 	{
 		value: "Ksh 250k-500k",
 		label: "Ksh 250k–500k",
-		analyticsValue: 375_000,
+		analyticsValue: 250_000,
 	},
 	{ value: "Ksh 500k+", label: "Ksh 500k+", analyticsValue: 500_000 },
 	{ value: "Not sure yet", label: "Not sure yet", analyticsValue: 0 },
@@ -122,8 +122,28 @@ type ContactModalProps = {
 export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 	const ga = useGoogleAnalytics()
 	const honeypotRef = useRef<HTMLInputElement>(null)
+	const submissionMessageRef = useRef<HTMLElement>(null)
 	const [submissionStatus, setSubmissionStatus] =
 		useState<SubmissionStatus>("idle")
+
+	useEffect(() => {
+		if (submissionStatus === "idle") return
+
+		const animationFrame = requestAnimationFrame(() => {
+			const message = submissionMessageRef.current
+			if (!message) return
+
+			message.focus({ preventScroll: true })
+			message.scrollIntoView({
+				behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+					? "auto"
+					: "smooth",
+				block: "nearest",
+			})
+		})
+
+		return () => cancelAnimationFrame(animationFrame)
+	}, [submissionStatus])
 
 	const form = useForm({
 		defaultValues,
@@ -152,7 +172,7 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 			})
 
 			try {
-				const response = await fetch("/", {
+				const response = await fetch("/netlify-form.html", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/x-www-form-urlencoded",
@@ -479,7 +499,7 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 												/>
 												<Label
 													htmlFor={field.name}
-													className="block text-sm leading-5"
+													className="block text-sm leading-4"
 												>
 													I have read and understand the{" "}
 													<Link
@@ -505,17 +525,30 @@ export const ContactModal = ({ triggerProps }: ContactModalProps) => {
 									{([acceptTerms, isSubmitting]) => (
 										<div className="flex flex-col items-start gap-3">
 											{submissionStatus === "success" && (
-												<output className="text-sm">
-													Thank you for your enquiry! You can expect a response
-													within 1-2 business days.
+												<output
+													ref={(element) => {
+														submissionMessageRef.current = element
+													}}
+													tabIndex={-1}
+													className="text-sm bg-emerald-100 px-3 py-2 rounded-sm outline-none"
+												>
+													Thank you for your enquiry! We'll review your details
+													and get back to you soon.
 												</output>
 											)}
 											{submissionStatus === "error" && (
-												<p className="text-sm text-accent" role="alert">
-													We couldn&apos;t send your enquiry. Please try again.
+												<p
+													ref={(element) => {
+														submissionMessageRef.current = element
+													}}
+													tabIndex={-1}
+													className="text-sm text-accent bg-red-100 px-3 py-2 rounded-sm outline-none"
+													role="alert"
+												>
+													Oops something went wrong! Please try again.
 												</p>
 											)}
-											<div className="flex">
+											<div className="flex pt-2">
 												<Button
 													type="submit"
 													disabled={!acceptTerms || isSubmitting}

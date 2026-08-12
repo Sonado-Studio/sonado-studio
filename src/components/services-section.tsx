@@ -48,7 +48,7 @@ const services: Service[] = [
 		],
 		fit: "New businesses, founders preparing for a rebrand, organisations launching a new initiative, or teams that feel their messaging is unclear or inconsistent.",
 		timeline:
-			"Questionnaire completed in advance, 90-minute workshop, and playbook delivered within 7–10 business days.",
+			"Questionnaire completed in advance, 90-minute workshop, and playbook delivered within 10 business days.",
 	},
 	{
 		number: "02",
@@ -66,13 +66,13 @@ const services: Service[] = [
 			"Logo suite (primary + variations)",
 			"Typography system",
 			"Colour palette",
-			"Visual direction & brand assets",
+			"Brand strategy",
 			"Brand usage guidelines",
 			"Social media templates",
 		],
 		fit: "Businesses launching for the first time, companies that have outgrown their current branding, or founders who want a more polished and professional market presence.",
 		timeline:
-			"Most brand identity projects are completed in 4–6 weeks, depending on feedback rounds and scope.",
+			"Most brand identity projects are completed in 6-8 weeks, depending on feedback rounds and scope.",
 	},
 	{
 		number: "03",
@@ -92,16 +92,17 @@ const services: Service[] = [
 			"Webflow or custom website build",
 			"Basic SEO & launch support",
 		],
-		fit: "Service businesses, consultants, studios, NGOs, and growing companies that need a professional online presence without the complexity of a full custom web application.",
+		fit: "Service businesses, consultants, NGOs, and growing companies that need a professional online presence without the complexity of a full custom web application.",
 		timeline:
 			"Most marketing websites are completed in 8–10 weeks, depending on content readiness and scope.",
 	},
 	{
 		number: "04",
-		eyebrow: "FOR MORE COMPLEX DIGITAL PRODUCTS",
+		eyebrow: "FOR MORE COMPLEX WEB APPS",
 		heading: "Custom Digital Products",
 		price: "Custom quoted",
-		summary: "Digital products designed around your business goals.",
+		summary:
+			"Intuitive digital products designed to meet your specific business goals.",
 		image: CustomDigitalProductsImage,
 		imageAlt: "Built-in kitchen appliances visualiser interface",
 		listHeading: "Typical projects",
@@ -111,7 +112,6 @@ const services: Service[] = [
 			"Internal tools & dashboards",
 			"Web apps",
 			"Proof-of-concept builds",
-			"Custom integrations",
 		],
 		fit: "Businesses that need functionality beyond a standard marketing website, including e-commerce, subscriptions, user sign-ups, operational tools, or early-stage digital products.",
 		timeline:

@@ -69,7 +69,9 @@ export const ProcessSection = () => {
 									{step.heading}
 								</h3>
 							</div>
-							<p className="mt-4 text-base leading-6">{step.description}</p>
+							<p className="mt-4 text-base leading-6 text-pretty">
+								{step.description}
+							</p>
 						</li>
 					))}
 				</ol>
