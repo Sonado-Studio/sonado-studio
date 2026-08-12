@@ -11,7 +11,7 @@ const faqs = [
 	{
 		question: "Who will actually work on our project?",
 		answer:
-			"You’ll work directly with Rehema, founder and creative director of Sonado Studio. I lead strategy, design direction, and client communication on every project. When additional expertise is needed, I bring in trusted collaborators across copywriting, design, and software development, while remaining your primary point of contact throughout the engagement.",
+			"You’ll work directly with me, Rehema. I lead strategy, design direction, and client communication on every project. When additional expertise is needed, I bring in trusted collaborators across copywriting, design, and software development, while remaining your primary point of contact throughout the engagement.",
 	},
 	{
 		question: "What do you need to get started on a project?",
