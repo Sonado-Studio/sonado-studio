@@ -1,7 +1,9 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import { useState } from "react"
 import LinarcLogo from "@/assets/layout/client-logos/testimonials/linarc-logo-colour.svg"
+import LuniLogo from "@/assets/layout/client-logos/testimonials/lunihomes-logo-colour.svg"
 import TheGardenLogo from "@/assets/layout/client-logos/testimonials/the-garden-logo-colour.svg"
+import AWTCLogo from "@/assets/layout/client-logos/testimonials/awtc-logo-colour.svg"
 import ArrowForwardIcon from "@/assets/layout/cta/arrow-forward.svg"
 
 const testimonials = [
@@ -18,6 +20,20 @@ const testimonials = [
 		author: "Sharon Njiru",
 		company: "Linarc Design Studio",
 		logo: LinarcLogo,
+	},
+	{
+		quote:
+			"Rehema makes the whole process easy to follow. You know what to expect at every stage, she delivers on her word, and she takes the time to understand you as a client. I would confidently recommend Sonado Studio to anyone looking for a professional, detail-oriented team.",
+		author: "Brenda",
+		company: "Luni Homes",
+		logo: LuniLogo,
+	},
+	{
+		quote:
+			"Rehema was able to ask the right questions and go through the thought process for me to clarify our understanding of the brand. She pointed out aspects which I could not articulate before, and also upon further going over the strategy and branding, the chance to modify the content made the final outcome more representative and corrected and clarified errors.",
+		author: "Maria Chen",
+		company: "Agriculture Industry",
+		logo: AWTCLogo,
 	},
 ]
 

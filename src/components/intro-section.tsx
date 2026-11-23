@@ -2,9 +2,10 @@
 import { motion, useReducedMotion } from "motion/react"
 import AtsTravelLogo from "@/assets/layout/client-logos/ats-travel.png"
 import AwaloLogo from "@/assets/layout/client-logos/awalo.svg"
-import AwtcLogo from "@/assets/layout/client-logos/awtc.png"
+import AwtcLogo from "@/assets/layout/client-logos/awtc.svg"
 import HotpointLogo from "@/assets/layout/client-logos/hotpoint.svg"
 import LinarcLogo from "@/assets/layout/client-logos/linarc.svg"
+import LuniHomesLogo from "@/assets/layout/client-logos/luni-homes.svg"
 import MheLogo from "@/assets/layout/client-logos/mhe.svg"
 import OpportunityMusicProjectLogo from "@/assets/layout/client-logos/opportunity-music-project.png"
 import ProperlyLogo from "@/assets/layout/client-logos/properly.svg"
@@ -13,7 +14,7 @@ import TheGardenLogo from "@/assets/layout/client-logos/the-garden.svg"
 const clientLogos = [
 	{ name: "Linarc Design Studio", src: LinarcLogo, width: "100%" },
 	{ name: "The Garden", src: TheGardenLogo, width: "100%" },
-	{ name: "AWTC", src: AwtcLogo, width: "85%" },
+	{ name: "AWTC", src: AwtcLogo, width: "60%" },
 	{ name: "Happy Everything", src: MheLogo, width: "100%" },
 	{ name: "Awalo", src: AwaloLogo, width: "100%" },
 	{ name: "ATS Travel", src: AtsTravelLogo, width: "46%" },
@@ -24,6 +25,7 @@ const clientLogos = [
 		src: OpportunityMusicProjectLogo,
 		width: "52%",
 	},
+	{ name: "Luni Homes", src: LuniHomesLogo, width: "55%" },
 ]
 
 export const IntroSection = () => {

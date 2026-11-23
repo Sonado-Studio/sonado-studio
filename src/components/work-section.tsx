@@ -17,6 +17,12 @@ import LinarcScreen2 from "@/assets/layout/portfolio/linarc/linarc-screen-2.webp
 import LinarcScreen3 from "@/assets/layout/portfolio/linarc/linarc-screen-3.webp"
 import LinarcScreen4 from "@/assets/layout/portfolio/linarc/linarc-screen-4.webp"
 import LinarcScreen5 from "@/assets/layout/portfolio/linarc/linarc-screen-5.webp"
+import LuniBackground from "@/assets/layout/portfolio/luni-homes/luni-bg.webp"
+import LuniScreen1 from "@/assets/layout/portfolio/luni-homes/luni-screen-1.webp"
+import LuniScreen2 from "@/assets/layout/portfolio/luni-homes/luni-screen-2.webp"
+import LuniScreen3 from "@/assets/layout/portfolio/luni-homes/luni-screen-3.webp"
+import LuniScreen4 from "@/assets/layout/portfolio/luni-homes/luni-screen-4.webp"
+import LuniScreen5 from "@/assets/layout/portfolio/luni-homes/luni-screen-5.webp"
 import OmpBackground from "@/assets/layout/portfolio/omp/omp-bg.webp"
 import OmpScreen1 from "@/assets/layout/portfolio/omp/omp-screen-1.webp"
 import OmpScreen2 from "@/assets/layout/portfolio/omp/omp-screen-2.webp"
@@ -71,6 +77,14 @@ const linarcScreens = [
 ]
 
 const ompScreens = [OmpScreen1, OmpScreen2, OmpScreen3, OmpScreen4, OmpScreen5]
+
+const luniScreens = [
+	LuniScreen1,
+	LuniScreen2,
+	LuniScreen3,
+	LuniScreen4,
+	LuniScreen5,
+]
 
 const getPortfolioScreenDelay = (index: number, screenCount: number) => {
 	const delayStep = 10 / screenCount
@@ -133,13 +147,25 @@ const selectedProjects: SelectedProject[] = [
 			screens: awaloScreens,
 		},
 	},
+		{
+		title: "Luni Homes",
+		url: "https://www.lunihomes.com/",
+		description:
+			"Luni Homes is a Kenyan residential property developer creating thoughtfully designed, high-quality family homes with a focus on craftsmanship and long-term value. We designed and built a refined Webflow website that gives prospective buyers a clear, intuitive way to explore available homes and make an enquiry.",
+		tags: ["Website Design", "Webflow Development"],
+		imagePosition: "left",
+		media: {
+			background: LuniBackground,
+			screens: luniScreens,
+		},
+	},
 	{
 		title: "ATS Travel",
 		url: "https://www.atstravel.co.ke/",
 		description:
 			"After 25 years in the travel industry, ATS Travel needed a more contemporary brand presence that could speak confidently to corporate clients. We designed and built a polished Webflow website that communicates the company’s experience, professionalism, and high-touch approach to travel.",
 		tags: ["Website Design", "Webflow Development"],
-		imagePosition: "left",
+		imagePosition: "right",
 		media: {
 			background: AtsBackground,
 			screens: atsScreens,
@@ -149,11 +175,11 @@ const selectedProjects: SelectedProject[] = [
 
 const ProjectMedia = ({ project }: { project: SelectedProject }) => {
 	if (!project.media) {
-		return <div className="aspect-1522/1000 w-full rounded-sm bg-muted" />
+		return <div className="aspect-1500/950 w-full rounded-sm bg-muted" />
 	}
 
 	return (
-		<div className="relative aspect-1522/1000 w-full overflow-hidden rounded-sm bg-muted">
+		<div className="relative aspect-1500/950 w-full overflow-hidden rounded-sm bg-muted">
 			<img
 				src={project.media.background}
 				alt=""
